@@ -20,23 +20,23 @@ public class Controller extends HttpServlet {
 
 
     public void init() {
-        LOGGER.log(Level.INFO, "Servlet '{}' initialization.", this.getServletName());
+        LOGGER.log(Level.INFO, "'{}' initialization.", this.getServletName());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        processing(request, response);
+        running(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processing(request, response);
+        running(request, response);
     }
 
     public void destroy() {
-        LOGGER.log(Level.INFO, "Servlet '{}' destroying", this.getServletName());
+        LOGGER.log(Level.INFO, "'{}' destroying", this.getServletName());
     }
 
-    private void processing(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void running(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         String commandStr = request.getParameter(ParameterName.COMMAND);
         Command command = CommandType.define(commandStr);
@@ -49,8 +49,8 @@ public class Controller extends HttpServlet {
                 response.sendRedirect(page);
             }
         } catch (CommandException exception) {
-            LOGGER.log(Level.INFO, "exception in Servlet", exception); // TODO
-            throw new ServletException("exception in Servlet", exception);     // TODO
+            LOGGER.log(Level.INFO, "exception in servlet", exception); // TODO
+            throw new ServletException("exception in servlet", exception);     // TODO
         }
     }
 }
