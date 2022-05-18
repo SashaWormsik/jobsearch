@@ -1,4 +1,4 @@
-package org.chervyakovsky.jobsearch.controller.comand;
+package org.chervyakovsky.jobsearch.controller.command;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.CredentialDao;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapper;
-import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapper;
+import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -47,7 +47,7 @@ public class CredentialDaoImpl implements CredentialDao {
             statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                CustomMapper<Credential> mapper = new CredentialMapper();
+                CustomMapperFromDbToEntity<Credential> mapper = new CredentialMapperFromDbToEntity();
                 optionalCredential = mapper.map(resultSet);
             }
         } catch (SQLException exception) {
@@ -90,7 +90,7 @@ public class CredentialDaoImpl implements CredentialDao {
             statement.setString(1, String.valueOf(login));
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                CustomMapper<Credential> mapper = new CredentialMapper();
+                CustomMapperFromDbToEntity<Credential> mapper = new CredentialMapperFromDbToEntity();
                 optionalCredential = mapper.map(resultSet);
             }
         } catch (SQLException exception) {

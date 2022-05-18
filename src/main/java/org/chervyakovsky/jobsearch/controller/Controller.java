@@ -8,9 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.chervyakovsky.jobsearch.controller.comand.Command;
-import org.chervyakovsky.jobsearch.controller.comand.CommandType;
+import org.chervyakovsky.jobsearch.controller.command.Command;
+import org.chervyakovsky.jobsearch.controller.command.CommandType;
 import org.chervyakovsky.jobsearch.exception.CommandException;
+import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.io.IOException;
 
@@ -21,6 +22,7 @@ public class Controller extends HttpServlet {
 
     public void init() {
         LOGGER.log(Level.INFO, "'{}' initialization.", this.getServletName());
+        ConnectionPool.getInstance();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -34,6 +36,7 @@ public class Controller extends HttpServlet {
 
     public void destroy() {
         LOGGER.log(Level.INFO, "'{}' destroying", this.getServletName());
+        ConnectionPool.getInstance().destroyPool();
     }
 
     private void running(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

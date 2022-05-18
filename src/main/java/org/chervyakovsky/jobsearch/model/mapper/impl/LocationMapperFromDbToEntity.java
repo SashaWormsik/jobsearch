@@ -6,19 +6,19 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.entity.Location;
 import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapper;
+import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class LocationMapper implements CustomMapper<Location> {
+public class LocationMapperFromDbToEntity implements CustomMapperFromDbToEntity<Location> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Optional<Location> map(ResultSet resultSet) throws DaoException {
         Location location = new Location();
-        Optional<Location> optionalLocation = Optional.empty();
+        Optional<Location> optionalLocation;
         try {
             location.setId(resultSet.getLong(ColumnName.LOCATION_ID));
             location.setCountry(resultSet.getString(ColumnName.LOCATION_COUNTRY));

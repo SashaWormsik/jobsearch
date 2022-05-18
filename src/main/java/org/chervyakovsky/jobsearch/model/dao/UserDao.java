@@ -7,7 +7,5 @@ import java.util.Optional;
 
 public interface UserDao extends BaseDao<UserInfo>{
 
-    Optional<UserInfo> authenticate (String login, String password);
-
     Optional<UserInfo> findUserByLogin(String login) throws DaoException;
 }

@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.UserDao;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapper;
-import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapper;
+import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -37,12 +37,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<UserInfo> findUserByLogin(String login) throws DaoException {
         Optional<UserInfo> optionalUserInfo = Optional.empty();
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_LOGIN);
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                CustomMapper<UserInfo> mapper = new UserInfoMapper();
+                CustomMapperFromDbToEntity<UserInfo> mapper = new UserInfoMapperFromDbToEntity();
                 optionalUserInfo = mapper.map(resultSet);
             }
         } catch (SQLException | DaoException exception) {
@@ -82,8 +82,4 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    @Override
-    public Optional<UserInfo> authenticate(String login, String password) {
-        return Optional.empty();
-    }
 }

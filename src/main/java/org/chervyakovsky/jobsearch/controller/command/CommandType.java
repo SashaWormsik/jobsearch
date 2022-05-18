@@ -1,16 +1,15 @@
-package org.chervyakovsky.jobsearch.controller.comand;
+package org.chervyakovsky.jobsearch.controller.command;
 
-import org.chervyakovsky.jobsearch.controller.comand.impl.DefaultCommand;
-import org.chervyakovsky.jobsearch.controller.comand.impl.LoginCommand;
-import org.chervyakovsky.jobsearch.controller.comand.impl.LogoutCommand;
+import org.chervyakovsky.jobsearch.controller.command.impl.*;
 
 import java.util.Arrays;
 
 public enum CommandType {
-    ADD_USER(new LoginCommand()),
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
-    DEFAULT(new DefaultCommand());
+    REGISTRATION(new RegistrationCommand()),
+    DEFAULT(new DefaultCommand()),
+    INITIAL(new InitialCommand());
 
     private final Command command;
 

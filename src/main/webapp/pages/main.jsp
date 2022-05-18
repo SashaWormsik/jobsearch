@@ -1,42 +1,32 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.chervyakovsky.jobsearch.controller.AttributeName" %>
-<%@ page import="org.chervyakovsky.jobsearch.controller.MessageName" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="language" value="${sessionScope.language == null ? 'en_US' : sessionScope.language }"/>
-<c:set var="message" value="${AttributeName.KEY_MESSAGE}"/>
-<fmt:setLocale value="${language}" scope="session"/>
-<fmt:setBundle basename="language" var="lg"/>
+<%@include file="fragment/lang_and_user_role.jsp" %>
 
 <html>
 <head>
-    <title><fmt:message key="title.mainpage" bundle="${lg}"/></title>
-    <c:import url="fragment/head.jsp"/>
+    <%@ include file="fragment/head.jsp" %>
+    <title><fmt:message key="title.mainpage"/></title>
 </head>
 
 <body>
 <div class="wrapper">
     <header class="header">
-        <c:import url="fragment/menu.jsp"/>
+        <%@include file="fragment/header.jsp" %>
     </header>
 
     <main class="main">
-        MAIN PAGE
-        ${user.getId()}
-        ${user.getUserName()}
-        ${user.userSurName}
-        ${pageContext.request.contextPath}
+        ${MESSAGE}
         <br/>
-
-        <br/>
-        ${message}
-        <br/>
-        <p><fmt:message key="${message}" bundle="${lg}"/></p>
+          FJFJFJFLF::
+        ${user.userName}
+        ${user_location.city}
+        ${user_location.country}
     </main>
 
     <footer class="footer">
-        <c:import url="fragment/footer.jsp"/>
+        <%@include file="fragment/footer.jsp" %>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

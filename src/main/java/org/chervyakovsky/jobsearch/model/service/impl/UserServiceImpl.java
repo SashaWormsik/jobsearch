@@ -11,6 +11,9 @@ import org.chervyakovsky.jobsearch.model.dao.impl.CredentialDaoImpl;
 import org.chervyakovsky.jobsearch.model.dao.impl.UserDaoImpl;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
+import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromRequestToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
+import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.util.PasswordEncryptor;
 import org.chervyakovsky.jobsearch.validator.UserInfoValidator;
@@ -45,9 +48,9 @@ public class UserServiceImpl implements UserService {
         try {
             optionalUserInfo = userDao.findUserByLogin(login);
             optionalCredential = credentialDao.findActiveByLogin(login);
-            if(optionalCredential.isPresent() && optionalUserInfo.isPresent()){
+            if (optionalCredential.isPresent() && optionalUserInfo.isPresent()) {
                 String passwordDb = optionalCredential.get().getPassword();
-                if (PasswordEncryptor.comparePassword(password, passwordDb)){
+                if (PasswordEncryptor.comparePassword(password, passwordDb)) {
                     return optionalUserInfo;
                 }
             }
@@ -59,7 +62,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register() {
-        return false;
+    public boolean registrationNewUser(RequestContent requestContent) {
+        UserInfoValidator validator = UserInfoValidator.getInstance();
+        if (!validator.isValidUserData(requestContent)) {
+            return false;
+        }
+        UserDao userDao = UserDaoImpl.getInstance();
+        CustomMapperFromRequestToEntity<UserInfo> mapper = new UserInfoMapperFromRequestToEntity();
+        UserInfo userInfo = mapper.map(requestContent); // FIXME 18.05.2022
+        return userDao.insert(userInfo);
     }
 }

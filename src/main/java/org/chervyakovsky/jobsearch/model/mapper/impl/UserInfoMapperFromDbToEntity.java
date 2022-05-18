@@ -9,23 +9,23 @@ import org.chervyakovsky.jobsearch.model.entity.status.EnumEducationStatus;
 import org.chervyakovsky.jobsearch.model.entity.status.EnumUserRoleStatus;
 import org.chervyakovsky.jobsearch.model.entity.status.EnumWorkingStatus;
 import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapper;
+import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class UserInfoMapper implements CustomMapper<UserInfo> {
+public class UserInfoMapperFromDbToEntity implements CustomMapperFromDbToEntity<UserInfo> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Optional<UserInfo> map(ResultSet resultSet) throws DaoException {
         UserInfo userInfo = new UserInfo();
-        Optional<UserInfo> optionalUserInfo = Optional.empty();
+        Optional<UserInfo> optionalUserInfo;
         try {
-            userInfo.setId(Long.parseLong(resultSet.getString(ColumnName.USER_ID)));
+            userInfo.setId(resultSet.getLong(ColumnName.USER_ID));
             userInfo.setLogin(resultSet.getString(ColumnName.USER_LOGIN));
-            userInfo.setMail(resultSet.getString(ColumnName.USER_MAIL));
+            userInfo.setEmail(resultSet.getString(ColumnName.USER_MAIL));
             EnumUserRoleStatus roleStatus = EnumUserRoleStatus.valueOf(resultSet.getString(ColumnName.USER_ROLE));
             userInfo.setRole(roleStatus);
             userInfo.setUserStatus(resultSet.getBoolean(ColumnName.USER_STATUS));

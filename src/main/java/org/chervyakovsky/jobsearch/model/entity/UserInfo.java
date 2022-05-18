@@ -7,7 +7,7 @@ import org.chervyakovsky.jobsearch.model.entity.status.EnumWorkingStatus;
 public class UserInfo extends AbstractEntity {
 
     private String login;
-    private String mail;
+    private String email;
     private EnumUserRoleStatus role;
     private boolean userStatus;
     private long locationId;
@@ -27,12 +27,12 @@ public class UserInfo extends AbstractEntity {
         this.login = login;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public EnumUserRoleStatus getRole() {
@@ -134,7 +134,7 @@ public class UserInfo extends AbstractEntity {
         if (this.login != null ? !this.login.equals(userInfo.login) : userInfo.login != null) {
             return false;
         }
-        if (this.mail != null ? !this.mail.equals(userInfo.mail) : userInfo.mail != null) {
+        if (this.email != null ? !this.email.equals(userInfo.email) : userInfo.email != null) {
             return false;
         }
         if (this.role != null ? !this.role.equals(userInfo.role) : userInfo.role != null) {
@@ -169,7 +169,7 @@ public class UserInfo extends AbstractEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (this.login != null ? this.login.hashCode() : 0);
-        result = prime * result + (this.mail != null ? this.mail.hashCode() : 0);
+        result = prime * result + (this.email != null ? this.email.hashCode() : 0);
         result = prime * result + (this.role != null ? this.role.hashCode() : 0);
         result = prime * result + (Long.hashCode(locationId));
         result = prime * result + (this.userName != null ? this.userName.hashCode() : 0);
