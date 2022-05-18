@@ -94,6 +94,7 @@ public class UserInfoValidator {
     }
 
     public boolean isValidUserData(RequestContent requestContent) {
+        // TODO валидация пришедших данных и добавление attributes в requestContent
         return false;
     }
 }

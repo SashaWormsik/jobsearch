@@ -59,6 +59,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean insert(UserInfo userInfo) {
+        // TODO сохранение в базу данных
         return false;
     }
 
