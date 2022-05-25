@@ -24,6 +24,7 @@ public class LoginCommand implements Command {
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
+        requestContent.getSession().removeAttribute(AttributeName.SUCCESSFUL_REGISTRATION); // fixme
         UserService userService = UserServiceImpl.getInstance();
         Router router = new Router();
         try {
@@ -37,7 +38,7 @@ public class LoginCommand implements Command {
                     router.setPage(PagePath.MAIN_PAGE);
                     router.setType(Router.Type.REDIRECT);
                 }else{
-                    requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN_OR_PASSWORD, true); // TODO не активирован аккаунт
+                    requestContent.setNewValueInSessionAttribute(AttributeName.ACCOUNT_IS_BLOCKED, true);
                     router.setPage(PagePath.LOGIN_PAGE);
                     router.setType(Router.Type.FORWARD);
                 }

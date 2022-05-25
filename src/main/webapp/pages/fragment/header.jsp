@@ -11,7 +11,7 @@
     </a>
 
     <!-- MENU for company-->
-    <c:if test="${userRole == UserRoleStatus.COMPANY}">
+    <c:if test="${user.role == UserRoleStatus.COMPANY}">
         <a href="#" class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
@@ -24,7 +24,7 @@
     </c:if>
 
     <!-- MENU for worker-->
-    <c:if test="${userRole == UserRoleStatus.WORKER}">
+    <c:if test="${user.role == UserRoleStatus.WORKER}">
         <a href="#" class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
@@ -37,7 +37,7 @@
     </c:if>
 
     <!-- MENU for admin-->
-    <c:if test="${userRole == UserRoleStatus.ADMIN}">
+    <c:if test="${user.role == UserRoleStatus.ADMIN}">
         <div class="w3-dropdown-hover w3-mobile">
             <button class="w3-button"><fmt:message key="menu.button.dropdown"/>
                 <i class="fa fa-caret-down"></i>
@@ -64,7 +64,7 @@
 
     <!-- СДЕЛАТЬ НАПРАВЛЕНИЕ НА КОНТРОЛЛЕР С КОМАНДОЙ logout -->
     <!-- LOGOUT BUTTON-->
-    <c:if test="${userRole != null}">
+    <c:if test="${user != null}">
         <div class="w3-right w3-mobile">
             <a href="${pageContext.request.contextPath}/controller?command=logout"
                class="w3-button w3-block w3-red">
@@ -74,7 +74,7 @@
     </c:if>
     <!--END LOGOUT BUTTON-->
     <!-- LOGIN BUTTON-->
-    <c:if test="${userRole == null}">
+    <c:if test="${user == null}">
         <div class="w3-right w3-mobile">
             <button onclick="document.getElementById('id01').style.display='block'"
                     class="w3-block w3-button w3-green">

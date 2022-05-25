@@ -19,7 +19,7 @@ import java.util.Optional;
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final String SELECT_USER_BY_LOGIN = "SELECT * FROM user_info WHERE u_login = ? AND u_user_status = true";
+    private static final String SELECT_USER_BY_LOGIN = "SELECT * FROM user_info WHERE u_login = ?";
     private static final String SELECT_EXISTS_LOGIN_EMAIL = "SELECT EXISTS (SELECT u_login FROM user_info WHERE u_login = ? OR u_email = ?)";
     private static final String SELECT_USER_BY_TOKEN = "SELECT * FROM user_info WHERE u_token = ?";
     private static final String INSERT_NEW_USER =

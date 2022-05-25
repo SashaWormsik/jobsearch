@@ -23,7 +23,6 @@ import org.chervyakovsky.jobsearch.util.mail.Mail;
 import org.chervyakovsky.jobsearch.util.mail.MailMessageBuilder;
 import org.chervyakovsky.jobsearch.validator.UserInfoValidator;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -88,9 +87,10 @@ public class UserServiceImpl implements UserService {
         try {
             if (userDao.existLoginAndEmail(userInfo.getLogin(), userInfo.getEmail())) {
                 requestContent.setNewValueInRequestAttributes(AttributeName.EXIST_LOGIN_OR_EMAIL, true);
-            } else if(result = userDao.save(userInfo, credential)){ // FIXME
+            } else if (result = userDao.save(userInfo, credential)) { // FIXME
                 String textMessageMail = MailMessageBuilder.buildMessageContent(token);
                 Mail.sendMail(userInfo.getEmail(), textMessageMail);
+                requestContent.setNewValueInSessionAttribute(AttributeName.SUCCESSFUL_REGISTRATION, true);
             }
         } catch (DaoException exception) {
             LOGGER.log(Level.ERROR, exception); // TODO add comment

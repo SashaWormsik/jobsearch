@@ -8,6 +8,8 @@ public final class AttributeName {
 
     // incorrect login page
     public static final String INCORRECT_LOGIN_OR_PASSWORD = "incorrect_login_or_password";
+    public static final String ACCOUNT_IS_BLOCKED = "account_is_blocked";
+    public static final String SUCCESSFUL_REGISTRATION = "successful_registration";
 
     // incorrect registration page
     public static final String INCORRECT_REGISTRATION_USER = "incorrect_registration_user";
@@ -23,6 +25,9 @@ public final class AttributeName {
 
     // registration page if login or email exist
     public static final String EXIST_LOGIN_OR_EMAIL = "exist_login_or_email";
+
+
+
 
 
     private AttributeName() {

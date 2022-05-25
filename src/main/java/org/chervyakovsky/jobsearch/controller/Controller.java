@@ -41,7 +41,6 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html"); // TODO in filter
         RequestContent requestContent = new RequestContent();
         String commandStr = request.getParameter(ParameterName.COMMAND);
         Command command = CommandType.define(commandStr);

@@ -23,7 +23,7 @@ public class RegistrationCommand implements Command {
         try {
             if (userService.registrationNewUser(requestContent)) {
                 router.setPage(PagePath.LOGIN_PAGE);
-                router.setType(Router.Type.REDIRECT);
+                router.setType(Router.Type.REDIRECT); // FIXME
             } else {
                 requestContent.setParameterInAttribute();
                 router.setPage(PagePath.REGISTRATION_PAGE);

@@ -9,7 +9,17 @@
     <div class="w3-center">
         <c:if test="${not empty incorrect_login_or_password}">
             <div class="w3-center w3-red">
-                <fmt:message key="${incorrect_login_or_password}"/>
+                <fmt:message key="message.login.incorrect"/>
+            </div>
+        </c:if>
+        <c:if test="${not empty account_is_blocked}">
+            <div class="w3-center w3-red">
+                <fmt:message key="message.login.account.blocked"/>
+            </div>
+        </c:if>
+        <c:if test="${not empty successful_registration}">
+            <div class="w3-center w3-blue">
+                <fmt:message key="message.successful.registration"/>
             </div>
         </c:if>
         <!-- IMAGE -->
