@@ -3,6 +3,7 @@ package org.chervyakovsky.jobsearch.controller.command;
 import org.chervyakovsky.jobsearch.controller.command.impl.*;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public enum CommandType {
     LOGIN(new LoginCommand()),
@@ -19,15 +20,12 @@ public enum CommandType {
 
     public static Command define(String commandStr) {
         CommandType current = DEFAULT;
-        String commandName = commandStr.toUpperCase();
-        if(checkingExistenceCommand(commandName)){
-            current = CommandType.valueOf(commandName);
+        if (commandStr != null) {
+            current = Arrays.stream(CommandType.values()).
+                    filter(commandType -> commandType.name().equals(commandStr.toUpperCase())).
+                    findFirst().
+                    orElse(DEFAULT);
         }
         return current.command;
-    }
-
-    private static boolean checkingExistenceCommand(String commandName) {
-        return Arrays.stream(CommandType.values()).
-                anyMatch(commandType -> commandType.name().equals(commandName));
     }
 }

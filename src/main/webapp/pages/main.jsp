@@ -17,9 +17,6 @@
     </header>
 
     <main class="main">
-        ${MESSAGE}
-        <br/>
-          FJFJFJFLF::
         ${user.userName}
         ${user_location.city}
         ${user_location.country}

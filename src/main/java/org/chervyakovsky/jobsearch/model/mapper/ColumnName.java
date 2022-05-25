@@ -4,17 +4,18 @@ public class ColumnName {
 
     public static final String USER_ID = "u_user_info_id";
     public static final String USER_LOGIN = "u_login";
-    public static final String USER_MAIL = "u_mail";
+    public static final String USER_MAIL = "u_email";
     public static final String USER_ROLE = "u_role";
     public static final String USER_STATUS = "u_user_status";
     public static final String USER_LOCATION = "u_location_id";
     public static final String USER_NAME = "u_user_name";
-    public static final String USER_SURNAME = "u_user_surmane";
+    public static final String USER_SURNAME = "u_user_surname";
     public static final String USER_WORKING_STATUS = "u_working_status";
     public static final String USER_EDUCATION = "u_education";
     public static final String USER_PROFESSION = "u_profession";
     public static final String USER_DESCRIPTION = "u_description";
     public static final String USER_TOKEN = "u_user_token";
+	public static final String USER_IMAGE = "u_image";
 
     public static final String CREDENTIAL_ID = "c_credential_id";
     public static final String CREDENTIAL_PASSWORD = "c_password";

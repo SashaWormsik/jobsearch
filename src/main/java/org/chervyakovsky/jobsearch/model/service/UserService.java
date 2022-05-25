@@ -7,6 +7,7 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<UserInfo> authenticate(String login, String password) throws ServiceException;
-    boolean registrationNewUser(RequestContent requestContent);
+    Optional<UserInfo> authenticate(RequestContent requestContent) throws ServiceException;
+    boolean registrationNewUser(RequestContent requestContent) throws ServiceException;
+    boolean existLoginAndEmail(RequestContent requestContent) throws ServiceException;
 }

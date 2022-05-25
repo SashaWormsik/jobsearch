@@ -7,6 +7,5 @@ import org.chervyakovsky.jobsearch.model.entity.UserInfo;
 import java.util.Optional;
 
 public interface LocationService {
-
     Optional<Location> findUserLocation (UserInfo userInfo) throws ServiceException;
 }

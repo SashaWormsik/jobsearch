@@ -5,9 +5,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
-import org.chervyakovsky.jobsearch.model.entity.status.EnumEducationStatus;
-import org.chervyakovsky.jobsearch.model.entity.status.EnumUserRoleStatus;
-import org.chervyakovsky.jobsearch.model.entity.status.EnumWorkingStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.EducationStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.WorkingStatus;
 import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
 import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
 
@@ -26,19 +26,16 @@ public class UserInfoMapperFromDbToEntity implements CustomMapperFromDbToEntity<
             userInfo.setId(resultSet.getLong(ColumnName.USER_ID));
             userInfo.setLogin(resultSet.getString(ColumnName.USER_LOGIN));
             userInfo.setEmail(resultSet.getString(ColumnName.USER_MAIL));
-            EnumUserRoleStatus roleStatus = EnumUserRoleStatus.valueOf(resultSet.getString(ColumnName.USER_ROLE));
-            userInfo.setRole(roleStatus);
             userInfo.setUserStatus(resultSet.getBoolean(ColumnName.USER_STATUS));
             userInfo.setLocationId(resultSet.getLong(ColumnName.USER_LOCATION));
             userInfo.setUserName(resultSet.getString(ColumnName.USER_NAME));
             userInfo.setUserSurName(resultSet.getString(ColumnName.USER_SURNAME));
-            EnumWorkingStatus workingStatus = EnumWorkingStatus.valueOf(resultSet.getString(ColumnName.USER_WORKING_STATUS));
-            userInfo.setWorkingStatus(workingStatus);
-            EnumEducationStatus educationStatus = EnumEducationStatus.valueOf(resultSet.getString(ColumnName.USER_EDUCATION));
-            userInfo.setEducation(educationStatus);
             userInfo.setProfession(resultSet.getString(ColumnName.USER_PROFESSION));
             userInfo.setDescription(resultSet.getString(ColumnName.USER_DESCRIPTION));
             userInfo.setUserToken(resultSet.getString(ColumnName.USER_TOKEN));
+            userInfo.setRole(UserRoleStatus.getStatus(resultSet.getString(ColumnName.USER_ROLE)));
+            userInfo.setWorkingStatus(WorkingStatus.getStatus(resultSet.getString(ColumnName.USER_WORKING_STATUS)));
+            userInfo.setEducation(EducationStatus.getStatus(resultSet.getString(ColumnName.USER_EDUCATION)));
             optionalUserInfo = Optional.of(userInfo);
         } catch (SQLException exception) {
             LOGGER.log(Level.ERROR, exception); // TODO add comment

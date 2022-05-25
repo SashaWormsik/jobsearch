@@ -1,20 +1,20 @@
 package org.chervyakovsky.jobsearch.model.entity;
 
-import org.chervyakovsky.jobsearch.model.entity.status.EnumEducationStatus;
-import org.chervyakovsky.jobsearch.model.entity.status.EnumUserRoleStatus;
-import org.chervyakovsky.jobsearch.model.entity.status.EnumWorkingStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.EducationStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.WorkingStatus;
 
 public class UserInfo extends AbstractEntity {
 
     private String login;
     private String email;
-    private EnumUserRoleStatus role;
-    private boolean userStatus;
-    private long locationId;
+    private UserRoleStatus role;
+    private Boolean userStatus = false; // FIXME
+    private Long locationId;
     private String userName;
     private String userSurName;
-    private EnumWorkingStatus workingStatus;
-    private EnumEducationStatus education;
+    private WorkingStatus workingStatus;
+    private EducationStatus education;
     private String profession;
     private String description;
     private String userToken;
@@ -35,27 +35,27 @@ public class UserInfo extends AbstractEntity {
         this.email = email;
     }
 
-    public EnumUserRoleStatus getRole() {
+    public UserRoleStatus getRole() {
         return role;
     }
 
-    public void setRole(EnumUserRoleStatus role) {
+    public void setRole(UserRoleStatus role) {
         this.role = role;
     }
 
-    public boolean isUserStatus() {
+    public Boolean getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(boolean userStatus) {
+    public void setUserStatus(Boolean userStatus) {
         this.userStatus = userStatus;
     }
 
-    public long getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(long locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 
@@ -75,19 +75,19 @@ public class UserInfo extends AbstractEntity {
         this.userSurName = userSurName;
     }
 
-    public EnumWorkingStatus getWorkingStatus() {
+    public WorkingStatus getWorkingStatus() {
         return workingStatus;
     }
 
-    public void setWorkingStatus(EnumWorkingStatus workingStatus) {
+    public void setWorkingStatus(WorkingStatus workingStatus) {
         this.workingStatus = workingStatus;
     }
 
-    public EnumEducationStatus getEducation() {
+    public EducationStatus getEducation() {
         return education;
     }
 
-    public void setEducation(EnumEducationStatus education) {
+    public void setEducation(EducationStatus education) {
         this.education = education;
     }
 

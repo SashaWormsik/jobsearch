@@ -72,8 +72,4 @@ public class LocationDaoImpl implements LocationDao {
         return null;
     }
 
-    @Override
-    public Location update(long id, Location location) {
-        return null;
-    }
 }

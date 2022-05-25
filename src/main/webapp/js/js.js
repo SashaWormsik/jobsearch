@@ -1,20 +1,18 @@
-function myFunction(id) {
-    var x = document.getElementById(id);
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        x.previousElementSibling.className += " w3-theme-d1";
-    } else {
-        x.className = x.className.replace("w3-show", "");
-        x.previousElementSibling.className =
-            x.previousElementSibling.className.replace(" w3-theme-d1", "");
-    }
-}
+function clickFormEvent(i) {
+    let formWorker = document.getElementById('worker');
+    let formCompany = document.getElementById('company');
+    let buttonWorker = document.getElementById('buttonWorker');
+    let buttonCompany = document.getElementById('buttonCompany');
 
-function openNav() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
+    if (i === 'worker') {
+        formWorker.style.display = 'block';
+        buttonWorker.style.display = 'block'
+        formCompany.style.display = 'none';
+        buttonCompany.style.display = 'none'
     } else {
-        x.className = x.className.replace(" w3-show", "");
+        formWorker.style.display = 'none';
+        buttonWorker.style.display = 'none'
+        formCompany.style.display = 'block';
+        buttonCompany.style.display = 'block'
     }
 }

@@ -10,7 +10,7 @@ public interface BaseDao<T extends AbstractEntity> {
 
     Optional<T> findById(long id) throws DaoException;
 
-    boolean insert(T t);
+    boolean insert(T t) throws DaoException;
 
     boolean delete(T t);
 
@@ -18,5 +18,4 @@ public interface BaseDao<T extends AbstractEntity> {
 
     List<T> findAll(T t);
 
-    T update(long id, T t);
 }

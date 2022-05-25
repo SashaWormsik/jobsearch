@@ -5,9 +5,9 @@ import java.util.Date;
 public class Credential extends AbstractEntity {
 
     private String password;
-    private boolean active;
-    private Date createDate;
-    private long userInfoId;
+    private Boolean active = true;
+    private Date createDate = new Date();
+    private Long userInfoId;
 
     public Credential() {
     }
@@ -20,11 +20,11 @@ public class Credential extends AbstractEntity {
         this.password = password;
     }
 
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -36,11 +36,11 @@ public class Credential extends AbstractEntity {
         this.createDate = createDate;
     }
 
-    public long getUserInfoId() {
+    public Long getUserInfoId() {
         return userInfoId;
     }
 
-    public void setUserInfoId(long userInfoId) {
+    public void setUserInfoId(Long userInfoId) {
         this.userInfoId = userInfoId;
     }
 

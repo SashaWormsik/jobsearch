@@ -1,17 +1,17 @@
 package org.chervyakovsky.jobsearch.controller.command.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.chervyakovsky.jobsearch.controller.*;
+import org.chervyakovsky.jobsearch.controller.AttributeName;
+import org.chervyakovsky.jobsearch.controller.PagePath;
+import org.chervyakovsky.jobsearch.controller.Router;
 import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.exception.CommandException;
 import org.chervyakovsky.jobsearch.exception.ServiceException;
 import org.chervyakovsky.jobsearch.model.entity.Location;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
+import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.service.LocationService;
 import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.model.service.impl.LocationServiceImpl;
@@ -23,22 +23,26 @@ public class LoginCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public Router execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String login = request.getParameter(ParameterName.USER_LOGIN);
-        String password = request.getParameter(ParameterName.USER_PASSWORD);
+    public Router execute(RequestContent requestContent) throws CommandException {
         UserService userService = UserServiceImpl.getInstance();
-        HttpSession session = request.getSession();
         Router router = new Router();
         try {
-            Optional<UserInfo> optionalUserInfo = userService.authenticate(login, password);
+            Optional<UserInfo> optionalUserInfo = userService.authenticate(requestContent);
             if (optionalUserInfo.isPresent()) {
                 UserInfo userInfo = optionalUserInfo.get();
-                session.setAttribute(AttributeName.USER, userInfo);
-                session.setAttribute(AttributeName.USER_LOCATION, getUserLocation(userInfo)); // fixme
-                router.setPage(PagePath.MAIN_PAGE);
-                router.setType(Router.Type.REDIRECT); // fixme
+                if (userInfo.getUserStatus()) {
+                    requestContent.setNewValueInSessionAttribute(AttributeName.USER, userInfo);
+                    Location userLocation = getUserLocation(userInfo);
+                    requestContent.setNewValueInSessionAttribute(AttributeName.USER_LOCATION, userLocation);
+                    router.setPage(PagePath.MAIN_PAGE);
+                    router.setType(Router.Type.REDIRECT);
+                }else{
+                    requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN_OR_PASSWORD, true); // TODO не активирован аккаунт
+                    router.setPage(PagePath.LOGIN_PAGE);
+                    router.setType(Router.Type.FORWARD);
+                }
             } else {
-                request.setAttribute(AttributeName.KEY_MESSAGE, MessageName.INCORRECT_LOGIN_PASSWORD);
+                requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN_OR_PASSWORD, true);
                 router.setPage(PagePath.LOGIN_PAGE);
                 router.setType(Router.Type.FORWARD);
             }
@@ -49,9 +53,9 @@ public class LoginCommand implements Command {
         return router;
     }
 
-    private Location getUserLocation(UserInfo userInfo) throws ServiceException {  // fixme
+    private Location getUserLocation(UserInfo userInfo) throws ServiceException {
         LocationService locationService = LocationServiceImpl.getInstance();
         Optional<Location> optionalLocation = locationService.findUserLocation(userInfo);
-        return optionalLocation.orElse(null);  // fixme
+        return optionalLocation.orElse(null);
     }
 }

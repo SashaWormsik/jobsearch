@@ -8,16 +8,17 @@ import org.chervyakovsky.jobsearch.controller.PagePath;
 import org.chervyakovsky.jobsearch.controller.Router;
 import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.exception.CommandException;
+import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 
 public class InitialCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public Router execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
         router.setType(Router.Type.FORWARD);
         router.setPage(PagePath.MAIN_PAGE);
-        request.setAttribute("MESSAGE", "ГЛАВНАЯ СТРАНИЦА СЮДА ВАКАНСИИ ДЛЯ ГОСТЯ И ВСЕХ");
+        // TODO find all vacancy
         return router;
     }
 }

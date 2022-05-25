@@ -30,7 +30,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Optional<Location> findUserLocation(UserInfo userInfo) throws ServiceException {
-        long locationUserId = userInfo.getLocationId();
+        Long locationUserId = userInfo.getLocationId();
         LocationDao locationDao = LocationDaoImpl.getInstance();
         Optional<Location> optionalLocation = Optional.empty();
         try {

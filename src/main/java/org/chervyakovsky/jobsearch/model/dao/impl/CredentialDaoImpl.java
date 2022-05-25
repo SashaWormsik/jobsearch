@@ -77,10 +77,6 @@ public class CredentialDaoImpl implements CredentialDao {
         return null;
     }
 
-    @Override
-    public Credential update(long id, Credential credential) {
-        return null;
-    }
 
     @Override
     public Optional<Credential> findActiveByLogin(String login) throws DaoException {

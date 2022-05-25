@@ -11,6 +11,7 @@ public class RequestContent {
     private HashMap<String, Object> requestAttribute;
     private HashMap<String, String[]> requestParameters;
     private HashMap<String, Object> sessionAttribute;
+    private HttpSession session;
 
     public RequestContent() {
         this.requestAttribute = new HashMap<>();
@@ -42,10 +43,25 @@ public class RequestContent {
         this.sessionAttribute = sessionAttribute;
     }
 
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
+    public void setParameterInAttribute(){
+        for (Map.Entry<String, String[]> entry : this.requestParameters.entrySet()) {
+            this.requestAttribute.put(entry.getKey(), entry.getValue()[0]);
+        }
+    }
+
     public void extractValues(HttpServletRequest request) {
         extractRequestParameters(request);
         extractRequestAttribute(request);
         extractSessionAttribute(request);
+        this.session = request.getSession();
     }
 
     public void insertAttribute(HttpServletRequest request) {

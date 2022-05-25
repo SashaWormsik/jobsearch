@@ -11,11 +11,12 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.controller.command.CommandType;
 import org.chervyakovsky.jobsearch.exception.CommandException;
+import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.io.IOException;
 
-@WebServlet(name = "controller", urlPatterns = {"/controller", "*.do"})
+@WebServlet(name = "controller", urlPatterns = {"/controller"})
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -26,12 +27,12 @@ public class Controller extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        running(request, response);
+        processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        running(request, response);
+        processRequest(request, response);
     }
 
     public void destroy() {
@@ -39,17 +40,26 @@ public class Controller extends HttpServlet {
         ConnectionPool.getInstance().destroyPool();
     }
 
-    private void running(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html"); // TODO in filter
+        RequestContent requestContent = new RequestContent();
         String commandStr = request.getParameter(ParameterName.COMMAND);
         Command command = CommandType.define(commandStr);
         try {
-            Router router = command.execute(request, response);
+            requestContent.extractValues(request); // fixme
+            Router router = command.execute(requestContent);
+            requestContent.insertAttribute(request);  // fixme
             String page = router.getPage();
-            if (router.getType() == Router.Type.FORWARD) {
-                request.getRequestDispatcher(page).forward(request, response);
-            } else if (router.getType() == Router.Type.REDIRECT) {
-                response.sendRedirect(page);
+            Router.Type routerType= router.getType();
+            switch (routerType) {
+                case FORWARD:
+                    request.getRequestDispatcher(page).forward(request, response);
+                    break;
+                case REDIRECT:
+                    response.sendRedirect(page);
+                    break;
+                default:
+                    throw new ServletException("exception in servlet");     // fixme
             }
         } catch (CommandException exception) {
             LOGGER.log(Level.INFO, "exception in servlet", exception); // TODO

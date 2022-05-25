@@ -9,6 +9,8 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,7 +19,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int POOL_SIZE = 20;
+
+    private static final String DATABASE_PROPERTIES_FILE = "database";
+    private static final String PROPERTY_POOL_SIZE = "pool_size";
+    private static final int DEFAULT_POOL_SIZE = 8;
+    private static int POOL_SIZE;
     private static final AtomicBoolean isCreated = new AtomicBoolean(false);
     private static final Lock creationLock = new ReentrantLock(true);
 
@@ -25,6 +31,20 @@ public class ConnectionPool {
 
     private BlockingQueue<ProxyConnection> freeConnection;
     private BlockingQueue<ProxyConnection> usedConnection;
+
+
+    static {
+        try {
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(DATABASE_PROPERTIES_FILE);
+            if (resourceBundle.containsKey(PROPERTY_POOL_SIZE)) {
+                POOL_SIZE = Integer.parseInt(resourceBundle.getString(PROPERTY_POOL_SIZE));
+            } else {
+                POOL_SIZE = DEFAULT_POOL_SIZE;
+            }
+        } catch (MissingResourceException exception) { // FIXME
+            LOGGER.log(Level.ERROR, exception);
+        }
+    }
 
     private ConnectionPool() {
         freeConnection = new LinkedBlockingDeque<>(POOL_SIZE);

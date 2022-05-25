@@ -1,8 +1,10 @@
 package org.chervyakovsky.jobsearch.model.service.impl;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.chervyakovsky.jobsearch.controller.AttributeName;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.exception.ServiceException;
 import org.chervyakovsky.jobsearch.model.dao.CredentialDao;
@@ -13,11 +15,15 @@ import org.chervyakovsky.jobsearch.model.entity.Credential;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
 import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
+import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.util.PasswordEncryptor;
+import org.chervyakovsky.jobsearch.util.mail.Mail;
+import org.chervyakovsky.jobsearch.util.mail.MailMessageBuilder;
 import org.chervyakovsky.jobsearch.validator.UserInfoValidator;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -36,40 +42,77 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserInfo> authenticate(String login, String password) throws ServiceException { // fixme
+    public Optional<UserInfo> authenticate(RequestContent requestContent) throws ServiceException {
         UserInfoValidator validator = UserInfoValidator.getInstance();
-        Optional<UserInfo> optionalUserInfo;
-        Optional<Credential> optionalCredential;
-        if (!validator.validateLogin(login) || !validator.validatePassword(password)) {
-            return Optional.empty();
-        }
-        UserDao userDao = UserDaoImpl.getInstance();
-        CredentialDao credentialDao = CredentialDaoImpl.getInstance();
-        try {
-            optionalUserInfo = userDao.findUserByLogin(login);
-            optionalCredential = credentialDao.findActiveByLogin(login);
-            if (optionalCredential.isPresent() && optionalUserInfo.isPresent()) {
-                String passwordDb = optionalCredential.get().getPassword();
-                if (PasswordEncryptor.comparePassword(password, passwordDb)) {
-                    return optionalUserInfo;
+        if (validator.isValidLoginUserData(requestContent)) {
+            UserDao userDao = UserDaoImpl.getInstance();
+            CredentialDao credentialDao = CredentialDaoImpl.getInstance();
+            CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+            CustomMapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
+            UserInfo userInfo = userInfoMapper.map(requestContent);
+            Credential credential = credentialMapper.map(requestContent);
+            String login = userInfo.getLogin();
+            String password = credential.getPassword();
+            try {
+                Optional<UserInfo> optionalUserInfo = userDao.findUserByLogin(login);
+                Optional<Credential> optionalCredential = credentialDao.findActiveByLogin(login);
+                if (optionalCredential.isPresent() && optionalUserInfo.isPresent()) {
+                    String passwordDb = optionalCredential.get().getPassword();
+                    if (PasswordEncryptor.comparePassword(password, passwordDb)) {
+                        return optionalUserInfo;
+                    }
                 }
+            } catch (DaoException exception) {
+                LOGGER.log(Level.ERROR, exception); // TODO add comment
+                throw new ServiceException(exception); // TODO add comment
             }
-        } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
-            throw new ServiceException(exception); // TODO add comment
         }
         return Optional.empty();
     }
 
     @Override
-    public boolean registrationNewUser(RequestContent requestContent) {
+    public boolean registrationNewUser(RequestContent requestContent) throws ServiceException {
+        boolean result = false;
         UserInfoValidator validator = UserInfoValidator.getInstance();
-        if (!validator.isValidUserData(requestContent)) {
+        UserDao userDao = UserDaoImpl.getInstance();
+        if (!validator.isValidRegistrationUserData(requestContent)) {
             return false;
         }
+        CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        CustomMapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
+        UserInfo userInfo = userInfoMapper.map(requestContent);
+        Credential credential = credentialMapper.map(requestContent);
+        String token = RandomStringUtils.randomAlphabetic(20); // FIXME
+        userInfo.setUserToken(token);
+        credential.setPassword(PasswordEncryptor.encrypt(credential.getPassword()));
+        try {
+            if (userDao.existLoginAndEmail(userInfo.getLogin(), userInfo.getEmail())) {
+                requestContent.setNewValueInRequestAttributes(AttributeName.EXIST_LOGIN_OR_EMAIL, true);
+            } else if(result = userDao.save(userInfo, credential)){ // FIXME
+                String textMessageMail = MailMessageBuilder.buildMessageContent(token);
+                Mail.sendMail(userInfo.getEmail(), textMessageMail);
+            }
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO add comment
+            throw new ServiceException(exception); // TODO add comment
+        }
+        return result;
+    }
+
+    @Override
+    public boolean existLoginAndEmail(RequestContent requestContent) throws ServiceException {
+        boolean result = false;
+        CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        UserInfo userInfo = userInfoMapper.map(requestContent);
         UserDao userDao = UserDaoImpl.getInstance();
-        CustomMapperFromRequestToEntity<UserInfo> mapper = new UserInfoMapperFromRequestToEntity();
-        UserInfo userInfo = mapper.map(requestContent); // FIXME 18.05.2022
-        return userDao.insert(userInfo);
+        String login = userInfo.getLogin();
+        String email = userInfo.getEmail();
+        try {
+            result = userDao.existLoginAndEmail(login, email);
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO add comment
+            throw new ServiceException(exception); // TODO add comment
+        }
+        return result;
     }
 }

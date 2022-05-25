@@ -19,10 +19,6 @@ img {
     vertical-align: top;
 }
 
-hi, h2, h3, h4, h5, h6 {
-    font-size: inherit;
-    font-weight: inherit;
-}
 html, body {
     height: 100%;
     line-height: 1;

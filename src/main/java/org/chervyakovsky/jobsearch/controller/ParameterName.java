@@ -1,9 +1,14 @@
 package org.chervyakovsky.jobsearch.controller;
 
-public class ParameterName {
+public final class ParameterName {
     public static final String COMMAND = "command";
-    public static final String USER_PASSWORD = "user_password";
-    public static final String USER_CONFIRM_PASSWORD = "user_confirm_password";
+
+    public static final String CREDENTIAL_PASSWORD = "credential_password";
+    public static final String CREDENTIAL_CONFIRM_PASSWORD = "credential_confirm_password";
+    public static final String CREDENTIAL_ACTIVE = "credential_active";
+    public static final String CREDENTIAL_CREATE_DATA = "credential_create_data";
+    public static final String CREDENTIAL_USER_ID = "credential_user_id";
+
     public static final String USER_LOGIN = "user_login";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_ROLE = "user_role";

@@ -1,13 +1,13 @@
 package org.chervyakovsky.jobsearch.model.entity;
 
-import org.chervyakovsky.jobsearch.model.entity.status.EnumInterviewStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.InterviewStatus;
 
 import java.util.Date;
 
 public class Interview extends AbstractEntity {
 
     private Date appointedDateTime;
-    private EnumInterviewStatus interviewStatus;
+    private InterviewStatus interviewStatus;
     private long vacancyId;
     private long userInfoId;
 
@@ -22,11 +22,11 @@ public class Interview extends AbstractEntity {
         this.appointedDateTime = appointedDateTime;
     }
 
-    public EnumInterviewStatus getInterviewStatus() {
+    public InterviewStatus getInterviewStatus() {
         return interviewStatus;
     }
 
-    public void setInterviewStatus(EnumInterviewStatus interviewStatus) {
+    public void setInterviewStatus(InterviewStatus interviewStatus) {
         this.interviewStatus = interviewStatus;
     }
 

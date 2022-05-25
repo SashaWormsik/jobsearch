@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.chervyakovsky.jobsearch.model.entity.status.EnumUserRoleStatus" %>
-<%@ page import="org.chervyakovsky.jobsearch.controller.ParameterName" %>
+<%@ page import="org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -12,7 +11,7 @@
     </a>
 
     <!-- MENU for company-->
-    <c:if test="${userRole == EnumUserRoleStatus.COMPANY}">
+    <c:if test="${userRole == UserRoleStatus.COMPANY}">
         <a href="#" class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
@@ -25,7 +24,7 @@
     </c:if>
 
     <!-- MENU for worker-->
-    <c:if test="${userRole == EnumUserRoleStatus.WORKER}">
+    <c:if test="${userRole == UserRoleStatus.WORKER}">
         <a href="#" class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
@@ -38,7 +37,7 @@
     </c:if>
 
     <!-- MENU for admin-->
-    <c:if test="${userRole == EnumUserRoleStatus.ADMIN}">
+    <c:if test="${userRole == UserRoleStatus.ADMIN}">
         <div class="w3-dropdown-hover w3-mobile">
             <button class="w3-button"><fmt:message key="menu.button.dropdown"/>
                 <i class="fa fa-caret-down"></i>
