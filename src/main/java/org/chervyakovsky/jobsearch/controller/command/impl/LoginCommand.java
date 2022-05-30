@@ -19,12 +19,14 @@ import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 
 import java.util.Optional;
 
+import static org.chervyakovsky.jobsearch.controller.AttributeName.*;
+
 public class LoginCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
-        requestContent.getSession().removeAttribute(AttributeName.SUCCESSFUL_REGISTRATION); // fixme
+        requestContent.removeSessionAttribute(SUCCESSFUL_REGISTRATION); // todo
         UserService userService = UserServiceImpl.getInstance();
         Router router = new Router();
         try {
@@ -32,20 +34,19 @@ public class LoginCommand implements Command {
             if (optionalUserInfo.isPresent()) {
                 UserInfo userInfo = optionalUserInfo.get();
                 if (userInfo.getUserStatus()) {
-                    requestContent.setNewValueInSessionAttribute(AttributeName.USER, userInfo);
-                    Location userLocation = getUserLocation(userInfo);
-                    requestContent.setNewValueInSessionAttribute(AttributeName.USER_LOCATION, userLocation);
+                    requestContent.setNewValueInSessionAttribute(USER, userInfo);
+                    requestContent.setNewValueInSessionAttribute(USER_LOCATION, getUserLocation(userInfo));
                     router.setPage(PagePath.MAIN_PAGE);
                     router.setType(Router.Type.REDIRECT);
                 }else{
-                    requestContent.setNewValueInSessionAttribute(AttributeName.ACCOUNT_IS_BLOCKED, true);
                     router.setPage(PagePath.LOGIN_PAGE);
                     router.setType(Router.Type.FORWARD);
+                    requestContent.setNewValueInRequestAttributes(ACCOUNT_IS_BLOCKED, true);
                 }
             } else {
-                requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN_OR_PASSWORD, true);
                 router.setPage(PagePath.LOGIN_PAGE);
                 router.setType(Router.Type.FORWARD);
+                requestContent.setNewValueInRequestAttributes(INCORRECT_LOGIN_OR_PASSWORD, true);
             }
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);

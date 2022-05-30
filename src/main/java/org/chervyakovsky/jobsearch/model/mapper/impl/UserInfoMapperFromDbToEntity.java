@@ -1,5 +1,6 @@
 package org.chervyakovsky.jobsearch.model.mapper.impl;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +28,7 @@ public class UserInfoMapperFromDbToEntity implements CustomMapperFromDbToEntity<
             userInfo.setLogin(resultSet.getString(ColumnName.USER_LOGIN));
             userInfo.setEmail(resultSet.getString(ColumnName.USER_MAIL));
             userInfo.setUserStatus(resultSet.getBoolean(ColumnName.USER_STATUS));
-            userInfo.setLocationId(resultSet.getLong(ColumnName.USER_LOCATION));
+            userInfo.setLocationId(NumberUtils.createLong(resultSet.getString(ColumnName.USER_LOCATION)));
             userInfo.setUserName(resultSet.getString(ColumnName.USER_NAME));
             userInfo.setUserSurName(resultSet.getString(ColumnName.USER_SURNAME));
             userInfo.setProfession(resultSet.getString(ColumnName.USER_PROFESSION));

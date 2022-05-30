@@ -2,17 +2,24 @@ package org.chervyakovsky.jobsearch.controller;
 
 public final class AttributeName {
 
-    // correct login page
+    // if correct login page
     public static final String USER = "user";
     public static final String USER_LOCATION = "location";
 
-    // incorrect login page
+    // if incorrect login page
     public static final String INCORRECT_LOGIN_OR_PASSWORD = "incorrect_login_or_password";
     public static final String ACCOUNT_IS_BLOCKED = "account_is_blocked";
-    public static final String SUCCESSFUL_REGISTRATION = "successful_registration";
+
+    // after successful registration
+    public static final String SUCCESSFUL_REGISTRATION = "temp_successful_registration";
+
+    // after activate user
+    public static final String ACTIVATE_USER = "activate_user";
+
+    // forgot password
+    public static final String FORGOT_PASSWORD = "forgot_password";
 
     // incorrect registration page
-    public static final String INCORRECT_REGISTRATION_USER = "incorrect_registration_user";
     public static final String INCORRECT_ROLE = "incorrect_role";
     public static final String INCORRECT_LOGIN = "incorrect_login";
     public static final String INCORRECT_EMAIL = "incorrect_email";
@@ -22,12 +29,7 @@ public final class AttributeName {
     public static final String INCORRECT_USER_SURNAME = "incorrect_user_surname";
     public static final String INCORRECT_EDUCATION = "incorrect_education";
     public static final String INCORRECT_WORKING_STATUS = "incorrect_working_status";
-
-    // registration page if login or email exist
-    public static final String EXIST_LOGIN_OR_EMAIL = "exist_login_or_email";
-
-
-
+    public static final String INCORRECT_EXIST_LOGIN_OR_EMAIL = "exist_login_or_email";
 
 
     private AttributeName() {

@@ -9,6 +9,6 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 public class DefaultCommand implements Command {
     @Override
     public Router execute(RequestContent requestContent) {
-        return null; // fixme
+        return null; // todo
     }
 }

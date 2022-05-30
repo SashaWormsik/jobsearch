@@ -45,9 +45,9 @@ public class Controller extends HttpServlet {
         String commandStr = request.getParameter(ParameterName.COMMAND);
         Command command = CommandType.define(commandStr);
         try {
-            requestContent.extractValues(request); // fixme
+            requestContent.extractValues(request);
             Router router = command.execute(requestContent);
-            requestContent.insertAttribute(request);  // fixme
+            requestContent.insertAttribute(request);
             String page = router.getPage();
             Router.Type routerType= router.getType();
             switch (routerType) {
@@ -58,11 +58,11 @@ public class Controller extends HttpServlet {
                     response.sendRedirect(page);
                     break;
                 default:
-                    throw new ServletException("exception in servlet");     // fixme
+                    throw new ServletException();
             }
         } catch (CommandException exception) {
-            LOGGER.log(Level.INFO, "exception in servlet", exception); // TODO
-            throw new ServletException("exception in servlet", exception);     // TODO
+            LOGGER.log(Level.INFO, exception);
+            throw new ServletException(exception);
         }
     }
 }

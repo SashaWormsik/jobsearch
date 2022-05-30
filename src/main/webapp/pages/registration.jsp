@@ -2,9 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ page import="org.chervyakovsky.jobsearch.controller.ParameterName" %>
+
 <%@ page import="org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus" %>
-<%@include file="fragment/lang_and_user_role.jsp" %>
+<%@include file="fragment/lang_and_user.jsp" %>
 
 <html>
 <head>
@@ -14,21 +14,19 @@
 
 <body>
 <div class="wrapper">
+
     <header class="header">
         <%@include file="fragment/header.jsp" %>
     </header>
 
     <main class="main">
 
-
-
-        <div class="w3-auto w3-padding" style="max-width:600px">
-            <div class="w3-center">
-                <h5><fmt:message key="text.registration.page"/></h5>
+        <c:if test="${empty user_role}">
+            <div class="w3-auto w3-padding" style="max-width:600px">
+                <div class="w3-center">
+                    <h5><fmt:message key="text.registration.page"/></h5>
+                </div>
             </div>
-        </div>
-
-
             <div class="w3-auto" style="max-width:600px">
                 <div class="w3-center">
                     <button id="buttonCompany"
@@ -44,9 +42,6 @@
                     </button>
                 </div>
             </div>
-
-
-
             <!--WORKER FORM -->
             <div id="worker" style="display: none">
                 <%@include file="fragment/WorkerRegistration.jsp" %>
@@ -55,6 +50,18 @@
             <div id="company" style="display: none">
                 <%@include file="fragment/CompanyRegistration.jsp" %>
             </div>
+        </c:if>
+
+        <c:if test="${user_role == UserRoleStatus.WORKER}">
+            <div style="display: block">
+                <%@include file="fragment/WorkerRegistration.jsp" %>
+            </div>
+        </c:if>
+        <c:if test="${user_role == UserRoleStatus.COMPANY}">
+            <div style="display: block">
+                <%@include file="fragment/CompanyRegistration.jsp" %>
+            </div>
+        </c:if>
 
     </main>
     <footer class="footer">

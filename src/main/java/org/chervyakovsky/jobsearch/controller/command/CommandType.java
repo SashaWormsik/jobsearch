@@ -3,14 +3,17 @@ package org.chervyakovsky.jobsearch.controller.command;
 import org.chervyakovsky.jobsearch.controller.command.impl.*;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationCommand()),
-    DEFAULT(new DefaultCommand()),
-    INITIAL(new InitialCommand());
+    DEFAULT(new DefaultCommand()), // TODO
+    INITIAL(new InitialCommand()), // TODO
+    ACTIVATE_USER(new ActivateUserCommand()),
+    FORGOT_PASSWORD(new ForgotPasswordCommand()),
+    RESET_PASSWORD(new ResetPasswordCommand()),
+    UPDATE_PASSWORD(new UpdatePasswordCommand());
 
     private final Command command;
 

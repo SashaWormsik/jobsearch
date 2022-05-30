@@ -1,5 +1,6 @@
 package org.chervyakovsky.jobsearch.model.mapper.impl;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.controller.ParameterName;
@@ -37,7 +38,7 @@ public class UserInfoMapperFromRequestToEntity implements CustomMapperFromReques
         apply(emailString, userInfo::setEmail);
         apply(roleString, s -> userInfo.setRole(UserRoleStatus.getStatus(s)));
         apply(userStatusString, s -> userInfo.setUserStatus(Boolean.parseBoolean(s)));
-        apply(locationIdString, s -> userInfo.setLocationId(Long.parseLong(s)));
+        apply(locationIdString, s -> userInfo.setLocationId(NumberUtils.createLong(s)));
         apply(userNameString, userInfo::setUserName);
         apply(userSurnameString, userInfo::setUserSurName);
         apply(workingStatusString, s -> userInfo.setWorkingStatus(WorkingStatus.getStatus(s)));

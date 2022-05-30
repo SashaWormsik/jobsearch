@@ -7,17 +7,29 @@
 
 <div class="w3-modal-content w3-card-4" style="max-width:600px">
     <div class="w3-center">
-        <c:if test="${not empty incorrect_login_or_password}">
+        <c:if test="${incorrect_login_or_password}">
             <div class="w3-center w3-red">
                 <fmt:message key="message.login.incorrect"/>
             </div>
         </c:if>
-        <c:if test="${not empty account_is_blocked}">
+        <c:if test="${account_is_blocked}">
             <div class="w3-center w3-red">
                 <fmt:message key="message.login.account.blocked"/>
             </div>
         </c:if>
-        <c:if test="${not empty successful_registration}">
+
+        <c:if test="${activate_user == true}">
+            <div class="w3-center w3-red">
+                <fmt:message key="message.activation.successful"/>
+            </div>
+        </c:if>
+        <c:if test="${activate_user == false}">
+            <div class="w3-center w3-red">
+                <fmt:message key="message.activation.unsuccessful"/>
+            </div>
+        </c:if>
+
+        <c:if test="${temp_successful_registration}">
             <div class="w3-center w3-blue">
                 <fmt:message key="message.successful.registration"/>
             </div>
@@ -32,7 +44,6 @@
     <form class="w3-container" action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="login"/>
         <div class="w3-section">
-
             <label>
                 <b class="w3-text-black"><fmt:message key="label.user.login"/></b>
             </label>
@@ -68,7 +79,9 @@
         </span>
         <!-- TO FORGOT PASSWORD-->
         <span class="w3-right w3-hide-small">
-                       <a href="#"><fmt:message key="label.forgotpassword"/></a>
+                       <a href="${pageContext.request.contextPath}/pages/forgot_password.jsp">
+                           <fmt:message key="label.forgotpassword"/>
+                       </a>
         </span>
     </div>
 </div>

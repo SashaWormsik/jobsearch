@@ -23,38 +23,18 @@ public class RequestContent {
         return this.requestAttribute;
     }
 
-    public void setRequestAttribute(HashMap<String, Object> requestAttribute) {
-        this.requestAttribute = requestAttribute;
-    }
 
     public HashMap<String, String[]> getRequestParameters() {
         return this.requestParameters;
-    }
-
-    public void setRequestParameters(HashMap<String, String[]> requestParameters) {
-        this.requestParameters = requestParameters;
     }
 
     public HashMap<String, Object> getSessionAttribute() {
         return this.sessionAttribute;
     }
 
-    public void setSessionAttribute(HashMap<String, Object> sessionAttribute) {
-        this.sessionAttribute = sessionAttribute;
-    }
 
     public HttpSession getSession() {
         return session;
-    }
-
-    public void setSession(HttpSession session) {
-        this.session = session;
-    }
-
-    public void setParameterInAttribute(){
-        for (Map.Entry<String, String[]> entry : this.requestParameters.entrySet()) {
-            this.requestAttribute.put(entry.getKey(), entry.getValue()[0]);
-        }
     }
 
     public void extractValues(HttpServletRequest request) {
@@ -69,12 +49,23 @@ public class RequestContent {
         insertAttributeToSession(request);
     }
 
+    public void setParameterInAttribute(){
+        for (Map.Entry<String, String[]> entry : this.requestParameters.entrySet()) {
+            this.requestAttribute.put(entry.getKey(), entry.getValue()[0]);
+        }
+    }
+
     public void setNewValueInRequestAttributes(String nameAttribute, Object value) {
         this.requestAttribute.put(nameAttribute, value);
     }
 
     public void setNewValueInSessionAttribute(String nameAttribute, Object value) {
         this.sessionAttribute.put(nameAttribute, value);
+    }
+
+    public void removeSessionAttribute(String attributeName){
+        this.session.removeAttribute(attributeName);
+        this.sessionAttribute.remove(attributeName);
     }
 
 

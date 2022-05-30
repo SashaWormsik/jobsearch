@@ -18,7 +18,7 @@ public class LocationServiceImpl implements LocationService {
 
     private static LocationServiceImpl instance;
 
-    private LocationServiceImpl(){
+    private LocationServiceImpl() {
     }
 
     public static LocationServiceImpl getInstance() {
@@ -34,10 +34,12 @@ public class LocationServiceImpl implements LocationService {
         LocationDao locationDao = LocationDaoImpl.getInstance();
         Optional<Location> optionalLocation = Optional.empty();
         try {
-            optionalLocation = locationDao.findById(locationUserId);
+            if (locationUserId != null) {
+                optionalLocation = locationDao.findById(locationUserId);
+            }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
-            throw new ServiceException(exception); // TODO add comment
+            LOGGER.log(Level.ERROR, exception); // TODO
+            throw new ServiceException(exception); // TODO
         }
         return optionalLocation;
     }

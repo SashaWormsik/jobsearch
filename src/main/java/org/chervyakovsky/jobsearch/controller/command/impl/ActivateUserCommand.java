@@ -3,6 +3,7 @@ package org.chervyakovsky.jobsearch.controller.command.impl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.chervyakovsky.jobsearch.controller.AttributeName;
 import org.chervyakovsky.jobsearch.controller.PagePath;
 import org.chervyakovsky.jobsearch.controller.Router;
 import org.chervyakovsky.jobsearch.controller.command.Command;
@@ -12,26 +13,24 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 
-public class RegistrationCommand implements Command {
-
+public class ActivateUserCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
-        UserService userService = UserServiceImpl.getInstance();
         Router router = new Router();
+        UserService userService = UserServiceImpl.getInstance();
         try {
-            if (userService.registrationNewUser(requestContent)) {
-                router.setPage(PagePath.LOGIN_PAGE);
-                router.setType(Router.Type.REDIRECT);
-            } else {
-                requestContent.setParameterInAttribute();
-                router.setPage(PagePath.REGISTRATION_PAGE);
-                router.setType(Router.Type.FORWARD);
+            if(userService.activateUserAccount(requestContent)){
+                requestContent.setNewValueInRequestAttributes(AttributeName.ACTIVATE_USER, true);
+            }else {
+                requestContent.setNewValueInRequestAttributes(AttributeName.ACTIVATE_USER, false);
             }
+            router.setType(Router.Type.FORWARD);
+            router.setPage(PagePath.LOGIN_PAGE);
         } catch (ServiceException exception) {
-            LOGGER.log(Level.ERROR, exception);
-            throw new CommandException(exception);
+            LOGGER.log(Level.ERROR, exception); // TODO
+            throw new CommandException(exception); // TODO
         }
         return router;
     }

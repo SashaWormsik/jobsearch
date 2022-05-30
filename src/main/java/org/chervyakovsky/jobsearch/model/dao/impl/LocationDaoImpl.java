@@ -63,12 +63,12 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public Location update(Location location) {
-        return null;
+    public boolean update(Location location) {
+        return false;
     }
 
     @Override
-    public List<Location> findAll(Location location) {
+    public List<Location> findAll() {
         return null;
     }
 

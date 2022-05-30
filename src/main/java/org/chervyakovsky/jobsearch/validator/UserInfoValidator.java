@@ -2,7 +2,6 @@ package org.chervyakovsky.jobsearch.validator;
 
 import org.chervyakovsky.jobsearch.controller.AttributeName;
 import org.chervyakovsky.jobsearch.controller.ParameterName;
-import org.chervyakovsky.jobsearch.controller.PropertyKey;
 import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 
@@ -63,6 +62,22 @@ public class UserInfoValidator {
 
     public boolean validatePassword(String password) {
         return validate(password, PASSWORD_REGEX);
+    }
+
+    public boolean isValidatePasswordAndConfirmPassword(RequestContent requestContent){
+        boolean result = true;
+        HashMap<String, String[]> dataMap = requestContent.getRequestParameters();
+        String password = getParameter(dataMap, ParameterName.CREDENTIAL_PASSWORD);
+        String confirmPassword = getParameter(dataMap, ParameterName.CREDENTIAL_CONFIRM_PASSWORD);
+        if (!validatePassword(password)) {
+            result = false;
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_PASSWORD, true);
+        }
+        if (password != null && !password.equals(confirmPassword)) {
+            result = false;
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_CONFIRM_PASSWORD, true);
+        }
+        return  result;
     }
 
     public boolean isValidLoginUserData(RequestContent requestContent){
