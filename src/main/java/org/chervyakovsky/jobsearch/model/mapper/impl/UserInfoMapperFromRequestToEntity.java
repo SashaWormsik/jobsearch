@@ -8,20 +8,20 @@ import org.chervyakovsky.jobsearch.model.entity.UserInfo;
 import org.chervyakovsky.jobsearch.model.entity.status.EducationStatus;
 import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
 import org.chervyakovsky.jobsearch.model.entity.status.WorkingStatus;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromRequestToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
-public class UserInfoMapperFromRequestToEntity implements CustomMapperFromRequestToEntity<UserInfo> {
+public class UserInfoMapperFromRequestToEntity implements MapperFromRequestToEntity<UserInfo> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public UserInfo map(RequestContent requestContent) {
         UserInfo userInfo = new UserInfo();
         HashMap<String, String[]> requestParameters = requestContent.getRequestParameters();
+        String[] id = requestParameters.get(ParameterName.USER_ID);
         String[] loginString = requestParameters.get(ParameterName.USER_LOGIN);
         String[] emailString = requestParameters.get(ParameterName.USER_EMAIL);
         String[] roleString = requestParameters.get(ParameterName.USER_ROLE);
@@ -34,6 +34,7 @@ public class UserInfoMapperFromRequestToEntity implements CustomMapperFromReques
         String[] professionString = requestParameters.get(ParameterName.USER_PROFESSION);
         String[] descriptionString = requestParameters.get(ParameterName.USER_DESCRIPTION);
         String[] userTokenString = requestParameters.get(ParameterName.USER_TOKEN);
+        apply(id, s -> userInfo.setId(Long.parseLong(s)));
         apply(loginString, userInfo::setLogin);
         apply(emailString, userInfo::setEmail);
         apply(roleString, s -> userInfo.setRole(UserRoleStatus.getStatus(s)));

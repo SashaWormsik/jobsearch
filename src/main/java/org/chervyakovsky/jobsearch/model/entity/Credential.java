@@ -55,7 +55,10 @@ public class Credential extends AbstractEntity {
             return false;
         }
         Credential credential = (Credential) o;
-        if (this.userInfoId != credential.userInfoId || this.active != credential.active) {
+        if (this.active != null ? !this.active.equals(credential.active) : credential.active != null) {
+            return false;
+        }
+        if (this.userInfoId != null ? !this.userInfoId.equals(credential.userInfoId) : credential.userInfoId != null) {
             return false;
         }
         if (this.createDate != null ? !this.createDate.equals(credential.createDate) : credential.createDate != null) {
@@ -70,8 +73,8 @@ public class Credential extends AbstractEntity {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + (Boolean.hashCode(active));
-        result = prime * result + (Long.hashCode(userInfoId));
+        result = prime * result + (this.active != null ? active.hashCode() : 0);
+        result = prime * result + (this.userInfoId != 0 ? userInfoId.hashCode() : 0);
         result = prime * result + (this.password != null ? this.password.hashCode() : 0);
         result = prime * result + (this.createDate != null ? this.createDate.hashCode() : 0);
         return result;

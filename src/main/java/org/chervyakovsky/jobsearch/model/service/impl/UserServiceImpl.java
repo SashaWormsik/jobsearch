@@ -12,7 +12,7 @@ import org.chervyakovsky.jobsearch.model.dao.impl.CredentialDaoImpl;
 import org.chervyakovsky.jobsearch.model.dao.impl.UserDaoImpl;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromRequestToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromRequestToEntity;
@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
         if (validator.isValidLoginUserData(requestContent)) {
             UserDao userDao = UserDaoImpl.getInstance();
             CredentialDao credentialDao = CredentialDaoImpl.getInstance();
-            CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
-            CustomMapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
+            MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+            MapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
             UserInfo userInfo = userInfoMapper.map(requestContent);
             Credential credential = credentialMapper.map(requestContent);
             String login = userInfo.getLogin();
@@ -81,8 +81,8 @@ public class UserServiceImpl implements UserService {
         if (!validator.isValidRegistrationUserData(requestContent)) {
             return false;
         }
-        CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
-        CustomMapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
+        MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        MapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
         UserInfo userInfo = userInfoMapper.map(requestContent);
         Credential credential = credentialMapper.map(requestContent);
         String token = RandomStringUtils.randomAlphabetic(20);
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean activateUserAccount(RequestContent requestContent) throws ServiceException {
         boolean result = false;
-        CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
         UserInfo userInfo = userInfoMapper.map(requestContent);
         String token = userInfo.getUserToken();
         UserDao userDao = UserDaoImpl.getInstance();
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean sendEmailToRecoverPassword(RequestContent requestContent) throws ServiceException {
         boolean result = false;
-        CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
         UserInfo userInfo = userInfoMapper.map(requestContent);
         String email = userInfo.getEmail();
         String token = RandomStringUtils.randomAlphabetic(20);
@@ -149,13 +149,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserInfo> findUserByToken(RequestContent requestContent) throws ServiceException {
-        CustomMapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
         UserInfo userInfo = userInfoMapper.map(requestContent);
         String token = userInfo.getUserToken();
         Optional<UserInfo> optionalUserInfo = Optional.empty();
         UserDao userDao = UserDaoImpl.getInstance();
         try {
             optionalUserInfo = userDao.findUserByToken(token);
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO
+            throw new ServiceException(exception); // TODO
+        }
+        return optionalUserInfo;
+    }
+    @Override
+    public Optional<UserInfo> findUserById(RequestContent requestContent) throws  ServiceException {
+        MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        UserInfo userInfo = userInfoMapper.map(requestContent);
+        Long userId = userInfo.getId();
+        Optional<UserInfo> optionalUserInfo = Optional.empty();
+        UserDao userDao = UserDaoImpl.getInstance();
+        try {
+            optionalUserInfo = userDao.findById(userId);
         } catch (DaoException exception) {
             LOGGER.log(Level.ERROR, exception); // TODO
             throw new ServiceException(exception); // TODO
@@ -174,6 +189,19 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(exception); // TODO
         }
         return result;
+    }
+
+    @Override
+    public boolean updateUser(UserInfo userInfo, RequestContent requestContent) throws ServiceException {
+        MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
+        UserInfo userInfoFromRequest = userInfoMapper.map(requestContent);
+        userInfo.setUserName(userInfoFromRequest.getUserName());
+        userInfo.setUserSurName(userInfoFromRequest.getUserSurName());
+        userInfo.setEducation(userInfoFromRequest.getEducation());
+        userInfo.setProfession(userInfoFromRequest.getProfession());
+        userInfo.setWorkingStatus(userInfoFromRequest.getWorkingStatus());
+        userInfo.setDescription(userInfoFromRequest.getDescription());
+        return updateUser(userInfo);
     }
 
 

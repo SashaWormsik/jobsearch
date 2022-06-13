@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
 import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
-public class CredentialMapperFromDbToEntity implements CustomMapperFromDbToEntity<Credential> {
+public class CredentialMapperFromDbToEntity implements MapperFromDbToEntity<Credential> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override

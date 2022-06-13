@@ -19,7 +19,7 @@
         </c:if>
 
         <c:if test="${activate_user == true}">
-            <div class="w3-center w3-red">
+            <div class="w3-center w3-blue">
                 <fmt:message key="message.activation.successful"/>
             </div>
         </c:if>

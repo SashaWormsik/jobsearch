@@ -9,6 +9,7 @@ import org.chervyakovsky.jobsearch.model.dao.LocationDao;
 import org.chervyakovsky.jobsearch.model.dao.impl.LocationDaoImpl;
 import org.chervyakovsky.jobsearch.model.entity.Location;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
+import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.service.LocationService;
 
 import java.util.Optional;
@@ -43,4 +44,30 @@ public class LocationServiceImpl implements LocationService {
         }
         return optionalLocation;
     }
+
+    @Override
+    public Optional<Location> findLocationById(Long id) throws ServiceException {
+        LocationDao locationDao = LocationDaoImpl.getInstance();
+        Optional<Location> optionalLocation = Optional.empty();
+        try {
+            if (id != null) {
+                optionalLocation = locationDao.findById(id);
+            }
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO
+            throw new ServiceException(exception); // TODO
+        }
+        return optionalLocation;
+    }
+
+    @Override
+    public Optional<Long> locationIsPresent(RequestContent requestContent) throws ServiceException {
+        LocationDao locationDao = LocationDaoImpl.getInstance();
+        Optional<Long> longOptional = Optional.empty();
+
+        return longOptional;
+    }
 }
+
+
+

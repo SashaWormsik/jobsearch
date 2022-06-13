@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.CredentialDao;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
@@ -55,10 +55,10 @@ public class CredentialDaoImpl implements CredentialDao {
             insertNewStatement.setDate(3, new Date(credential.getCreateDate().getTime()));
             insertNewStatement.setLong(4, credential.getUserInfoId());
             int rowInsert = insertNewStatement.executeUpdate();
-            connection.commit();
-            if (rowInsert != 0 && rowOld !=0) {
+            if (rowInsert != 0 && rowOld != 0) {
+                connection.commit();
                 result = true;
-            }else {
+            } else {
                 connection.rollback();
             }
         } catch (SQLException exception) {
@@ -85,12 +85,12 @@ public class CredentialDaoImpl implements CredentialDao {
     @Override
     public Optional<Credential> findActiveByLogin(String login) throws DaoException {
         Optional<Credential> optionalCredential = Optional.empty();
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ACTIVE_CREDENTIAL_BY_LOGIN);
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ACTIVE_CREDENTIAL_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                CustomMapperFromDbToEntity<Credential> mapper = new CredentialMapperFromDbToEntity();
+                MapperFromDbToEntity<Credential> mapper = new CredentialMapperFromDbToEntity();
                 optionalCredential = mapper.map(resultSet);
             }
         } catch (SQLException exception) {
@@ -103,12 +103,12 @@ public class CredentialDaoImpl implements CredentialDao {
     @Override
     public Optional<Credential> findById(long id) throws DaoException {
         Optional<Credential> optionalCredential = Optional.empty();
-        try (Connection connection = ConnectionPool.getInstance().getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ACTIVE_CREDENTIAL_BY_USER_ID); // TODO
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ACTIVE_CREDENTIAL_BY_USER_ID)) {
             statement.setString(1, String.valueOf(id));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                CustomMapperFromDbToEntity<Credential> mapper = new CredentialMapperFromDbToEntity();
+                MapperFromDbToEntity<Credential> mapper = new CredentialMapperFromDbToEntity();
                 optionalCredential = mapper.map(resultSet);
             }
         } catch (SQLException exception) {

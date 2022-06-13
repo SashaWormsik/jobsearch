@@ -1,20 +1,23 @@
 package org.chervyakovsky.jobsearch.model.entity;
 
+import org.chervyakovsky.jobsearch.model.entity.status.WorkExperienceStatus;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class Vacancy extends AbstractEntity {
 
-    Date createDate;
-    String jobTitle;
-    long companyId;
-    long locationId;
-    BigDecimal salary;
-    long currencyId;
-    String responsibilities;
-    String requirement;
-    String workingConditions;
-    boolean vacancyStatus;
+    private Date createDate = new Date();
+    private String jobTitle;
+    private Long companyId;
+    private Long locationId;
+    private BigDecimal salary;
+    private String currency;
+    private WorkExperienceStatus workExperienceStatus;
+    private String responsibilities;
+    private String requirement;
+    private String workingConditions;
+    private Boolean vacancyStatus = true;
 
     public Vacancy() {
     }
@@ -35,19 +38,19 @@ public class Vacancy extends AbstractEntity {
         this.jobTitle = jobTitle;
     }
 
-    public long getCompanyId() {
+    public Long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(long companyId) {
+    public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
 
-    public long getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(long locationId) {
+    public void setLocationId(Long locationId) {
         this.locationId = locationId;
     }
 
@@ -59,12 +62,12 @@ public class Vacancy extends AbstractEntity {
         this.salary = salary;
     }
 
-    public long getCurrencyId() {
-        return currencyId;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCurrencyId(long currencyId) {
-        this.currencyId = currencyId;
+    public void setCurrency(String currencyId) {
+        this.currency = currencyId;
     }
 
     public String getResponsibilities() {
@@ -91,12 +94,20 @@ public class Vacancy extends AbstractEntity {
         this.workingConditions = workingConditions;
     }
 
-    public boolean isVacancyStatus() {
+    public Boolean getVacancyStatus() {
         return vacancyStatus;
     }
 
-    public void setVacancyStatus(boolean vacancyStatus) {
+    public void setVacancyStatus(Boolean vacancyStatus) {
         this.vacancyStatus = vacancyStatus;
+    }
+
+    public WorkExperienceStatus getWorkExperienceStatus() {
+        return workExperienceStatus;
+    }
+
+    public void setWorkExperienceStatus(WorkExperienceStatus workExperienceStatus) {
+        this.workExperienceStatus = workExperienceStatus;
     }
 
     @Override
@@ -111,8 +122,19 @@ public class Vacancy extends AbstractEntity {
             return false;
         }
         Vacancy vacancy = (Vacancy) o;
-        if (this.companyId != vacancy.companyId || this.locationId != vacancy.locationId
-                || this.currencyId != vacancy.currencyId || this.vacancyStatus != vacancy.vacancyStatus) {
+        if (this.workExperienceStatus != null ? !this.workExperienceStatus.equals(vacancy.workExperienceStatus) : vacancy.workExperienceStatus != null) {
+            return false;
+        }
+        if (this.companyId != null ? !this.companyId.equals(vacancy.companyId) : vacancy.companyId != null) {
+            return false;
+        }
+        if (this.locationId != null ? !this.locationId.equals(vacancy.locationId) : vacancy.locationId != null) {
+            return false;
+        }
+        if (this.currency != null ? !this.currency.equals(vacancy.currency) : vacancy.currency != null) {
+            return false;
+        }
+        if (this.vacancyStatus != null ? !this.vacancyStatus.equals(vacancy.vacancyStatus) : vacancy.vacancyStatus != null) {
             return false;
         }
         if (this.createDate != null ? !this.createDate.equals(vacancy.createDate) : vacancy.createDate != null) {
@@ -141,14 +163,15 @@ public class Vacancy extends AbstractEntity {
         int result = super.hashCode();
         result = prime * result + (this.createDate != null ? this.createDate.hashCode() : 0);
         result = prime * result + (this.jobTitle != null ? this.jobTitle.hashCode() : 0);
-        result = prime * result + (Long.hashCode(this.companyId));
-        result = prime * result + (Long.hashCode(this.locationId));
+        result = prime * result + (this.companyId != null ? this.companyId.hashCode() : 0);
+        result = prime * result + (this.locationId != null ? this.locationId.hashCode() : 0);
         result = prime * result + (this.salary != null ? this.salary.hashCode() : 0);
-        result = prime * result + (Long.hashCode(this.currencyId));
+        result = prime * result + (this.currency != null ? this.currency.hashCode() : 0);
         result = prime * result + (this.responsibilities != null ? this.responsibilities.hashCode() : 0);
         result = prime * result + (this.requirement != null ? this.requirement.hashCode() : 0);
         result = prime * result + (this.workingConditions != null ? this.workingConditions.hashCode() : 0);
-        result = prime * result + (Boolean.hashCode(this.vacancyStatus));
+        result = prime * result + (this.vacancyStatus != null ? this.vacancyStatus.hashCode() : 0);
+        result = prime * result + (this.workExperienceStatus != null ? this.workExperienceStatus.hashCode() : 0);
         return result;
 
     }

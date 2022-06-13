@@ -137,7 +137,7 @@
 
             <!-- EDUCATION -->
             <label>
-                <b><fmt:message key="label.user.educationstatuc"/></b>
+                <b><fmt:message key="label.user.educationstatus"/></b>
             </label>
             <div class="w3-input w3-border w3-margin-bottom">
                 <input type="radio" id="HIGHER"
@@ -146,7 +146,7 @@
                         <c:if test="${user_education_status=='HIGHER'}">
                             checked
                         </c:if>/>
-                <label for="HIGHER"><fmt:message key="label.user.educationstatuc.higher"/></label>
+                <label for="HIGHER"><fmt:message key="label.user.educationstatus.higher"/></label>
 
                 <input type="radio" id="SECONDARY"
                        name="${ParameterName.USER_EDUCATION_STATUS}"
@@ -154,7 +154,7 @@
                         <c:if test="${user_education_status=='SECONDARY'}">
                             checked
                         </c:if>/>
-                <label for="SECONDARY"><fmt:message key="label.user.educationstatuc.secondary"/></label>
+                <label for="SECONDARY"><fmt:message key="label.user.educationstatus.secondary"/></label>
 
                 <input type="radio" id="BASIC"
                        name="${ParameterName.USER_EDUCATION_STATUS}"
@@ -162,7 +162,7 @@
                         <c:if test="${user_education_status=='BASIC'}">
                             checked
                         </c:if>/>
-                <label for="BASIC"><fmt:message key="label.user.educationstatuc.basic"/></label>
+                <label for="BASIC"><fmt:message key="label.user.educationstatus.basic"/></label>
 
                 <input type="radio" id="NO_EDUCATION"
                        name="${ParameterName.USER_EDUCATION_STATUS}"
@@ -170,7 +170,7 @@
                         <c:if test="${user_education_status=='NO_EDUCATION'}">
                             checked
                         </c:if>/>
-                <label for="NO_EDUCATION"><fmt:message key="label.user.educationstatuc.noeducation"/></label>
+                <label for="NO_EDUCATION"><fmt:message key="label.user.educationstatus.noeducation"/></label>
 
                 <input type="radio" id="NOT_SPECIFIED"
                        name="${ParameterName.USER_EDUCATION_STATUS}"
@@ -178,7 +178,7 @@
                         <c:if test="${(user_education_status=='NOT_SPECIFIED') or (empty user_education_status)}">
                             checked
                         </c:if>/>
-                <label for="NOT_SPECIFIED"><fmt:message key="label.user.educationstatuc.notspecified"/></label>
+                <label for="NOT_SPECIFIED"><fmt:message key="label.user.educationstatus.notspecified"/></label>
             </div>
 
             <!-- WORK STATUS-->

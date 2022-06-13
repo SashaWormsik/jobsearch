@@ -12,5 +12,7 @@ public interface UserService {
     boolean activateUserAccount(RequestContent requestContent) throws ServiceException;
     boolean sendEmailToRecoverPassword(RequestContent requestContent) throws ServiceException;
     Optional<UserInfo> findUserByToken(RequestContent requestContent) throws ServiceException;
+    Optional<UserInfo> findUserById(RequestContent requestContent) throws ServiceException;
     boolean updateUser(UserInfo userInfo)throws ServiceException;
+    boolean updateUser(UserInfo userInfo, RequestContent requestContent)throws ServiceException;
 }

@@ -17,7 +17,7 @@ public class MailSender {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final String SUBJECT = "Confirmation of actions on the site";
-    private static final String EMAIL_FROM = "sashawormsik@gmail.com";
+    private static final String EMAIL_FROM = "alexworms2001@mail.ru";
     private static final String CONTENT_TYPE = "text/html; charset=utf-8";
 
 

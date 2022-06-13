@@ -5,6 +5,8 @@ public final class AttributeName {
     // if correct login page
     public static final String USER = "user";
     public static final String USER_LOCATION = "location";
+    public static final String VACANCY = "vacancy";
+    public static final String VACANCY_LOCATION = "vacancy_location";
 
     // if incorrect login page
     public static final String INCORRECT_LOGIN_OR_PASSWORD = "incorrect_login_or_password";

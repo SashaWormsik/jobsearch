@@ -10,19 +10,19 @@ import org.chervyakovsky.jobsearch.model.entity.status.EducationStatus;
 import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
 import org.chervyakovsky.jobsearch.model.entity.status.WorkingStatus;
 import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class UserInfoMapperFromDbToEntity implements CustomMapperFromDbToEntity<UserInfo> {
+public class UserInfoMapperFromDbToEntity implements MapperFromDbToEntity<UserInfo> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Optional<UserInfo> map(ResultSet resultSet) throws DaoException {
         UserInfo userInfo = new UserInfo();
-        Optional<UserInfo> optionalUserInfo;
+        Optional<UserInfo> optionalUserInfo = Optional.empty();
         try {
             userInfo.setId(resultSet.getLong(ColumnName.USER_ID));
             userInfo.setLogin(resultSet.getString(ColumnName.USER_LOGIN));

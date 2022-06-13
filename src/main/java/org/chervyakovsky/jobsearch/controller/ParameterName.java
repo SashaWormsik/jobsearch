@@ -2,6 +2,8 @@ package org.chervyakovsky.jobsearch.controller;
 
 public final class ParameterName {
     public static final String COMMAND = "command";
+    public static final String PAGE = "page";
+    public static final String PAGE_COUNT = "page_count";
 
     public static final String CREDENTIAL_PASSWORD = "credential_password";
     public static final String CREDENTIAL_CONFIRM_PASSWORD = "credential_confirm_password";
@@ -9,6 +11,7 @@ public final class ParameterName {
     public static final String CREDENTIAL_CREATE_DATA = "credential_create_data";
     public static final String CREDENTIAL_USER_ID = "credential_user_id";
 
+    public static final String USER_ID = "user_id";
     public static final String USER_LOGIN = "user_login";
     public static final String USER_EMAIL = "user_email";
     public static final String USER_ROLE = "user_role";
@@ -21,6 +24,25 @@ public final class ParameterName {
     public static final String USER_PROFESSION = "user_profession";
     public static final String USER_DESCRIPTION = "user_description";
     public static final String USER_TOKEN = "user_token";
+
+    public static final String LOCATION_ID = "location_id";
+    public static final String LOCATION_COUNTRY = "location_country";
+    public static final String LOCATION_CITY = "location_city";
+
+    public static final String VACANCY_ID = "vacancy_id";
+    public static final String VACANCY_CREATE_DATE = "vacancy_create_date";
+    public static final String VACANCY_JOB_TITLE = "vacancy_job_title";
+    public static final String VACANCY_COMPANY_ID = "vacancy_company_id";
+    public static final String VACANCY_LOCATION_ID = "vacancy_location_id";
+    public static final String VACANCY_SALARY = "vacancy_salary";
+    public static final String VACANCY_CURRENCY = "vacancy_currency";
+    public static final String VACANCY_WORK_EXPERIENCE = "vacancy_work_experience";
+    public static final String VACANCY_RESPONSIBILITIES = "vacancy_responsibilities";
+    public static final String VACANCY_REQUIREMENTS = "vacancy_requirements";
+    public static final String VACANCY_WORKING_CONDITIONS = "vacancy_working_conditions";
+    public static final String VACANCY_STATUS = "vacancy_working_status";
+
+
 
     private ParameterName(){
 

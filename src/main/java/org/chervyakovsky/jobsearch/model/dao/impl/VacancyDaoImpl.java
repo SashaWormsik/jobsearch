@@ -1,0 +1,214 @@
+package org.chervyakovsky.jobsearch.model.dao.impl;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.chervyakovsky.jobsearch.exception.DaoException;
+import org.chervyakovsky.jobsearch.model.dao.VacancyDao;
+import org.chervyakovsky.jobsearch.model.entity.Location;
+import org.chervyakovsky.jobsearch.model.entity.UserInfo;
+import org.chervyakovsky.jobsearch.model.entity.Vacancy;
+import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.impl.LocationMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.impl.VacancyMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
+
+import java.sql.Date;
+import java.sql.*;
+import java.util.*;
+
+public class VacancyDaoImpl implements VacancyDao {
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    private static final String FOR_LIKE_ALL = "%%";
+    private static final String FOR_LIKE_ANY = "%";
+
+    private static final String SELECT_VACANCY_BY_ID =
+            "SELECT * FROM vacancy WHERE v_vacancy_id = ?";
+    private static final String INSERT_NEW_VACANCY =
+            "INSERT INTO vacancy (v_create_date, v_job_title, v_company_id, v_location_id, v_salary, v_currency, " +
+                    "v_work_experience, v_responsibilities, v_requirement, v_working_conditions, v_vacancy_status) " +
+                    "VALUES (?, ?, ?, ?, ?, ?::work_experience_enum, ?, ?, ?, ?, ?)";
+    private static final String INSERT_NEW_LOCATION_FOR_NEW_OR_UPDATE_VACANCY =
+            "INSERT INTO location (l_country, l_city) " +
+                    "VALUES (?, ?)";
+    private static final String UPDATE_VACANCY_BY_ID =
+            "UPDATE vacancy " +
+                    "SET v_create_date = ?, v_job_title = ?, v_company_id = ?, v_location_id = ?, v_salary = ?, v_currency = ?, " +
+                    "v_work_experience = ?::work_experience_enum, v_responsibilities = ?, v_requirement = ?, " +
+                    "v_working_conditions = ?, v_vacancy_status = ? " +
+                    "WHERE v_vacancy_id = ?";
+    private static final String SELECT_ALL_VACANCY =
+            "";
+    private static final String SELECT_VACANCY_BY_CRITERIA =
+            "SELECT *, count(*) OVER() AS total_count " +
+                    "FROM vacancy " +
+                    "JOIN user_info ON v_company_id = u_user_info_id " +
+                    "JOIN location ON v_location_id = l_location_id " +
+                    "WHERE l_country ILIKE ? AND " +
+                    "l_city ILIKE ? AND " +
+                    "v_job_title ILIKE ? AND " +
+                    "v_work_experience ILIKE ? AND " +
+                    "v_vacancy_status = true " +
+                    "ORDER BY v_create_date " +
+                    "LIMIT 10 OFFSET ?;";
+
+    private static VacancyDaoImpl instance;
+
+    private VacancyDaoImpl() {
+    }
+
+    public static VacancyDaoImpl getInstance() {
+        if (instance == null) {
+            instance = new VacancyDaoImpl();
+        }
+        return instance;
+    }
+
+    @Override
+    public Optional<Vacancy> findById(long id) throws DaoException {
+        return Optional.empty();
+    }
+
+
+    @Override
+    public boolean delete(Vacancy vacancy) {
+        return false;
+    }
+
+    @Override
+    public List<Vacancy> findAll() {
+        return null;
+    }
+
+    @Override
+    public boolean update(Vacancy vacancy) throws DaoException {
+        return runUpdateOrInsertQueryForVacancy(vacancy, UPDATE_VACANCY_BY_ID);
+    }
+
+    @Override
+    public boolean updateVacancyWithCreateNewLocation(Vacancy vacancy, Location location) throws DaoException {
+        return runUpdateOrInsertQueryForVacancyWithLocation(vacancy, location, UPDATE_VACANCY_BY_ID);
+    }
+
+    @Override
+    public boolean insert(Vacancy vacancy) throws DaoException {
+        return runUpdateOrInsertQueryForVacancy(vacancy, INSERT_NEW_VACANCY);
+    }
+
+    @Override
+    public boolean insertWithNewLocation(Vacancy vacancy, Location location) throws DaoException {
+        return runUpdateOrInsertQueryForVacancyWithLocation(vacancy, location, INSERT_NEW_VACANCY);
+    }
+
+    @Override
+    public HashMap<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, int offset, Integer pageCount) throws DaoException {
+        HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
+        MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
+        MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
+        MapperFromDbToEntity<UserInfo> userMapper = new UserInfoMapperFromDbToEntity();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_VACANCY_BY_CRITERIA)) {
+            String country = location.getCountry() == null ? FOR_LIKE_ALL : location.getCountry();
+            String city = location.getCity() == null ? FOR_LIKE_ALL : location.getCity();
+            String profession = vacancy.getJobTitle() == null ? FOR_LIKE_ALL : FOR_LIKE_ANY + vacancy.getJobTitle() + FOR_LIKE_ANY;
+            String workExperienceStatus = vacancy.getWorkExperienceStatus() == null ? FOR_LIKE_ALL : vacancy.getWorkExperienceStatus().name();
+            statement.setString(1, country);
+            statement.setString(2, city);
+            statement.setString(3, profession);
+            statement.setString(4, workExperienceStatus);
+            statement.setInt(5, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                resultSet.getFetchSize();
+                pageCount = Integer.parseInt(resultSet.getString(ColumnName.COUNT_ROWS));
+                Vacancy vacancyFromDb = vacancyMapper.map(resultSet).get();
+                Location locationFromDb = locationMapper.map(resultSet).get();
+                UserInfo userFromDb = userMapper.map(resultSet).get();
+                Map.Entry<Location, UserInfo> tempEntry = new AbstractMap.SimpleEntry<>(locationFromDb, userFromDb);
+                result.put(vacancyFromDb, tempEntry);
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO
+            throw new DaoException(exception); // TODO
+        }
+        return result;
+    }
+
+    private int insertVacancyStatement(Vacancy vacancy, PreparedStatement statement) throws SQLException {
+        statement.setDate(1, new Date(vacancy.getCreateDate().getTime()));
+        statement.setString(2, vacancy.getJobTitle());
+        statement.setLong(3, vacancy.getCompanyId());
+        statement.setLong(4, vacancy.getLocationId());
+        statement.setBigDecimal(5, vacancy.getSalary());
+        statement.setString(6, vacancy.getCurrency());
+        statement.setObject(7, vacancy.getWorkExperienceStatus(), Types.OTHER);
+        statement.setString(8, vacancy.getResponsibilities());
+        statement.setString(9, vacancy.getRequirement());
+        statement.setString(10, vacancy.getWorkingConditions());
+        statement.setBoolean(11, vacancy.getVacancyStatus());
+        return statement.executeUpdate();
+    }
+
+    private int insertLocationStatement(Location location, PreparedStatement locationStatement) throws SQLException {
+        locationStatement.setString(1, location.getCountry());
+        locationStatement.setString(2, location.getCountry());
+        return locationStatement.executeUpdate();
+    }
+
+    private boolean runUpdateOrInsertQueryForVacancy(Vacancy vacancy, String query) throws DaoException {
+        boolean result = false;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            int row = insertVacancyStatement(vacancy, statement);
+            if (row != 0) {
+                result = true;
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO Add comment
+            throw new DaoException(exception);  // TODO Add comment
+        }
+        return result;
+    }
+
+    private boolean runUpdateOrInsertQueryForVacancyWithLocation(Vacancy vacancy, Location location, String query) throws DaoException {
+        boolean result = false;
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement vacancyStatement = connection.prepareStatement(query);
+             PreparedStatement locationStatement = connection.prepareStatement(INSERT_NEW_LOCATION_FOR_NEW_OR_UPDATE_VACANCY, Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
+            int rowLocation = insertLocationStatement(location, locationStatement);
+            ResultSet resultSet = locationStatement.getGeneratedKeys();
+            resultSet.next();
+            long locationId = resultSet.getLong(1);
+            vacancy.setLocationId(locationId);
+            int rowVacancy = insertVacancyStatement(vacancy, vacancyStatement);
+            if (rowVacancy != 0 && rowLocation != 0) {
+                connection.commit();
+                result = true;
+            } else {
+                connection.rollback();
+            }
+        } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                LOGGER.log(Level.ERROR, sqlException); // TODO
+                throw new DaoException(sqlException);  // TODO
+            }
+            LOGGER.log(Level.ERROR, exception); // TODO
+            throw new DaoException(exception);  // TODO
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+                connection.close();
+            } catch (SQLException exception) {
+                LOGGER.log(Level.ERROR, exception); // TODO
+                throw new DaoException(exception);  // TODO
+            }
+        }
+        return result;
+    }
+}

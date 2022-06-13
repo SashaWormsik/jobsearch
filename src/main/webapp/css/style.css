@@ -20,9 +20,10 @@ img {
 }
 
 html, body {
+    min-width:600px;
     height: 100%;
     line-height: 1;
-    background-color: aliceblue;
+    background-color: rgba(187, 226, 184, 0.81);
 }
 
 .wrapper {
@@ -32,18 +33,17 @@ html, body {
 }
 
 .header {
-    padding: 0px;
     margin-bottom: 20px;
 
 }
 
 .main {
     flex: 1 1 auto;
-    padding: 20px;
+    padding: 16px;
 
 }
 
 .footer {
     margin-top: 20px;
-    background-color: #77608d;
+    background-color: #4CAF50;
 }

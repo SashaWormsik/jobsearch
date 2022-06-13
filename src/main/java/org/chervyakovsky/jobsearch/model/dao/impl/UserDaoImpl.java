@@ -7,7 +7,7 @@ import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.UserDao;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
@@ -18,6 +18,7 @@ import java.util.Optional;
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private static final String SELECT_USER_BY_ID = "SELECT * FROM user_info WHERE u_user_info_id = ?";
     private static final String SELECT_USER_BY_LOGIN = "SELECT * FROM user_info WHERE u_login = ?";
     private static final String SELECT_USER_BY_TOKEN = "SELECT * FROM user_info WHERE u_user_token = ?";
     private static final String SELECT_EXISTS_LOGIN_EMAIL = "SELECT EXISTS (SELECT u_login FROM user_info WHERE u_login = ? OR u_email = ?)";
@@ -55,6 +56,11 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<UserInfo> findUserByLogin(String login) throws DaoException {
         return getUserInfo(login, SELECT_USER_BY_LOGIN);
+    }
+
+    @Override
+    public Optional<UserInfo> findById(long id) throws DaoException {
+        return getUserInfo(String.valueOf(id), SELECT_USER_BY_ID);
     }
 
     @Override
@@ -176,11 +182,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<UserInfo> findById(long id) {
-        return Optional.empty();
-    }
-
-    @Override
     public boolean insert(UserInfo userInfo) throws DaoException {
         return false;
     }
@@ -203,7 +204,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, columnName);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                CustomMapperFromDbToEntity<UserInfo> mapper = new UserInfoMapperFromDbToEntity();
+                MapperFromDbToEntity<UserInfo> mapper = new UserInfoMapperFromDbToEntity();
                 optionalUserInfo = mapper.map(resultSet);
             }
         } catch (SQLException | DaoException exception) {

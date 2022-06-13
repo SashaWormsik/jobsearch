@@ -1,7 +1,6 @@
 package org.chervyakovsky.jobsearch.controller.command.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.controller.PagePath;
@@ -15,10 +14,13 @@ public class LogoutCommand implements Command {
 
     @Override
     public Router execute(RequestContent requestContent) {
-        requestContent.getSession().invalidate(); // FIXME
-        requestContent.getSessionAttribute().clear();
-        requestContent.getRequestParameters().clear();
-        requestContent.getRequestAttribute().clear();
+        HttpSession session = requestContent.getSession();
+        if (session != null) {
+            session.invalidate();
+            requestContent.getSessionAttribute().clear();
+            requestContent.getRequestParameters().clear();
+            requestContent.getRequestAttribute().clear();
+        }
         return new Router(PagePath.LOGIN_PAGE, Router.Type.REDIRECT);
     }
 }

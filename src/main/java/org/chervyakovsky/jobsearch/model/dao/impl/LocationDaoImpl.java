@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.LocationDao;
 import org.chervyakovsky.jobsearch.model.entity.Location;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.LocationMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
@@ -21,7 +21,7 @@ public class LocationDaoImpl implements LocationDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final String SELECT_LOCATION_BY_ID = "SELECT l_location_id, l_country, l_city FROM location WHERE l_location_id = ?";
-
+    private static final String SELECT_ID_LOCATION = "SELECT l_location_id FROM location WHERE l_country = ? AND l_city = ?";
     private static LocationDaoImpl instance;
 
     private LocationDaoImpl() {
@@ -35,6 +35,24 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
+    public Optional<Long> locationIsPresent(Location location) throws DaoException {
+        Optional<Long> optionalLong = Optional.empty();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ID_LOCATION)) {
+            statement.setString(1, location.getCountry());
+            statement.setString(2, location.getCity());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                optionalLong = Optional.of(resultSet.getLong(1));
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception); // TODO Add comment
+            throw new DaoException(exception);  // TODO Add comment
+        }
+        return optionalLong;
+    }
+
+    @Override
     public Optional<Location> findById(long id) throws DaoException {
         Optional<Location> optionalLocation = Optional.empty();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -42,7 +60,7 @@ public class LocationDaoImpl implements LocationDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                CustomMapperFromDbToEntity<Location> mapper = new LocationMapperFromDbToEntity();
+                MapperFromDbToEntity<Location> mapper = new LocationMapperFromDbToEntity();
                 optionalLocation = mapper.map(resultSet);
             }
         } catch (SQLException | DaoException exception) {

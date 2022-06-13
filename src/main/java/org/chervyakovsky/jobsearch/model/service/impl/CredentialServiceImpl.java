@@ -8,11 +8,9 @@ import org.chervyakovsky.jobsearch.exception.ServiceException;
 import org.chervyakovsky.jobsearch.model.dao.CredentialDao;
 import org.chervyakovsky.jobsearch.model.dao.impl.CredentialDaoImpl;
 import org.chervyakovsky.jobsearch.model.entity.Credential;
-import org.chervyakovsky.jobsearch.model.entity.UserInfo;
-import org.chervyakovsky.jobsearch.model.mapper.CustomMapperFromRequestToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapperFromRequestToEntity;
-import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.service.CredentialService;
 import org.chervyakovsky.jobsearch.util.PasswordEncryptor;
 import org.chervyakovsky.jobsearch.validator.UserInfoValidator;
@@ -38,7 +36,7 @@ public class CredentialServiceImpl implements CredentialService {
         boolean result = false;
         UserInfoValidator validator = UserInfoValidator.getInstance();
         if (validator.isValidatePasswordAndConfirmPassword(requestContent)) {
-            CustomMapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
+            MapperFromRequestToEntity<Credential> credentialMapper = new CredentialMapperFromRequestToEntity();
             Credential credential = credentialMapper.map(requestContent);
             credential.setPassword(PasswordEncryptor.encrypt(credential.getPassword()));
             credential.setUserInfoId(userId);

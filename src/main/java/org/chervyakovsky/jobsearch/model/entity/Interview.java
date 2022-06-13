@@ -8,8 +8,8 @@ public class Interview extends AbstractEntity {
 
     private Date appointedDateTime;
     private InterviewStatus interviewStatus;
-    private long vacancyId;
-    private long userInfoId;
+    private Long vacancyId;
+    private Long userInfoId;
 
     public Interview() {
     }
@@ -30,19 +30,19 @@ public class Interview extends AbstractEntity {
         this.interviewStatus = interviewStatus;
     }
 
-    public long getVacancyId() {
+    public Long getVacancyId() {
         return vacancyId;
     }
 
-    public void setVacancyId(long vacancyId) {
+    public void setVacancyId(Long vacancyId) {
         this.vacancyId = vacancyId;
     }
 
-    public long getUserInfoId() {
+    public Long getUserInfoId() {
         return userInfoId;
     }
 
-    public void setUserInfoId(long userInfoId) {
+    public void setUserInfoId(Long userInfoId) {
         this.userInfoId = userInfoId;
     }
 
@@ -52,8 +52,8 @@ public class Interview extends AbstractEntity {
         int result = super.hashCode();
         result = prime * result + (this.appointedDateTime != null ? this.appointedDateTime.hashCode() : 0);
         result = prime * result + (this.interviewStatus != null ? this.interviewStatus.hashCode() : 0);
-        result = prime * result + (Long.hashCode(this.vacancyId));
-        result = prime * result + (Long.hashCode(this.userInfoId));
+        result = prime * result + (this.vacancyId != null ? this.vacancyId.hashCode() : 0);
+        result = prime * result + (this.userInfoId != null ? this.userInfoId.hashCode() : 0);
         return result;
     }
 
@@ -75,9 +75,13 @@ public class Interview extends AbstractEntity {
         if (this.interviewStatus != null ? !this.interviewStatus.equals(interview.interviewStatus) : interview.interviewStatus != null) {
             return false;
         }
-        if (this.userInfoId != interview.userInfoId || this.vacancyId != interview.vacancyId) {
+        if (this.vacancyId != null ? !this.vacancyId.equals(interview.vacancyId) : interview.vacancyId != null) {
             return false;
         }
+        if (this.userInfoId != null ? !this.userInfoId.equals(interview.userInfoId) : interview.userInfoId != null) {
+            return false;
+        }
+
         return true;
     }
 

@@ -41,7 +41,7 @@ public class RequestContent {
         extractRequestParameters(request);
         extractRequestAttribute(request);
         extractSessionAttribute(request);
-        this.session = request.getSession();
+        this.session = request.getSession(false);
     }
 
     public void insertAttribute(HttpServletRequest request) {

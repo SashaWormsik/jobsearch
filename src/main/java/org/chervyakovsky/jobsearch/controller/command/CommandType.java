@@ -13,7 +13,9 @@ public enum CommandType {
     ACTIVATE_USER(new ActivateUserCommand()),
     FORGOT_PASSWORD(new ForgotPasswordCommand()),
     RESET_PASSWORD(new ResetPasswordCommand()),
-    UPDATE_PASSWORD(new UpdatePasswordCommand());
+    UPDATE_PASSWORD(new UpdatePasswordCommand()),
+    SEARCH_VACANCY(new SearchVacancyCommand()),
+    CREATE_VACANCY(new CreateNewVacancy());
 
     private final Command command;
 

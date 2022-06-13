@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<div class="w3-container w3-bar w3-black">
+<div class="w3-container w3-bar w3-black"
+     style="padding-left: 32px; padding-right: 32px;">
     <!-- GO to main page-->
     <a href="#" class="w3-bar-item w3-button w3-mobile w3-green">
         <fmt:message key="menu.button.main"/>

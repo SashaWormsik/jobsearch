@@ -128,7 +128,7 @@ public class UserInfo extends AbstractEntity {
         }
         UserInfo userInfo = (UserInfo) o;
 
-        if(locationId != userInfo.locationId){
+        if (this.locationId != null ? !this.locationId.equals(userInfo.locationId) : userInfo.locationId != null) {
             return false;
         }
         if (this.login != null ? !this.login.equals(userInfo.login) : userInfo.login != null) {
@@ -159,6 +159,9 @@ public class UserInfo extends AbstractEntity {
             return false;
         }
         if (this.userToken != null ? !this.userToken.equals(userInfo.userToken) : userInfo.userToken != null) {
+            return false;
+        }
+        if (this.userStatus != null ? !this.userStatus.equals(userInfo.userStatus) : userInfo.userStatus != null) {
             return false;
         }
         return true;
