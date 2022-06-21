@@ -7,5 +7,7 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import java.util.Optional;
 
 public interface LocationDao extends BaseDao<Location>{
-    Optional<Long> locationIsPresent(Location location) throws DaoException;
+    Optional<Long> save(Location location) throws DaoException;
+
+    Optional<Location> locationIsPresent(Location location) throws DaoException;
 }

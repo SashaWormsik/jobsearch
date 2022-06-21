@@ -24,6 +24,7 @@ public final class ParameterName {
     public static final String USER_PROFESSION = "user_profession";
     public static final String USER_DESCRIPTION = "user_description";
     public static final String USER_TOKEN = "user_token";
+    public static final String USER_SEARCH_QUERY= "user_search_query";
 
     public static final String LOCATION_ID = "location_id";
     public static final String LOCATION_COUNTRY = "location_country";

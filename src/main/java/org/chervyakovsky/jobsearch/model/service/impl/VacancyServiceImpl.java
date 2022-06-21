@@ -55,15 +55,15 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = mapperVacancy.map(requestContent);
         Location location = mapperLocation.map(requestContent);
         try {
-            Optional<Long> locationId = locationDao.locationIsPresent(location);
-            if (locationId.isPresent()) {
-                vacancy.setLocationId(locationId.get());
+            Optional<Location> optionalLong = locationDao.locationIsPresent(location);
+            if (optionalLong.isPresent()) {
+                vacancy.setLocationId(optionalLong.get().getId());
                 result = vacancyDao.insert(vacancy);
             } else {
-                result = vacancyDao.insertWithNewLocation(vacancy, location);
+                result = vacancyDao.insertWithCreateNewLocation(vacancy, location);
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
+            LOGGER.log(Level.ERROR, exception);
             throw new ServiceException(exception);
         }
         return result;
@@ -72,6 +72,12 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public boolean updateVacancy(RequestContent requestContent) throws ServiceException {
         boolean result = false;
+        // TODO валидация
+        /*
+        сделать валидацию
+        VacancyValidator vacancyValidator = VacancyValidator.getInstance();
+        LocationValidator locationValidator = LocationValidator.getInstance();
+        */
         VacancyDao vacancyDao = VacancyDaoImpl.getInstance();
         LocationDao locationDao = LocationDaoImpl.getInstance();
         MapperFromRequestToEntity<Vacancy> mapperVacancy = new VacancyMapperFromRequestToEntity();
@@ -79,15 +85,15 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = mapperVacancy.map(requestContent);
         Location location = mapperLocation.map(requestContent);
         try {
-            Optional<Long> locationId = locationDao.locationIsPresent(location);
-            if (locationId.isPresent()) {
-                vacancy.setLocationId(locationId.get());
+            Optional<Location> optionalLocation = locationDao.locationIsPresent(location);
+            if (optionalLocation.isPresent()) {
+                vacancy.setLocationId(optionalLocation.get().getId());
                 result = vacancyDao.update(vacancy);
             } else {
                 result = vacancyDao.updateVacancyWithCreateNewLocation(vacancy, location);
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
+            LOGGER.log(Level.ERROR, exception);
             throw new ServiceException(exception);
         }
         return result;

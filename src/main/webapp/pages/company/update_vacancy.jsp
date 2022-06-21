@@ -1,3 +1,4 @@
+<%--@elvariable id="user_location" type="org.chervyakovsky.jobsearch.model.entity.Location"--%>
 <%--@elvariable id="user" type="org.chervyakovsky.jobsearch.model.entity.UserInfo"--%>
 <%--@elvariable id="vacancy_location" type="org.chervyakovsky.jobsearch.model.entity.Location"--%>
 <%--@elvariable id="vacancy" type="org.chervyakovsky.jobsearch.model.entity.Vacancy"--%>
@@ -26,7 +27,7 @@
                         <img src="${pageContext.request.contextPath}/image/img.png" alt="Avatar"
                              class="w3-circle w3-margin-top" style="width:100%"/>
                         <h4><b>${user.userName}</b></h4>
-                        <h4>${location.getCountry()} ${location.getCity()}</h4>
+                        <h4>${user_location.country} ${user_location.city}</h4>
                     </div>
                 </div>
             </div>
@@ -38,8 +39,8 @@
                     </div>
                     <form action="${pageContext.request.contextPath}/controller" method="post" class="w3-container">
                         <input type="hidden" name="${ParameterName.COMMAND}" value="update_vacancy"/>
-                        <input type="hidden" name="${ParameterName.VACANCY_COMPANY_ID}" value="${user.id}"/>
                         <input type="hidden" name="${ParameterName.VACANCY_ID}" value="${vacancy.id}"/>
+                        <input type="hidden" name="${ParameterName.VACANCY_COMPANY_ID}" value="${user.id}"/>
                         <input type="hidden" name="${ParameterName.VACANCY_LOCATION_ID}" value="${vacancy.locationId}"/>
                         <div class="w3-row">
                             <div class="w3-half" style="padding-right: 8px;">

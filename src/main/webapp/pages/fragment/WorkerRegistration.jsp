@@ -112,10 +112,11 @@
             <input class="w3-input w3-border w3-margin-bottom"
                    type="text"
                    name="${ParameterName.USER_NAME}"
-                   placeholder="<fmt:message key="label.user.name"/>" required
+                   placeholder="<fmt:message key="label.user.name"/>"
                    pattern="^[\p{L}][\p{L}`-]?[\p{L}`]{1,20}$"
                    title="<fmt:message key="form.input.title.name.pattern"/>"
-                   value="${user_name}"/>
+                   value="${user_name}"
+                   required/>
 
             <!-- USER SURNAME-->
             <c:if test="${incorrect_user_surname == true}">
@@ -212,8 +213,10 @@
             </div>
 
             <!-- BUTTON -->
-            <button class="w3-button w3-block w3-green w3-section w3-padding" form="form1"
-                    type="submit" formmethod="post" formaction="${pageContext.request.contextPath}/controller">
+            <button class="w3-button w3-block w3-green w3-section w3-padding"
+                    type="submit"
+                    form="form1"
+                    formmethod="post" formaction="${pageContext.request.contextPath}/controller">
                 <fmt:message key="registration.button"/>
             </button>
         </div>

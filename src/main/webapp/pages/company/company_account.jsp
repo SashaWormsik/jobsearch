@@ -1,5 +1,5 @@
 <%--@elvariable id="user" type="org.chervyakovsky.jobsearch.model.entity.UserInfo"--%>
-<%--@elvariable id="location" type="org.chervyakovsky.jobsearch.model.entity.Location"--%>
+<%--@elvariable id="user_location" type="org.chervyakovsky.jobsearch.model.entity.Location"--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.mainpage"/></title>
+    <title><fmt:message key="title.account.page"/></title>
 </head>
 
 <body>
@@ -26,10 +26,11 @@
                         <img src="${pageContext.request.contextPath}/image/img.png" alt="Avatar"
                              class="w3-circle w3-margin-top" style="width:100%"/>
                         <h4><b>${user.userName} ${user.userSurName}</b></h4>
-                        <h4>${location.country} ${location.city}</h4>
-                        <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">
-                            <fmt:message key="user.account.edit.information.button"/>
-                        </button>
+                        <h4>${user_location.country} ${user_location.city}</h4>
+                        <a href="${pageContext.request.contextPath}/pages/company/company_update_info.jsp"
+                           class="w3-button w3-block w3-green w3-section w3-padding">
+                            <fmt:message key="button.edit.information"/>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -30,11 +30,11 @@ public class ResetPasswordCommand implements Command {
                 String token = optionalUserInfo.get().getUserToken();
                 requestContent.setNewValueInRequestAttributes(ParameterName.USER_TOKEN ,token);
                 router.setType(Router.Type.FORWARD);
-                router.setPage(PagePath.RESET_PASSWORD);
+                router.setPage(PagePath.RESET_PASSWORD_PAGE);
             } else {
                 requestContent.setNewValueInRequestAttributes("" , true); // TODO сообщение о том что юзер с токеном не найден
                 router.setType(Router.Type.FORWARD);
-                router.setPage(PagePath.FORGOT_PASSWORD);
+                router.setPage(PagePath.FORGOT_PASSWORD_PAGE);
             }
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception); // TODO

@@ -12,9 +12,9 @@ public interface BaseDao<T extends AbstractEntity> {
 
     boolean insert(T t) throws DaoException;
 
-    boolean delete(T t);
+    boolean delete(T t) throws DaoException;
 
-    List<T> findAll();
+    List<T> findAll() throws DaoException;
 
     boolean update(T t) throws DaoException;
 

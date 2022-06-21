@@ -5,17 +5,25 @@ import org.chervyakovsky.jobsearch.controller.command.impl.*;
 import java.util.Arrays;
 
 public enum CommandType {
+    ACTIVATE_USER(new ActivateUserCommand()),
+    ADD_NEW_ADMIN(new AddNewAdminCommand()),
+    CREATE_VACANCY(new CreateNewVacancyCommand()),
+    CHANGE_USER_STATUS(new ChangeUserStatusCommand()),
+    FORGOT_PASSWORD(new ForgotPasswordCommand()),
+    GET_ALL_USERS(new GetAllUsersCommand()),
+    GET_USER_INFO(new GetUserInfoCommand()),
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
-    REGISTRATION(new RegistrationCommand()),
-    DEFAULT(new DefaultCommand()), // TODO
-    INITIAL(new InitialCommand()), // TODO
-    ACTIVATE_USER(new ActivateUserCommand()),
-    FORGOT_PASSWORD(new ForgotPasswordCommand()),
-    RESET_PASSWORD(new ResetPasswordCommand()),
     UPDATE_PASSWORD(new UpdatePasswordCommand()),
+    UPDATE_USER_INFO(new UpdateUserInfoCommand()),
+    UPDATE_USER_LOCATION(new UpdateUserLocationCommand()),
     SEARCH_VACANCY(new SearchVacancyCommand()),
-    CREATE_VACANCY(new CreateNewVacancy());
+    SEARCH_USER(new SearchUserCommand()),
+    RESET_PASSWORD(new ResetPasswordCommand()),
+    REGISTRATION(new RegistrationCommand()),
+
+    DEFAULT(new DefaultCommand()), // TODO
+    INITIAL(new InitialCommand()); // TODO
 
     private final Command command;
 

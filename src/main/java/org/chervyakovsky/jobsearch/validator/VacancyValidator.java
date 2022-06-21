@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 public class VacancyValidator {
 
+
+    // ^([a-zA-Z]{1})([\ha-z]+)([a-z]{1})$
     private static final String JOB_TITLE_REGEX = "";
     private static final String SALARY_REGEX = "";
     private static final String CURRENCY_REGEX = "";

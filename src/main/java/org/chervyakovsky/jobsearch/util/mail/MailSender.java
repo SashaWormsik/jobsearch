@@ -3,6 +3,7 @@ package org.chervyakovsky.jobsearch.util.mail;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.chervyakovsky.jobsearch.exception.ServiceException;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -32,14 +33,13 @@ public class MailSender {
         this.properties = properties;
     }
 
-    public void send() {
+    public void send(){
         try {
             initMessage();
             Transport.send(massage);
-        } catch (MessagingException e) {
-            LOGGER.log(Level.ERROR, e);
+        } catch (MessagingException exception) {
+            LOGGER.log(Level.ERROR, exception);
         }
-
     }
 
     private void initMessage() throws MessagingException {

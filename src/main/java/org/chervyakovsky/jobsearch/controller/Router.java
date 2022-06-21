@@ -2,7 +2,7 @@ package org.chervyakovsky.jobsearch.controller;
 
 public class Router {
 
-    private String page;
+    private String page = PagePath.MAIN_PAGE;
     private Type type = Type.FORWARD;
 
     public enum Type {

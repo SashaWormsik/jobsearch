@@ -10,8 +10,17 @@ public class Interview extends AbstractEntity {
     private InterviewStatus interviewStatus;
     private Long vacancyId;
     private Long userInfoId;
+    private String communicationMethod;
 
     public Interview() {
+    }
+
+    public String getCommunicationMethod() {
+        return communicationMethod;
+    }
+
+    public void setCommunicationMethod(String communicationMethod) {
+        this.communicationMethod = communicationMethod;
     }
 
     public Date getAppointedDateTime() {
@@ -51,6 +60,7 @@ public class Interview extends AbstractEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + (this.appointedDateTime != null ? this.appointedDateTime.hashCode() : 0);
+        result = prime * result + (this.communicationMethod != null ? this.communicationMethod.hashCode() : 0);
         result = prime * result + (this.interviewStatus != null ? this.interviewStatus.hashCode() : 0);
         result = prime * result + (this.vacancyId != null ? this.vacancyId.hashCode() : 0);
         result = prime * result + (this.userInfoId != null ? this.userInfoId.hashCode() : 0);
@@ -72,6 +82,9 @@ public class Interview extends AbstractEntity {
         if (this.appointedDateTime != null ? !this.appointedDateTime.equals(interview.appointedDateTime) : interview.appointedDateTime != null) {
             return false;
         }
+        if (this.communicationMethod != null ? !this.communicationMethod.equals(interview.communicationMethod) : interview.communicationMethod != null) {
+            return false;
+        }
         if (this.interviewStatus != null ? !this.interviewStatus.equals(interview.interviewStatus) : interview.interviewStatus != null) {
             return false;
         }
@@ -81,7 +94,6 @@ public class Interview extends AbstractEntity {
         if (this.userInfoId != null ? !this.userInfoId.equals(interview.userInfoId) : interview.userInfoId != null) {
             return false;
         }
-
         return true;
     }
 

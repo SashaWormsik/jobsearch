@@ -18,7 +18,6 @@ public class InitialCommand implements Command {
         Router router = new Router();
         router.setType(Router.Type.FORWARD);
         router.setPage(PagePath.MAIN_PAGE);
-        // TODO find all vacancy
         return router;
     }
 }

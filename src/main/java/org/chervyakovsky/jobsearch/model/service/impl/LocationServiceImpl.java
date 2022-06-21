@@ -10,7 +10,9 @@ import org.chervyakovsky.jobsearch.model.dao.impl.LocationDaoImpl;
 import org.chervyakovsky.jobsearch.model.entity.Location;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
+import org.chervyakovsky.jobsearch.model.mapper.impl.LocationMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.service.LocationService;
+import org.chervyakovsky.jobsearch.validator.LocationValidator;
 
 import java.util.Optional;
 
@@ -29,6 +31,27 @@ public class LocationServiceImpl implements LocationService {
         return instance;
     }
 
+
+    @Override
+    public Optional<Location> save(RequestContent requestContent) throws ServiceException {
+        LocationValidator validator = LocationValidator.getInstance();
+        if (!validator.isValidLocationData(requestContent)) {
+            return Optional.empty();
+        }
+        Optional<Location> optionalLocation = Optional.empty();
+        LocationMapperFromRequestToEntity mapper = new LocationMapperFromRequestToEntity();
+        Location location = mapper.map(requestContent);
+        LocationDao locationDao = LocationDaoImpl.getInstance();
+        try {
+           long id = locationDao.save(location).orElse(Long.MIN_VALUE);
+           optionalLocation = locationDao.findById(id);
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
+        }
+        return optionalLocation;
+    }
+
     @Override
     public Optional<Location> findUserLocation(UserInfo userInfo) throws ServiceException {
         Long locationUserId = userInfo.getLocationId();
@@ -39,8 +62,8 @@ public class LocationServiceImpl implements LocationService {
                 optionalLocation = locationDao.findById(locationUserId);
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return optionalLocation;
     }
@@ -54,18 +77,29 @@ public class LocationServiceImpl implements LocationService {
                 optionalLocation = locationDao.findById(id);
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return optionalLocation;
     }
 
     @Override
-    public Optional<Long> locationIsPresent(RequestContent requestContent) throws ServiceException {
+    public Optional<Location> locationIsPresent(RequestContent requestContent) throws ServiceException {
+        LocationValidator validator = LocationValidator.getInstance();
+        if (!validator.isValidLocationData(requestContent)) {
+            return Optional.empty();
+        }
+        Optional<Location> optionalLocation = Optional.empty();
+        LocationMapperFromRequestToEntity mapper = new LocationMapperFromRequestToEntity();
+        Location location = mapper.map(requestContent);
         LocationDao locationDao = LocationDaoImpl.getInstance();
-        Optional<Long> longOptional = Optional.empty();
-
-        return longOptional;
+        try {
+            optionalLocation = locationDao.locationIsPresent(location);
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
+        }
+        return optionalLocation;
     }
 }
 

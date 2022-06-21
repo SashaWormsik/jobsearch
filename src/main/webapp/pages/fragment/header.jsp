@@ -13,7 +13,8 @@
 
     <!-- MENU for company-->
     <c:if test="${user.role == UserRoleStatus.COMPANY}">
-        <a href="#" class="w3-bar-item w3-button w3-mobile">
+        <a href="${pageContext.request.contextPath}/pages/common/account.jsp"
+           class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
         <a href="#" class="w3-bar-item w3-button w3-mobile">
@@ -26,7 +27,8 @@
 
     <!-- MENU for worker-->
     <c:if test="${user.role == UserRoleStatus.WORKER}">
-        <a href="#" class="w3-bar-item w3-button w3-mobile">
+        <a href="${pageContext.request.contextPath}/pages/common/account.jsp"
+           class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
         <a href="#" class="w3-bar-item w3-button w3-mobile">
@@ -39,31 +41,36 @@
 
     <!-- MENU for admin-->
     <c:if test="${user.role == UserRoleStatus.ADMIN}">
+        <a href="${pageContext.request.contextPath}/pages/admin/admin_account.jsp"
+           class="w3-bar-item w3-button w3-mobile">
+            <fmt:message key="menu.button.profile"/>
+        </a>
         <div class="w3-dropdown-hover w3-mobile">
             <button class="w3-button"><fmt:message key="menu.button.dropdown"/>
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="w3-dropdown-content w3-bar-block w3-dark-grey">
-                <a href="#" class="w3-bar-item w3-button w3-mobile">
+                <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=WORKER&page=1"
+                   class="w3-bar-item w3-button w3-mobile">
                     <fmt:message key="menu.button.dropdown.users"/>
                 </a>
-                <a href="#" class="w3-bar-item w3-button w3-mobile">
+                <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=COMPANY&page=1"
+                   class="w3-bar-item w3-button w3-mobile">
                     <fmt:message key="menu.button.dropdown.companies"/>
                 </a>
-                <a href="#" class="w3-bar-item w3-button w3-mobile">
-                    <fmt:message key="menu.button.dropdown.vacancies"/>
+                <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=ADMIN&page=1"
+                   class="w3-bar-item w3-button w3-mobile">
+                    <fmt:message key="menu.button.dropdown.admins"/>
                 </a>
-                <a href="#" class="w3-bar-item w3-button w3-mobile">
+                <a href="${pageContext.request.contextPath}/pages/admin/add_new_admin.jsp"
+                   class="w3-bar-item w3-button w3-mobile">
                     <fmt:message key="menu.button.dropdown.addadmin"/>
                 </a>
             </div>
         </div>
     </c:if>
 
-
     <!-- LOGIN and LOGOUT BUTTON-->
-
-    <!-- СДЕЛАТЬ НАПРАВЛЕНИЕ НА КОНТРОЛЛЕР С КОМАНДОЙ logout -->
     <!-- LOGOUT BUTTON-->
     <c:if test="${user != null}">
         <div class="w3-right w3-mobile">

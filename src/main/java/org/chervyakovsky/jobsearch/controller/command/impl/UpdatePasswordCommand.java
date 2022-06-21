@@ -31,20 +31,19 @@ public class UpdatePasswordCommand implements Command {
             if (optionalUserInfo.isPresent()) {
                 UserInfo userInfo = optionalUserInfo.get();
                 userInfo.setUserToken(null);
-                if (userService.updateUser(userInfo) &&
-                        credentialService.updatePasswordByUserId(requestContent, userInfo.getId())) {
+                if (credentialService.updatePasswordByUserId(requestContent, userInfo.getId()) && userService.updateUser(userInfo)) {
                     // TODO добавить сообщение об успешной смене пароля
-                    router.setPage(PagePath.LOGIN_PAGE);
                     router.setType(Router.Type.REDIRECT);
+                    router.setPage(PagePath.LOGIN_PAGE);
                 } else {
                     // TODO что-то пошло не так при смене пароля
-                    router.setPage(PagePath.RESET_PASSWORD);
                     router.setType(Router.Type.FORWARD);
+                    router.setPage(PagePath.RESET_PASSWORD_PAGE);
                 }
             } else {
                 // TODO сообщение что юзер не найден по токену
-                router.setPage(PagePath.RESET_PASSWORD);
                 router.setType(Router.Type.FORWARD);
+                router.setPage(PagePath.RESET_PASSWORD_PAGE);
             }
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception); // TODO

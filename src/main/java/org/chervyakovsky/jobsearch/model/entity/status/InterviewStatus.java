@@ -3,10 +3,10 @@ package org.chervyakovsky.jobsearch.model.entity.status;
 import java.util.Arrays;
 
 public enum InterviewStatus {
-    PENDING, ASSIGNED, SUCCESSFUL, DENIED;
+    IN_WAITING, IS_SCHEDULED, IS_REJECTED, IS_COMPLETED;
 
 
-    public static InterviewStatus getStatus(String interviewStatus){ // fixme
+    public static InterviewStatus getStatus(String interviewStatus){
         if(interviewStatus != null){
             return Arrays.stream(InterviewStatus.values()).
                     filter(interview -> interview.name().equals(interviewStatus.toUpperCase())).

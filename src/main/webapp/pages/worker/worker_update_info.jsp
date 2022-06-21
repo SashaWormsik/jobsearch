@@ -31,6 +31,7 @@
                 <div class="w3-card-4 w3-white w3-margin-top">
                     <form action="${pageContext.request.contextPath}/controller" method="post"
                           class="w3-container" id="location_user">
+                        <input type="hidden" name="${ParameterName.COMMAND}" value="update_user_info"/>
                         <input type="hidden" name="${ParameterName.USER_ID}" value="${user.id}"/>
                         <label><h4><b><fmt:message key="label.location.country"/>: </b></h4></label>
                         <input class="w3-input w3-border"
@@ -64,7 +65,9 @@
                 <div class="w3-card-4 w3-white">
                     <form action="${pageContext.request.contextPath}/controller" method="post"
                           class="w3-container" id="user_info">
+                        <input type="hidden" name="${ParameterName.COMMAND}" value="update_user_info"/>
                         <input type="hidden" name="${ParameterName.USER_ID}" value="${user.id}"/>
+                        <input type="hidden" name="${ParameterName.USER_ROLE}" value="${user.role}"/>
                         <label><h4><b><fmt:message key="label.user.name"/>: </b></h4></label>
                         <input class="w3-input w3-border"
                                type="text"

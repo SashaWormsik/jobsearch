@@ -22,12 +22,12 @@ public class ForgotPasswordCommand implements Command {
         UserService userService = UserServiceImpl.getInstance();
         try {
             if (userService.sendEmailToRecoverPassword(requestContent)) {
-                requestContent.setNewValueInRequestAttributes(AttributeName.FORGOT_PASSWORD, true); // TODO
+                requestContent.setNewValueInRequestAttributes(AttributeName.FORGOT_PASSWORD, true);
             } else {
-                requestContent.setNewValueInRequestAttributes(AttributeName.FORGOT_PASSWORD, false); // TODO
+                requestContent.setNewValueInRequestAttributes(AttributeName.FORGOT_PASSWORD, false);
             }
             router.setType(Router.Type.FORWARD);
-            router.setPage(PagePath.FORGOT_PASSWORD);
+            router.setPage(PagePath.FORGOT_PASSWORD_PAGE);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

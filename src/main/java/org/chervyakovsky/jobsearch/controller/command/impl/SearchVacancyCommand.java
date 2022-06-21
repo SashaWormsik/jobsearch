@@ -32,7 +32,7 @@ public class SearchVacancyCommand implements Command {
         Integer pageCount = DEFAULT_PAGE_COUNT;
         String stringPage = getParameter(requestContent, ParameterName.PAGE);
         int page = (stringPage == null) ? START_PAGE : Integer.parseInt(stringPage);
-        int offset = (page - START_PAGE)*RECORDS_PAGE;
+        int offset = (page - START_PAGE) * RECORDS_PAGE;
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         try {
             HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = vacancyService.searchVacancyByCriteria(requestContent, offset, pageCount);
@@ -41,12 +41,11 @@ public class SearchVacancyCommand implements Command {
             } else {
                 requestContent.setNewValueInRequestAttributes("result_search_vacancy", result);
                 requestContent.setNewValueInRequestAttributes(ParameterName.PAGE, page);
-                requestContent.setNewValueInRequestAttributes(ParameterName.PAGE_COUNT,"");
+                requestContent.setNewValueInRequestAttributes(ParameterName.PAGE_COUNT, "");
             }
             router.setType(Router.Type.FORWARD);
             router.setPage(PagePath.MAIN_PAGE);
-        } catch (
-                ServiceException exception) {
+        } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception); // TODO
             throw new CommandException(exception); // TODO
         }

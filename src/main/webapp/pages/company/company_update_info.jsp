@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.mainpage"/></title>
+    <title><fmt:message key="title.update_info_page"/></title>
 </head>
 
 <body>
@@ -26,54 +26,75 @@
                         <img src="${pageContext.request.contextPath}/image/img.png" alt="Avatar"
                              class="w3-circle w3-margin-top" style="width:100%"/>
                         <h4><b>${user.userName} ${user.userSurName}</b></h4>
-                        <h4>${location.country} ${location.city}</h4>
+                        <h4>${user_location.country} ${user_location.city}</h4>
                     </div>
                 </div>
+                <!--LOCATION -->
                 <div class="w3-card-4 w3-white w3-margin-top">
                     <form action="${pageContext.request.contextPath}/controller" method="post"
                           class="w3-container" id="location_user">
+                        <input type="hidden" name="${ParameterName.COMMAND}" value="update_user_location"/>
                         <input type="hidden" name="${ParameterName.USER_ID}" value="${user.id}"/>
+                        <!-- COUNTRY -->
+                        <c:if test="${incorrect_location_country == true}">
+                            <div class="w3-left w3-red w3-block">
+                                <fmt:message key="message.incorrect.country.pattern"/>
+                            </div>
+                            <br/>
+                        </c:if>
                         <label><h4><b><fmt:message key="label.location.country"/>: </b></h4></label>
                         <input class="w3-input w3-border"
                                type="text"
                                name="${ParameterName.LOCATION_COUNTRY}"
                                placeholder="<fmt:message key="label.location.country"/>"
-                               pattern="[A-Za-zА-Яа-я]+"
-                               title="<fmt:message key="form.input.title.country.pattern"/>"
+                               pattern="^[A-ZА-Я][а-яa-z]+(\s?'?-?[A-ZА-Я]?[а-яa-z]+)*$"
+                               title="<fmt:message key="message.incorrect.country.pattern"/>"
+                               value="${location_country}"
                                required/>
-
+                        <!-- CITY -->
+                        <c:if test="${incorrect_location_city == true}">
+                            <div class="w3-left w3-red w3-block">
+                                <fmt:message key="message.incorrect.city.pattern"/>
+                            </div>
+                            <br/>
+                        </c:if>
                         <label><h4><b><fmt:message key="label.location.city"/>: </b></h4></label>
                         <input class="w3-input w3-border"
                                type="text"
                                name="${ParameterName.LOCATION_CITY}"
                                placeholder="<fmt:message key="label.location.city"/>"
-                               pattern="[A-Za-zА-Яа-я]+"
-                               title="<fmt:message key="form.input.title.city.pattern"/>"
+                               pattern="^[A-ZА-Я][а-яa-z]+(\s?'?-?[A-ZА-Я]?[а-яa-z]+)*$"
+                               title="<fmt:message key="message.incorrect.city.pattern"/>"
+                               value="${location_city}"
                                required/>
                         <button class="w3-button w3-block w3-green w3-section w3-padding"
                                 type="submit"
-                                form="location_user">
-                            <fmt:message key="update.button"/>
+                                form="location_user"
+                                formmethod="post" formaction="${pageContext.request.contextPath}/controller">
+                            <fmt:message key="button.save"/>
                         </button>
                     </form>
                 </div>
             </div>
-
+            <!-- COMPANY INFO -->
             <div class="w3-threequarter w3-section" style=" word-break: break-all">
                 <div class="w3-card-4 w3-white">
                     <form action="${pageContext.request.contextPath}/controller" method="post"
                           class="w3-container" id="user_info">
+                        <input type="hidden" name="${ParameterName.COMMAND}" value="update_user_info"/>
                         <input type="hidden" name="${ParameterName.USER_ID}" value="${user.id}"/>
-                        <label><h4><b><fmt:message key="label.user.name"/>: </b></h4></label>
+                        <input type="hidden" name="${ParameterName.USER_ROLE}" value="${user.role}"/>
+                        <label><h4><b><fmt:message key="label.user.companyname"/>: </b></h4></label>
+                        <!-- COMPANY NAME -->
                         <input class="w3-input w3-border"
                                type="text"
                                name="${ParameterName.USER_NAME}"
-                               placeholder="<fmt:message key="label.user.name"/>"
+                               placeholder="<fmt:message key="label.user.companyname"/>"
                                pattern="[A-Za-zА-Яа-я]+"
-                               title="<fmt:message key="form.input.title.name.pattern"/>"
+                               title="<fmt:message key="message.incorrect.name.pattern"/>"
                                value="${user.userName}"
                                required/>
-
+                        <!-- COMPANY DESCRIPTION -->
                         <label><h4><b><fmt:message key="label.user.description"/>: </b></h4></label>
                         <textarea class="w3-input w3-border"
                                   style="height:300px;"
@@ -83,8 +104,9 @@
 
                         <button class="w3-button w3-block w3-green w3-section w3-padding"
                                 type="submit"
-                                form="user_info">
-                            <fmt:message key="save.button"/>
+                                form="user_info"
+                                formmethod="post" formaction="${pageContext.request.contextPath}/controller">
+                            <fmt:message key="button.save"/>
                         </button>
                     </form>
                 </div>

@@ -1,11 +1,18 @@
 package org.chervyakovsky.jobsearch.validator;
 
+import org.chervyakovsky.jobsearch.controller.AttributeName;
+import org.chervyakovsky.jobsearch.controller.ParameterName;
+import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
+
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class LocationValidator {
 
-    private static final String COUNTRY_REGEX = "^[p\\{Alpha}А-Яа-я]+[-\\s]?[p\\{Alpha}А-Яа-я]+{1, 20}"; // TODO
-    private static final String CITY_REGEX = "^[p\\{Alpha}А-Яа-я]+[-\\s]?[p\\{Alpha}А-Яа-я]+{1, 20}"; // TODO
+
+    // ^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$
+    private static final String COUNTRY_REGEX = "^[A-ZА-Я][a-zа-я]+(\\h?\\'?\\-?[A-ZА-Я]?[a-zа-я]+)*$";
+    private static final String CITY_REGEX = "^[A-ZА-Я][a-zа-я]+(\\h?\\'?\\-?[A-ZА-Я]?[a-zа-я]+)*$";
 
     private static LocationValidator instance;
 
@@ -27,6 +34,21 @@ public class LocationValidator {
         return validate(city, CITY_REGEX);
     }
 
+    public boolean isValidLocationData(RequestContent requestContent){
+        boolean result = true;
+        HashMap<String, String[]> dataMap = requestContent.getRequestParameters();
+        String city = getParameter(dataMap, ParameterName.LOCATION_CITY);
+        String country = getParameter(dataMap, ParameterName.LOCATION_COUNTRY);
+        if(!validateCty(city)){
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOCATION_CITY, true);
+            result = false;
+        }
+        if(!validateCountry(country)){
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOCATION_COUNTRY, true);
+            result = false;
+        }
+        return result;
+    }
 
     private boolean validate(String validationString, String regex) {
         Pattern pattern = Pattern.compile(regex);
@@ -34,5 +56,13 @@ public class LocationValidator {
             return false;
         }
         return pattern.matcher(validationString).matches();
+    }
+
+    private String getParameter(HashMap<String, String[]> map, String parameterName) {
+        String[] parameterValues = map.get(parameterName);
+        if (parameterValues != null && parameterValues.length > 0 && parameterValues[0] != null) {
+            return parameterValues[0];
+        }
+        return null;
     }
 }

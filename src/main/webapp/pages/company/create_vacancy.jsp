@@ -23,7 +23,7 @@
                         <img src="${pageContext.request.contextPath}/image/img.png" alt="Avatar"
                              class="w3-circle w3-margin-top" style="width:100%"/>
                         <h4><b>${user.getUserName()}</b></h4>
-                        <h4>${location.getCountry()} ${location.getCity()}</h4>
+                        <h4>${user_location.getCountry()} ${user_location.getCity()}</h4>
                     </div>
                 </div>
             </div>
