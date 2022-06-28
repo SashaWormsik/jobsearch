@@ -6,8 +6,8 @@ import java.util.Date;
 
 public class Interview extends AbstractEntity {
 
-    private Date appointedDateTime;
-    private InterviewStatus interviewStatus;
+    private Date appointedDateTime = new Date();
+    private InterviewStatus interviewStatus = InterviewStatus.IN_WAITING;
     private Long vacancyId;
     private Long userInfoId;
     private String communicationMethod;

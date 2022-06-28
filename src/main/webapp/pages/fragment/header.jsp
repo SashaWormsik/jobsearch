@@ -7,7 +7,7 @@
 <div class="w3-container w3-bar w3-black"
      style="padding-left: 32px; padding-right: 32px;">
     <!-- GO to main page-->
-    <a href="#" class="w3-bar-item w3-button w3-mobile w3-green">
+    <a href="${pageContext.request.contextPath}/pages/main.jsp" class="w3-bar-item w3-button w3-mobile w3-green">
         <fmt:message key="menu.button.main"/>
     </a>
 
@@ -17,7 +17,8 @@
            class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
-        <a href="#" class="w3-bar-item w3-button w3-mobile">
+        <a href="${pageContext.request.contextPath}/controller?command=get_all_vacancies_for_company"
+           class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.vacancy"/>
         </a>
         <a href="#" class="w3-bar-item w3-button w3-mobile">
@@ -41,7 +42,7 @@
 
     <!-- MENU for admin-->
     <c:if test="${user.role == UserRoleStatus.ADMIN}">
-        <a href="${pageContext.request.contextPath}/pages/admin/admin_account.jsp"
+        <a href="${pageContext.request.contextPath}/pages/common/account.jsp"
            class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>

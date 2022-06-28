@@ -29,8 +29,8 @@ public class ActivateUserCommand implements Command {
             router.setType(Router.Type.FORWARD);
             router.setPage(PagePath.LOGIN_PAGE);
         } catch (ServiceException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new CommandException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new CommandException(exception);
         }
         return router;
     }

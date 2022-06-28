@@ -23,7 +23,7 @@ public class SearchUserCommand implements Command {
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
-        router.setPage(PagePath.ALL_USERS_PAGE);
+        router.setPage(PagePath.ADMIN_ALL_USERS_PAGE);
         router.setType(Router.Type.FORWARD);
         UserService userService = UserServiceImpl.getInstance();
         try {

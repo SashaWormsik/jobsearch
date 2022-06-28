@@ -34,7 +34,7 @@
                         <h2><fmt:message key="label.vacancy"/></h2>
                     </div>
                     <form action="${pageContext.request.contextPath}/controller" method="post" class="w3-container">
-                        <input type="hidden" name="${ParameterName.COMMAND}" value="create_vacancy"/>
+                        <input type="hidden" name="${ParameterName.COMMAND}" value="CREATE_VACANCY"/>
                         <input type="hidden" name="${ParameterName.VACANCY_COMPANY_ID}" value="${user.id}"/>
                         <div class="w3-row">
                             <div class="w3-half" style="padding-right: 8px;">

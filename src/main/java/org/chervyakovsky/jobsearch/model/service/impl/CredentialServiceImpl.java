@@ -44,8 +44,8 @@ public class CredentialServiceImpl implements CredentialService {
             try {
                 result = credentialDao.update(credential);
             } catch (DaoException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO add comment
-                throw new ServiceException(exception); // TODO add comment
+                LOGGER.log(Level.ERROR, exception);
+                throw new ServiceException(exception);
             }
         }
         return result;

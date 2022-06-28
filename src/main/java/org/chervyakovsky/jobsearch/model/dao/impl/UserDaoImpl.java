@@ -44,8 +44,6 @@ public class UserDaoImpl implements UserDao {
             "SELECT * FROM user_info WHERE u_user_token = ?";
     private static final String SELECT_EXISTS_LOGIN_EMAIL =
             "SELECT EXISTS (SELECT u_login FROM user_info WHERE u_login = ? OR u_email = ?)";
-    private static final String UPDATE_USER_LOCATION_WITH_CREATE_NEW_LOCATION =
-            "";
     private static final String UPDATE_USER_TOKEN_WHERE_EMAIL =
             "UPDATE user_info SET u_user_token = ? WHERE u_email = ?";
     private static final String UPDATE_USER =
@@ -91,8 +89,8 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return userInfoList;
     }
@@ -158,8 +156,8 @@ public class UserDaoImpl implements UserDao {
                 result = true;
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return result;
     }
@@ -204,18 +202,18 @@ public class UserDaoImpl implements UserDao {
             try {
                 connection.rollback();
             } catch (SQLException sqlException) {
-                LOGGER.log(Level.ERROR, sqlException); // TODO
-                throw new DaoException(sqlException);  // TODO
+                LOGGER.log(Level.ERROR, sqlException);
+                throw new DaoException(sqlException);
             }
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception);  // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         } finally {
             try {
                 connection.setAutoCommit(true);
                 connection.close();
             } catch (SQLException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO
-                throw new DaoException(exception);  // TODO
+                LOGGER.log(Level.ERROR, exception);
+                throw new DaoException(exception);
             }
         }
         return resultInsert;
@@ -234,8 +232,8 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception);  // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return result;
     }
@@ -252,8 +250,8 @@ public class UserDaoImpl implements UserDao {
                 result = true;
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return result;
     }
@@ -286,8 +284,8 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException | DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception);  // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalUserInfo;
     }

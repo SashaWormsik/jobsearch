@@ -90,8 +90,8 @@ public class LocationDaoImpl implements LocationDao {
                 optionalLocation = mapper.map(resultSet);
             }
         } catch (SQLException | DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO Add comment
-            throw new DaoException(exception);  // TODO Add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalLocation;
     }

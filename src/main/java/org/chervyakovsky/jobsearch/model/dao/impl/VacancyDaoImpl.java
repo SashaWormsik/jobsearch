@@ -14,6 +14,7 @@ import org.chervyakovsky.jobsearch.model.mapper.impl.LocationMapperFromDbToEntit
 import org.chervyakovsky.jobsearch.model.mapper.impl.UserInfoMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.VacancyMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
+import org.chervyakovsky.jobsearch.util.Pageable;
 
 import java.sql.Date;
 import java.sql.*;
@@ -25,12 +26,18 @@ public class VacancyDaoImpl implements VacancyDao {
     private static final String FOR_LIKE_ALL = "%%";
     private static final String FOR_LIKE_ANY = "%";
 
-    private static final String SELECT_ALL_FOR_COMPANY =
-            "SELECT * FROM vacancy " +
-                    "JOIN location ON v_location_id = l_location_id " +
-                    "WHERE v_company_id = ?";
-    ;
     private static final String SELECT_VACANCY_BY_ID =
+            "SELECT * FROM vacancy WHERE v_vacancy_id = ?";
+
+    private static final String SELECT_ALL_VACANCIES_FOR_COMPANY =
+            "SELECT *, count(*) OVER() AS total_count " +
+                    "FROM vacancy " +
+                    "JOIN location ON v_location_id = l_location_id " +
+                    "WHERE v_company_id = ? " +
+                    "ORDER BY v_create_date DESC " +
+                    "LIMIT ? OFFSET ?";
+    ;
+    private static final String SELECT_VACANCY_BY_ID_WITH_LOCATION_AND_COMPANY =
             "SELECT * FROM vacancy " +
                     "JOIN user_info ON v_company_id = u_user_info_id " +
                     "JOIN location ON v_location_id = l_location_id " +
@@ -38,7 +45,7 @@ public class VacancyDaoImpl implements VacancyDao {
     private static final String INSERT_NEW_VACANCY =
             "INSERT INTO vacancy (v_create_date, v_job_title, v_company_id, v_location_id, v_salary, v_currency, " +
                     "v_work_experience, v_responsibilities, v_requirement, v_working_conditions, v_vacancy_status) " +
-                    "VALUES (?, ?, ?, ?, ?, ?::work_experience_enum, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?::work_experience_enum, ?, ?, ?, ?)";
     private static final String INSERT_NEW_LOCATION_FOR_NEW_OR_UPDATE_VACANCY =
             "INSERT INTO location (l_country, l_city) " +
                     "VALUES (?, ?)";
@@ -56,7 +63,7 @@ public class VacancyDaoImpl implements VacancyDao {
                     "WHERE l_country ILIKE ? AND " +
                     "l_city ILIKE ? AND " +
                     "v_job_title ILIKE ? AND " +
-                    "v_work_experience ILIKE ? AND " +
+                    "v_work_experience::text ILIKE ? AND " +
                     "v_vacancy_status = true " +
                     "ORDER BY v_create_date " +
                     "LIMIT 10 OFFSET ?;";
@@ -75,62 +82,83 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public Optional<Vacancy> findById(long id) throws DaoException {
-        return Optional.empty();
+        Optional<Vacancy> optionalVacancy = Optional.empty();
+        MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_VACANCY_BY_ID)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    optionalVacancy = vacancyMapper.map(resultSet);
+                }
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
+        }
+        return optionalVacancy;
     }
 
     @Override
-    public boolean delete(Vacancy vacancy) throws DaoException{
+    public boolean delete(Vacancy vacancy) throws DaoException {
         return false;
     }
 
     @Override
-    public List<Vacancy> findAll() throws DaoException{
+    public List<Vacancy> findAll() throws DaoException {
         return null;
     }
 
     @Override
-    public HashMap<Vacancy, Location> findVacancyForCompany(long companyId) throws DaoException {
+    public HashMap<Vacancy, Location> findVacancyForCompany(long companyId, Pageable pageable) throws DaoException {
         HashMap<Vacancy, Location> result = new HashMap<>();
         MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
         MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_FOR_COMPANY)) {
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_VACANCIES_FOR_COMPANY)) {
             statement.setLong(1, companyId);
+            statement.setInt(2, pageable.getSize());
+            statement.setInt(3, pageable.getOffset());
             try (ResultSet resultSet = statement.executeQuery()) {
+                boolean flag = true;
                 while (resultSet.next()) {
-                    Vacancy vacancyFromDb = vacancyMapper.map(resultSet).orElse(new Vacancy());
-                    Location locationFromDb = locationMapper.map(resultSet).orElse(new Location());
+                    if (flag) {
+                        pageable.calculatePageCount(resultSet.getInt(ColumnName.COUNT_ROWS));
+                        flag = false;
+                    }
+                    Vacancy vacancyFromDb = vacancyMapper.map(resultSet).orElse(null);
+                    Location locationFromDb = locationMapper.map(resultSet).orElse(null);
                     result.put(vacancyFromDb, locationFromDb);
                 }
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return result;
     }
 
     @Override
-    public HashMap<Vacancy, Map.Entry<Location, UserInfo>> findVacancyById(long vacancyId) throws DaoException {
+    public Map<Vacancy, Map.Entry<Location, UserInfo>> findVacancyById(long vacancyId) throws DaoException {
         HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
         MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
         MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
         MapperFromDbToEntity<UserInfo> userMapper = new UserInfoMapperFromDbToEntity();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_VACANCY_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(SELECT_VACANCY_BY_ID_WITH_LOCATION_AND_COMPANY)) {
             statement.setLong(1, vacancyId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Vacancy vacancyFromDb = vacancyMapper.map(resultSet).get();
-                    Location locationFromDb = locationMapper.map(resultSet).get();
-                    UserInfo userFromDb = userMapper.map(resultSet).get();
+                    Vacancy vacancyFromDb = vacancyMapper.map(resultSet).orElse(null);
+                    Location locationFromDb = locationMapper.map(resultSet).orElse(null);
+                    UserInfo userFromDb = userMapper.map(resultSet).orElse(null);
                     Map.Entry<Location, UserInfo> tempEntry = new AbstractMap.SimpleEntry<>(locationFromDb, userFromDb);
                     result.put(vacancyFromDb, tempEntry);
                 }
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return result;
     }
@@ -151,30 +179,35 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
     @Override
-    public boolean insertWithCreateNewLocation(Vacancy vacancy, Location location) throws DaoException {
+    public boolean insertVacancyWithCreateNewLocation(Vacancy vacancy, Location location) throws DaoException {
         return runUpdateOrInsertQueryForVacancyWithLocation(vacancy, location, INSERT_NEW_VACANCY);
     }
 
     @Override
-    public HashMap<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, int offset, Integer pageCount) throws DaoException {
+    public HashMap<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, Pageable pageable) throws DaoException {
         HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
         MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
         MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
         MapperFromDbToEntity<UserInfo> userMapper = new UserInfoMapperFromDbToEntity();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_VACANCY_BY_CRITERIA)) {
-            String country = location.getCountry() == null ? FOR_LIKE_ALL : location.getCountry();
-            String city = location.getCity() == null ? FOR_LIKE_ALL : location.getCity();
-            String profession = vacancy.getJobTitle() == null ? FOR_LIKE_ALL : FOR_LIKE_ANY + vacancy.getJobTitle() + FOR_LIKE_ANY;
+            String country = location.getCountry().trim().isEmpty() ? FOR_LIKE_ALL : location.getCountry();
+            String city = location.getCity().trim().isEmpty() ? FOR_LIKE_ALL : location.getCity();
+            String profession = vacancy.getJobTitle().trim().isEmpty() ? FOR_LIKE_ALL : FOR_LIKE_ANY + vacancy.getJobTitle() + FOR_LIKE_ANY;
             String workExperienceStatus = vacancy.getWorkExperienceStatus() == null ? FOR_LIKE_ALL : vacancy.getWorkExperienceStatus().name();
             statement.setString(1, country);
             statement.setString(2, city);
             statement.setString(3, profession);
             statement.setString(4, workExperienceStatus);
-            statement.setInt(5, offset);
+            statement.setInt(5, pageable.getOffset());
             try (ResultSet resultSet = statement.executeQuery()) {
+                boolean flag = true;
                 while (resultSet.next()) {
-                    pageCount = Integer.parseInt(resultSet.getString(ColumnName.COUNT_ROWS));
+                    if (flag) {
+                        pageable.calculatePageCount(resultSet.getInt(ColumnName.COUNT_ROWS));
+                        flag = false;
+                    }
+                    pageable.calculatePageCount(resultSet.getInt(ColumnName.COUNT_ROWS));
                     Vacancy vacancyFromDb = vacancyMapper.map(resultSet).orElse(new Vacancy());
                     Location locationFromDb = locationMapper.map(resultSet).orElse(new Location());
                     UserInfo userFromDb = userMapper.map(resultSet).orElse(new UserInfo());
@@ -201,12 +234,15 @@ public class VacancyDaoImpl implements VacancyDao {
         statement.setString(9, vacancy.getRequirement());
         statement.setString(10, vacancy.getWorkingConditions());
         statement.setBoolean(11, vacancy.getVacancyStatus());
+        if (vacancy.getId() != 0) {
+            statement.setLong(12, vacancy.getId());
+        }
         return statement.executeUpdate();
     }
 
     private int insertLocationStatement(Location location, PreparedStatement locationStatement) throws SQLException {
         locationStatement.setString(1, location.getCountry());
-        locationStatement.setString(2, location.getCountry());
+        locationStatement.setString(2, location.getCity());
         return locationStatement.executeUpdate();
     }
 
@@ -219,8 +255,8 @@ public class VacancyDaoImpl implements VacancyDao {
                 result = true;
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO Add comment
-            throw new DaoException(exception);  // TODO Add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return result;
     }
@@ -248,18 +284,18 @@ public class VacancyDaoImpl implements VacancyDao {
             try {
                 connection.rollback();
             } catch (SQLException sqlException) {
-                LOGGER.log(Level.ERROR, sqlException); // TODO
-                throw new DaoException(sqlException);  // TODO
+                LOGGER.log(Level.ERROR, sqlException);
+                throw new DaoException(sqlException);
             }
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new DaoException(exception);  // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         } finally {
             try {
                 connection.setAutoCommit(true);
                 connection.close();
             } catch (SQLException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO
-                throw new DaoException(exception);  // TODO
+                LOGGER.log(Level.ERROR, exception);
+                throw new DaoException(exception);
             }
         }
         return result;

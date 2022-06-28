@@ -24,7 +24,7 @@ public class GetAllUsersCommand implements Command {
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
-        router.setPage(PagePath.ALL_USERS_PAGE);
+        router.setPage(PagePath.ADMIN_ALL_USERS_PAGE);
         router.setType(Router.Type.FORWARD);
         Pageable pageable = new Pageable();
         UserService userService = UserServiceImpl.getInstance();
@@ -34,8 +34,8 @@ public class GetAllUsersCommand implements Command {
             requestContent.setNewValueInRequestAttributes(ParameterName.PAGE, pageable.getPage());
             requestContent.setNewValueInRequestAttributes(ParameterName.PAGE_COUNT, pageable.getPageCount());
         } catch (ServiceException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new CommandException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new CommandException(exception);
         }
         return router;
     }

@@ -26,7 +26,6 @@ public class LoginCommand implements Command {
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
-        requestContent.removeSessionAttribute(SUCCESSFUL_REGISTRATION); // todo
         UserService userService = UserServiceImpl.getInstance();
         Router router = new Router();
         try {

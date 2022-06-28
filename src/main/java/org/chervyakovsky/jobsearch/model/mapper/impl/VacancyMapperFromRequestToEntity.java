@@ -40,7 +40,7 @@ public class VacancyMapperFromRequestToEntity implements MapperFromRequestToEnti
             try {
                 vacancy.setCreateDate(simpleDateFormat.parse(s)); // fixme
             } catch (ParseException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO add comment
+                LOGGER.log(Level.ERROR, exception);
             }
         });
         apply(jobTitle, vacancy::setJobTitle);

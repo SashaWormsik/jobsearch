@@ -69,9 +69,16 @@
                                 </c:if>
                             </h4>
                         </c:if>
-                        <h4><b><fmt:message key="label.user.description"/>: </b>
-                            ${user.description}
-                        </h4>
+                        <c:if test="${user.role == 'WORKER' or user.role == 'COMPANY'}">
+                            <h4><b><fmt:message key="label.user.description"/>: </b>
+                                    ${user.description}
+                            </h4>
+                        </c:if>
+                        <c:if test="${user.role == 'ADMIN'}">
+                            <div class="w3-center">
+                                <h4><b><fmt:message key="text.admin_account.page"/></b></h4>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>

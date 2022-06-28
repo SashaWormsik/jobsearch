@@ -32,7 +32,7 @@ public class CredentialMapperFromRequestToEntity implements MapperFromRequestToE
             try {
                 credential.setCreateDate(simpleDateFormat.parse(s)); // fixme
             } catch (ParseException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO add comment
+                LOGGER.log(Level.ERROR, exception);
             }
         });
         return credential;

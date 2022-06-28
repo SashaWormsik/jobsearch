@@ -25,8 +25,8 @@ public class LocationMapperFromDbToEntity implements MapperFromDbToEntity<Locati
             location.setCity(resultSet.getString(ColumnName.LOCATION_CITY));
             optionalLocation = Optional.of(location);
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
-            throw new DaoException(exception); // TODO add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalLocation;
     }

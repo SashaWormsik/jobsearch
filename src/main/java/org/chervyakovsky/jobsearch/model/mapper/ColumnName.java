@@ -45,6 +45,14 @@ public class ColumnName {
     public static final String VACANCY_STATUS = "v_vacancy_status";
     public static final String COUNT_ROWS = "total_count";
 
+    //INTERVIEW
+    public static final String INTERVIEW_ID = "i_interview_id";
+    public static final String INTERVIEW_APPOINTED_DATE = "i_appointed_date";
+    public static final String INTERVIEW_STATUS = "i_interview_status";
+    public static final String INTERVIEW_VACANCY_ID = "i_vacancy_id";
+    public static final String INTERVIEW_WORKER_ID = "i_worker_id";
+    public static final String INTERVIEW_COMMUNICATION_METHOD = "i_communication_method";
+
 
     private ColumnName() {
     }

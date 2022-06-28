@@ -3,16 +3,23 @@ package org.chervyakovsky.jobsearch.controller.command.impl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.chervyakovsky.jobsearch.controller.AttributeName;
 import org.chervyakovsky.jobsearch.controller.PagePath;
 import org.chervyakovsky.jobsearch.controller.Router;
 import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.exception.CommandException;
 import org.chervyakovsky.jobsearch.exception.ServiceException;
+import org.chervyakovsky.jobsearch.model.entity.Location;
+import org.chervyakovsky.jobsearch.model.entity.UserInfo;
+import org.chervyakovsky.jobsearch.model.entity.Vacancy;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.service.VacancyService;
 import org.chervyakovsky.jobsearch.model.service.impl.VacancyServiceImpl;
 
-public class CreateNewVacancyCommand implements Command {
+import java.util.Map;
+
+public class ChangeVacancyStatusCommand implements Command {
+
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
@@ -20,14 +27,18 @@ public class CreateNewVacancyCommand implements Command {
         Router router = new Router();
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         try {
-            if (vacancyService.createNewVacancy(requestContent)) {
+            if (vacancyService.changeVacancyStatus(requestContent)) {
+                Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
+                Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
+                requestContent.setNewValueInSessionAttribute(AttributeName.VACANCY, entryVacancy);
                 router.setType(Router.Type.REDIRECT);
-                router.setPage(PagePath.COMPANY_ALL_VACANCIES_PAGE);
             } else {
-                requestContent.setParameterInAttribute();
+                Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
+                Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
+                requestContent.setNewValueInRequestAttributes(AttributeName.VACANCY, entryVacancy);
                 router.setType(Router.Type.FORWARD);
-                router.setPage(PagePath.COMPANY_CREATE_VACANCY_PAGE);
             }
+            router.setPage(PagePath.VACANCY_INFO_PAGE);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

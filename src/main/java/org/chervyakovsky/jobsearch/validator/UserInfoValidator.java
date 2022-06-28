@@ -84,7 +84,7 @@ public class UserInfoValidator {
         }
         if (!validateDescription(description)) {
             result = false;
-            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_DESCRIPTION, true);
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_TEXT, true);
         }
         if (role != null && role.equals(UserRoleStatus.WORKER.name())){
             if(!validateWorkerData(requestContent)){

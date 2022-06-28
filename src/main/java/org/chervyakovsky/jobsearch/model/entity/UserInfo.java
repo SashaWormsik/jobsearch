@@ -9,7 +9,7 @@ public class UserInfo extends AbstractEntity {
     private String login;
     private String email;
     private UserRoleStatus role;
-    private Boolean userStatus = false; // FIXME
+    private Boolean userStatus = false;
     private Long locationId;
     private String userName;
     private String userSurName;

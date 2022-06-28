@@ -15,7 +15,7 @@ import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 import static org.chervyakovsky.jobsearch.controller.AttributeName.EXIST_LOGIN_OR_EMAIL;
 import static org.chervyakovsky.jobsearch.controller.AttributeName.SUCCESSFUL_REGISTRATION;
 
-public class AddNewAdminCommand implements Command {
+public class CreateNewAdminCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -37,7 +37,7 @@ public class AddNewAdminCommand implements Command {
                 requestContent.setNewValueInRequestAttributes(EXIST_LOGIN_OR_EMAIL, true);
                 router.setType(Router.Type.FORWARD);
             }
-            router.setPage(PagePath.ADD_NEW_ADMIN_PAGE);
+            router.setPage(PagePath.ADMIN_ADD_NEW_ADMIN_PAGE);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

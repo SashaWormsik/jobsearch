@@ -31,27 +31,30 @@
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.LOCATION_COUNTRY}"
-                                   placeholder="<fmt:message key="label.search.country"/>"/>
-                            <!--pattern="^[@A-Za-z]\w{4,20}$"     PATTERN!!!!!
-                            title="<fmt:message key="form.input.title.country.pattern"/>"-->
+                                   placeholder="<fmt:message key="label.search.country"/>"
+                                   pattern="^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$"
+                                   title="<fmt:message key="form.input.title.country.pattern"/>"
+                                   value="${location_country}"/>
 
                             <label>
                                 <b class="w3-text-black"><fmt:message key="label.search.city"/></b>
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.LOCATION_CITY}"
-                                   placeholder="<fmt:message key="label.search.city"/>"/>
-                            <!--pattern="^[@A-Za-z]\w{4,20}$"     PATTERN!!!!!
-                            title="<fmt:message key="form.input.title.city.pattern"/>"-->
+                                   placeholder="<fmt:message key="label.search.city"/>"
+                                   pattern="^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$"
+                                   title="<fmt:message key="form.input.title.city.pattern"/>"
+                                   value="${location_city}"/>
 
                             <label>
                                 <b class="w3-text-black"><fmt:message key="label.search.profession"/></b>
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.VACANCY_JOB_TITLE}"
-                                   placeholder="<fmt:message key="label.search.profession"/>"/>
-                            <!--pattern="^[@A-Za-z]\w{4,20}$"     PATTERN!!!!!
-                            title="<fmt:message key="form.input.title.profession.pattern"/>"-->
+                                   placeholder="<fmt:message key="label.search.profession"/>"
+                                   pattern="^([А-Яа-яa-zA-Z]{1})([\hа-яa-z-]+)([а-яa-z]{1})$"
+                                   title="<fmt:message key="form.input.title.profession.pattern"/>"
+                                   value="${vacancy_job_title}"/>
 
                             <label>
                                 <b class="w3-text-black"><fmt:message key="label.search.experience"/></b>
@@ -113,20 +116,29 @@
                     <div class="w3-container w3-center w3-green">
                         <h2><fmt:message key="label.search.result"/></h2>
                     </div>
-                    <div class="w3-container"> <!--??????? -->
-                        <c:forEach var="vacancy" items="${list}">
+
+                    <div class="w3-container">
+
+                        <c:choose>
+                        <c:when test="${vacancies.size()>0}">
+                        <c:forEach var="vacancy" items="${vacancies}">
                             <div class="w3-bar w3-bottombar w3-border-green w3-padding"
                                  style="height: 150px">
                                 <div class="w3-bar-item w3-border-right"
                                      style="width: 20%; padding: 8px; height: 130px">
-                                    <span><h6><b>${vacancy.key.getJobTitle()}</b></h6></span><br>
+                                    <a href="${pageContext.request.contextPath}/controller?command=get_vacancy_info&vacancy_id=${vacancy.key.getId()}"
+                                       class="w3-hover-text-blue"
+                                       target="_blank">
+                                        <h6><b>${vacancy.key.getJobTitle()}</b></h6>
+                                    </a>
+                                    <br>
                                     <span>${vacancy.value.value.getUserName()}</span><br>
                                     <span>${vacancy.value.key.getCountry()}, ${vacancy.value.key.getCity()}</span>
                                 </div>
                                 <div class="w3-bar-item w3-border-right w3-center"
                                      style="width: 12%; padding: 8px; height: 130px">
                                     <span><h6><b>${vacancy.key.getSalary()} ${vacancy.key.getCurrency()}</b></h6></span><br>
-                                    <span>Опыт работы</span><br>
+                                    <span><fmt:message key="label.vacancy.workexperience"/></span><br>
                                     <c:if test="${vacancy_work_experience=='WITHOUT'}">
                                         <span><fmt:message key="label.search.experience.without"/></span>
                                     </c:if>
@@ -154,23 +166,33 @@
                     <div class="w3-center w3-container">
                         <div class="w3-bar w3-border w3-border-green">
                             <c:if test="${page != 1 && (not empty page)}">
-                                <a href="#" class="w3-button">&laquo;</a>
+                                <a href="${pageContext.request.contextPath}/controller?command=search_vacancy&location_country=${location_country}&location_city=${location_city}&vacancy_job_title=${vacancy_job_title}&vacancy_work_experience=${vacancy_work_experience}&page=${page - 1}"
+                                   class="w3-button">&laquo;</a>
                             </c:if>
-                            <c:forEach begin="1" end="${page_count}" var="1">
+                            <c:forEach begin="1" end="${page_count}" var="i">
                                 <c:choose>
                                     <c:when test="${page eq i}">
-                                        <a class="w3-button">${i}</a>
+                                        <a class="w3-button w3-grey w3-disabled">${i}</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="#" class="w3-button">${i}</a>
+                                        <a href="${pageContext.request.contextPath}/controller?command=search_vacancy&location_country=${location_country}&location_city=${location_city}&vacancy_job_title=${vacancy_job_title}&vacancy_work_experience=${vacancy_work_experience}&page=${page}"
+                                           class="w3-button">${i}</a>
                                     </c:otherwise>
                                 </c:choose>
                             </c:forEach>
                             <c:if test="${page lt page_count}">
-                                <a href="#" class="w3-button">&raquo;</a>
+                                <a href="${pageContext.request.contextPath}/controller?command=search_vacancy&location_country=${location_country}&location_city=${location_city}&vacancy_job_title=${vacancy_job_title}&vacancy_work_experience=${vacancy_work_experience}&page=${page + 1}"
+                                   class="w3-button">&raquo;</a>
                             </c:if>
                         </div>
                     </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="w3-center">
+                            <h5><b><fmt:message key="text.company_vacancies.page.no_vacancies"/></b></h5>
+                        </div>
+                    </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

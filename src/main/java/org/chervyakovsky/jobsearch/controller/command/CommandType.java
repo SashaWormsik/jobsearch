@@ -6,21 +6,27 @@ import java.util.Arrays;
 
 public enum CommandType {
     ACTIVATE_USER(new ActivateUserCommand()),
-    ADD_NEW_ADMIN(new AddNewAdminCommand()),
+    ADD_NEW_ADMIN(new CreateNewAdminCommand()),
     CREATE_VACANCY(new CreateNewVacancyCommand()),
     CHANGE_USER_STATUS(new ChangeUserStatusCommand()),
+    CHANGE_VACANCY_STATUS(new ChangeVacancyStatusCommand()),
     FORGOT_PASSWORD(new ForgotPasswordCommand()),
     GET_ALL_USERS(new GetAllUsersCommand()),
     GET_USER_INFO(new GetUserInfoCommand()),
+    GET_VACANCY_INFO(new GetVacancyInfoCommand()),
+    GET_ALL_VACANCIES_FOR_COMPANY(new GetAllVacanciesForCompanyCommand()),
+    GO_TO_UPDATE_THE_VACANCY(new GoToUpdateTheVacancy()),
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
+    REGISTRATION(new RegistrationCommand()),
+    RESET_PASSWORD(new ResetPasswordCommand()),
+    RESPOND(new RespondCommand()),
+    SEARCH_USER(new SearchUserCommand()),
+    SEARCH_VACANCY(new SearchVacancyCommand()),
     UPDATE_PASSWORD(new UpdatePasswordCommand()),
     UPDATE_USER_INFO(new UpdateUserInfoCommand()),
     UPDATE_USER_LOCATION(new UpdateUserLocationCommand()),
-    SEARCH_VACANCY(new SearchVacancyCommand()),
-    SEARCH_USER(new SearchUserCommand()),
-    RESET_PASSWORD(new ResetPasswordCommand()),
-    REGISTRATION(new RegistrationCommand()),
+    UPDATE_VACANCY(new UpdateVacancyCommand()),
 
     DEFAULT(new DefaultCommand()), // TODO
     INITIAL(new InitialCommand()); // TODO

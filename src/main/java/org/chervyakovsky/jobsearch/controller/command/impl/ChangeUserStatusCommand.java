@@ -33,7 +33,7 @@ public class ChangeUserStatusCommand implements Command {
                 requestContent.setNewValueInRequestAttributes(TEMP_USER, userInfo);
                 router.setType(Router.Type.FORWARD);
             }
-            router.setPage(PagePath.USER_INFO_PAGE);
+            router.setPage(PagePath.ADMIN_USER_INFO_PAGE);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

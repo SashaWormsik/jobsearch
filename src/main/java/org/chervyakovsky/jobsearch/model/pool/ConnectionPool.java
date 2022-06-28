@@ -41,7 +41,7 @@ public class ConnectionPool {
             } else {
                 POOL_SIZE = DEFAULT_POOL_SIZE;
             }
-        } catch (MissingResourceException exception) { // FIXME
+        } catch (MissingResourceException exception) {
             LOGGER.log(Level.ERROR, exception);
         }
     }

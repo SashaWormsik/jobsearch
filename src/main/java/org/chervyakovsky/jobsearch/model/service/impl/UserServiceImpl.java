@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserService {
         try {
             optionalUserInfo = userDao.findUserByToken(token);
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return optionalUserInfo;
     }
@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
         try {
             optionalUserInfo = userDao.findById(userId);
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return optionalUserInfo;
     }
@@ -155,8 +155,8 @@ public class UserServiceImpl implements UserService {
                     }
                 }
             } catch (DaoException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO add comment
-                throw new ServiceException(exception); // TODO add comment
+                LOGGER.log(Level.ERROR, exception);
+                throw new ServiceException(exception);
             }
         }
         return Optional.empty();
@@ -185,8 +185,8 @@ public class UserServiceImpl implements UserService {
                 result = true;
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return result;
     }
@@ -207,8 +207,8 @@ public class UserServiceImpl implements UserService {
                 result = userDao.update(userInfo);
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return result;
     }
@@ -232,8 +232,8 @@ public class UserServiceImpl implements UserService {
                 result = true;
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return result;
     }
@@ -284,8 +284,8 @@ public class UserServiceImpl implements UserService {
                 result = userDao.update(userInfo);
             }
         } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new ServiceException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
         }
         return result;
 

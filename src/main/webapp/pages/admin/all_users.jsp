@@ -112,7 +112,7 @@
                                         <c:forEach begin="1" end="${page_count}" var="i">
                                             <c:choose>
                                                 <c:when test="${page eq i}">
-                                                    <a class="w3-button  w3-disabled">${i}</a>
+                                                    <a class="w3-button w3-grey w3-disabled">${i}</a>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=${user_role}&page=${i}"
@@ -129,7 +129,9 @@
 
                             </c:when>
                             <c:otherwise>
-                                <h5><b><fmt:message key="text.all_users.page"/></b></h5>
+                                <div class="w3-center">
+                                    <h5><b><fmt:message key="text.all_users.page"/></b></h5>
+                                </div>
                             </c:otherwise>
                         </c:choose>
                     </div>

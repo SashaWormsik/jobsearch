@@ -26,14 +26,12 @@ public class CredentialMapperFromDbToEntity implements MapperFromDbToEntity<Cred
             credential.setId(resultSet.getLong(ColumnName.CREDENTIAL_ID));
             credential.setPassword(resultSet.getString(ColumnName.CREDENTIAL_PASSWORD));
             credential.setActive(resultSet.getBoolean(ColumnName.CREDENTIAL_ACTIVE));
-            String dateString = resultSet.getString(ColumnName.CREDENTIAL_CREATE_DATE);
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-            credential.setCreateDate(date);
+            credential.setCreateDate(resultSet.getDate(ColumnName.CREDENTIAL_CREATE_DATE));
             credential.setUserInfoId(resultSet.getLong(ColumnName.CREDENTIAL_USER_INFO_ID));
             optionalCredential = Optional.of(credential);
-        } catch (SQLException | ParseException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
-            throw new DaoException(exception); // TODO add comment
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalCredential;
     }

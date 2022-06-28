@@ -65,18 +65,18 @@ public class CredentialDaoImpl implements CredentialDao {
             try {
                 connection.rollback();
             } catch (SQLException sqlException) {
-                LOGGER.log(Level.ERROR, sqlException); // TODO Add comment
-                throw new DaoException(sqlException);  // TODO Add comment
+                LOGGER.log(Level.ERROR, sqlException);
+                throw new DaoException(sqlException);
             }
-            LOGGER.log(Level.ERROR, exception); // TODO Add comment
-            throw new DaoException(exception);  // TODO Add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         } finally {
             try {
                 connection.setAutoCommit(true);
                 connection.close();
             } catch (SQLException exception) {
-                LOGGER.log(Level.ERROR, exception); // TODO Add comment
-                throw new DaoException(exception);  // TODO Add comment
+                LOGGER.log(Level.ERROR, exception);
+                throw new DaoException(exception);
             }
         }
         return result;
@@ -94,8 +94,8 @@ public class CredentialDaoImpl implements CredentialDao {
                 optionalCredential = mapper.map(resultSet);
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO Add comment
-            throw new DaoException(exception);  // TODO Add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalCredential;
     }
@@ -112,8 +112,8 @@ public class CredentialDaoImpl implements CredentialDao {
                 optionalCredential = mapper.map(resultSet);
             }
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO Add comment
-            throw new DaoException(exception);  // TODO Add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalCredential;
     }

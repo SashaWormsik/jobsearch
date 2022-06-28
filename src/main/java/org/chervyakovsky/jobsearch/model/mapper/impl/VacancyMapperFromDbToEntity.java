@@ -26,13 +26,11 @@ public class VacancyMapperFromDbToEntity implements MapperFromDbToEntity<Vacancy
         Optional<Vacancy> optionalVacancy = Optional.empty();
         try {
             vacancy.setId(resultSet.getLong(ColumnName.VACANCY_ID));
-            String dateString = resultSet.getString(ColumnName.VACANCY_CREATE_DATE);
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-            vacancy.setCreateDate(date);
+            vacancy.setCreateDate(resultSet.getDate(ColumnName.VACANCY_CREATE_DATE));
             vacancy.setJobTitle(resultSet.getString(ColumnName.VACANCY_JOB_TITLE));
             vacancy.setCompanyId(resultSet.getLong(ColumnName.VACANCY_COMPANY_ID));
             vacancy.setLocationId(resultSet.getLong(ColumnName.VACANCY_LOCATION_ID));
-            vacancy.setSalary(new BigDecimal(resultSet.getString(ColumnName.VACANCY_SALARY)));
+            vacancy.setSalary(resultSet.getBigDecimal(ColumnName.VACANCY_SALARY));
             vacancy.setCurrency(resultSet.getString(ColumnName.VACANCY_CURRENCY));
             vacancy.setWorkExperienceStatus(WorkExperienceStatus.getStatus(resultSet.getString(ColumnName.VACANCY_WORK_EXPERIENCE)));
             vacancy.setResponsibilities(resultSet.getString(ColumnName.VACANCY_RESPONSIBILITIES));
@@ -40,9 +38,9 @@ public class VacancyMapperFromDbToEntity implements MapperFromDbToEntity<Vacancy
             vacancy.setWorkingConditions(resultSet.getString(ColumnName.VACANCY_WORKING_CONDITION));
             vacancy.setVacancyStatus(resultSet.getBoolean(ColumnName.VACANCY_STATUS));
             optionalVacancy = Optional.of(vacancy);
-        } catch (SQLException | ParseException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
-            throw new DaoException(exception); // TODO add comment
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalVacancy;
     }

@@ -22,7 +22,7 @@ public class GetUserInfoCommand implements Command {
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
-        router.setPage(PagePath.USER_INFO_PAGE);
+        router.setPage(PagePath.ADMIN_USER_INFO_PAGE);
         router.setType(Router.Type.FORWARD);
         UserService userService = UserServiceImpl.getInstance();
         try {
@@ -32,8 +32,8 @@ public class GetUserInfoCommand implements Command {
                 requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_USER, userInfo);
             }
         } catch (ServiceException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new CommandException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new CommandException(exception);
         }
         return router;
     }

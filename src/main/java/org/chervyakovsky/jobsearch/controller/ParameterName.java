@@ -43,6 +43,13 @@ public final class ParameterName {
     public static final String VACANCY_WORKING_CONDITIONS = "vacancy_working_conditions";
     public static final String VACANCY_STATUS = "vacancy_working_status";
 
+    public static final String INTERVIEW_ID="interview_id";
+    public static final String INTERVIEW_APPOINTED_DATE="interview_appointed_date";
+    public static final String INTERVIEW_STATUS="interview_status";
+    public static final String INTERVIEW_VACANCY_ID="interview_vacancy_id";
+    public static final String INTERVIEW_WORKER_ID="interview_worker_id";
+    public static final String INTERVIEW_COMMUNICATION_METHOD="interview_communication_method";
+
 
 
     private ParameterName(){

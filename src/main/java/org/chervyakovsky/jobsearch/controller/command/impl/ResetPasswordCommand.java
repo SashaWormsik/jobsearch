@@ -37,8 +37,8 @@ public class ResetPasswordCommand implements Command {
                 router.setPage(PagePath.FORGOT_PASSWORD_PAGE);
             }
         } catch (ServiceException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO
-            throw new CommandException(exception); // TODO
+            LOGGER.log(Level.ERROR, exception);
+            throw new CommandException(exception);
         }
         return router;
     }

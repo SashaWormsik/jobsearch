@@ -1,6 +1,6 @@
 <%--@elvariable id="user" type="org.chervyakovsky.jobsearch.model.entity.UserInfo"--%>
+<%--@elvariable id="user_location" type="org.chervyakovsky.jobsearch.model.entity.Location"--%>
 <%--@elvariable id="temp_user" type="org.chervyakovsky.jobsearch.model.entity.UserInfo"--%>
-<%--@elvariable id="location" type="org.chervyakovsky.jobsearch.model.entity.Location"--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -27,6 +27,7 @@
                         <img src="${pageContext.request.contextPath}/image/img.png" alt="Avatar"
                              class="w3-circle w3-margin-top" style="width:100%"/>
                         <h4><b>${user.userName} ${user.userSurName}</b></h4>
+                        <h4>${user_location.country} ${user_location.city}</h4>
                     </div>
                 </div>
             </div>
@@ -94,22 +95,24 @@
                                     ${temp_user.description}
                             </h4>
                         </c:if>
-                        <form action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="change_user_status"/>
-                            <input type="hidden" name="${ParameterName.USER_ID}" value="${temp_user.id}"/>
-                            <c:if test="${temp_user.userStatus == true}">
-                                <button class="w3-button w3-block w3-green w3-section w3-padding"
-                                        type="submit">
-                                    <fmt:message key="button.block"/>
-                                </button>
-                            </c:if>
-                            <c:if test="${temp_user.userStatus == false}">
-                                <button class="w3-button w3-block w3-red w3-section w3-padding"
-                                        type="submit">
-                                    <fmt:message key="button.unblock"/>
-                                </button>
-                            </c:if>
-                        </form>
+                        <c:if test="${user.role == 'ADMIN'}">
+                            <form action="${pageContext.request.contextPath}/controller" method="post">
+                                <input type="hidden" name="command" value="change_user_status"/>
+                                <input type="hidden" name="${ParameterName.USER_ID}" value="${temp_user.id}"/>
+                                <c:if test="${temp_user.userStatus == true}">
+                                    <button class="w3-button w3-block w3-green w3-section w3-padding"
+                                            type="submit">
+                                        <fmt:message key="button.block"/>
+                                    </button>
+                                </c:if>
+                                <c:if test="${temp_user.userStatus == false}">
+                                    <button class="w3-button w3-block w3-red w3-section w3-padding"
+                                            type="submit">
+                                        <fmt:message key="button.unblock"/>
+                                    </button>
+                                </c:if>
+                            </form>
+                        </c:if>
                     </div>
                 </div>
             </div>

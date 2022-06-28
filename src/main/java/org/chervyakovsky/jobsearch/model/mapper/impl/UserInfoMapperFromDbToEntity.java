@@ -39,8 +39,8 @@ public class UserInfoMapperFromDbToEntity implements MapperFromDbToEntity<UserIn
             userInfo.setEducation(EducationStatus.getStatus(resultSet.getString(ColumnName.USER_EDUCATION)));
             optionalUserInfo = Optional.of(userInfo);
         } catch (SQLException exception) {
-            LOGGER.log(Level.ERROR, exception); // TODO add comment
-            throw new DaoException(exception); // TODO add comment
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
         }
         return optionalUserInfo;
     }

@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Enumeration;
 
-@WebFilter(filterName = "FilterRedirect", urlPatterns = "/*", dispatcherTypes = DispatcherType.FORWARD)
+@WebFilter(filterName = "FilterRedirect", urlPatterns = "/*", dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.REQUEST})
 public class FilterRedirect implements Filter {
 
     @Override
