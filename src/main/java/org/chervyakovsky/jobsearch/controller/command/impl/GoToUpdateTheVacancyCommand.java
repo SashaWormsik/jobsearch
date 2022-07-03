@@ -18,27 +18,20 @@ import org.chervyakovsky.jobsearch.model.service.impl.VacancyServiceImpl;
 
 import java.util.Map;
 
-public class ChangeVacancyStatusCommand implements Command {
+public class GoToUpdateTheVacancyCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
+        router.setPage(PagePath.COMPANY_UPDATE_VACANCY_INFO_PAGE);
+        router.setType(Router.Type.FORWARD);
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         try {
-            if (vacancyService.changeVacancyStatus(requestContent)) {
-                Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
-                Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-                requestContent.setNewValueInSessionAttribute(AttributeName.TEMP_VACANCY, entryVacancy);
-                router.setType(Router.Type.REDIRECT);
-            } else {
-                Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
-                Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-                requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_VACANCY, entryVacancy);
-                router.setType(Router.Type.FORWARD);
-            }
-            router.setPage(PagePath.VACANCY_INFO_PAGE);
+            Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
+            Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
+            requestContent.setNewValueInSessionAttribute(AttributeName.TEMP_VACANCY, entryVacancy);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

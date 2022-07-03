@@ -11,13 +11,16 @@ import org.chervyakovsky.jobsearch.model.dao.impl.InterviewDaoImpl;
 import org.chervyakovsky.jobsearch.model.entity.Interview;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
 import org.chervyakovsky.jobsearch.model.entity.Vacancy;
+import org.chervyakovsky.jobsearch.model.entity.status.InterviewStatus;
+import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
 import org.chervyakovsky.jobsearch.model.mapper.MapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.mapper.impl.InterviewMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.VacancyMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.service.InterviewService;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class InterviewServiceImpl implements InterviewService {
@@ -43,10 +46,10 @@ public class InterviewServiceImpl implements InterviewService {
         MapperFromRequestToEntity<Vacancy> mapper = new VacancyMapperFromRequestToEntity();
         Vacancy vacancy = mapper.map(requestContent);
         InterviewDao interviewDao = InterviewDaoImpl.getInstance();
-        try{
-            if(interviewDao.isPresent(vacancy.getId(), userInfo.getId())){
+        try {
+            if (interviewDao.isPresent(vacancy.getId(), userInfo.getId())) {
                 return false;
-            }else {
+            } else {
                 Interview interview = new Interview();
                 interview.setVacancyId(vacancy.getId());
                 interview.setUserInfoId(userInfo.getId());
@@ -62,21 +65,85 @@ public class InterviewServiceImpl implements InterviewService {
 
     @Override
     public boolean updateInterview(RequestContent requestContent) throws ServiceException {
-        return false;
+        boolean result = false;
+        Optional<Interview> optionalInterview;
+        MapperFromRequestToEntity<Interview> mapper = new InterviewMapperFromRequestToEntity();
+        Interview interview = mapper.map(requestContent);
+        InterviewDao interviewDao = InterviewDaoImpl.getInstance();
+        try {
+            optionalInterview = interviewDao.findById(interview.getId());
+            if (optionalInterview.isPresent()) {
+                Interview interviewFromDb = optionalInterview.get();
+                interviewFromDb.setInterviewStatus(interview.getInterviewStatus());
+                interviewFromDb.setAppointedDateTime(interview.getAppointedDateTime());
+                interviewFromDb.setCommunicationMethod(interview.getCommunicationMethod());
+                if (interviewDao.update(interviewFromDb)) {
+                    result = true;
+                }
+            }
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
+        }
+        return result;
     }
 
     @Override
     public boolean changeInterviewStatus(RequestContent requestContent) throws ServiceException {
-        return false;
+        boolean result = false;
+        Optional<Interview> optionalInterview;
+        MapperFromRequestToEntity<Interview> mapper = new InterviewMapperFromRequestToEntity();
+        Interview interview = mapper.map(requestContent);
+        InterviewDao interviewDao = InterviewDaoImpl.getInstance();
+        try {
+            optionalInterview = interviewDao.findById(interview.getId());
+            if (optionalInterview.isPresent()) {
+                Interview interviewFromDb = optionalInterview.get();
+                if (interviewFromDb.getInterviewStatus().equals(InterviewStatus.IN_WAITING) ||
+                        interviewFromDb.getInterviewStatus().equals(InterviewStatus.IS_SCHEDULED)) {
+                    interviewFromDb.setInterviewStatus(interview.getInterviewStatus());
+                    if (interviewDao.update(interviewFromDb)) {
+                        result = true;
+                    }
+                }
+            }
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
+        }
+        return result;
     }
 
     @Override
     public Optional<Interview> findInterviewById(RequestContent requestContent) throws ServiceException {
-        return Optional.empty();
+        Optional<Interview> optionalInterview = Optional.empty();
+        MapperFromRequestToEntity<Interview> mapper = new InterviewMapperFromRequestToEntity();
+        Interview interview = mapper.map(requestContent);
+        InterviewDao interviewDao = InterviewDaoImpl.getInstance();
+        try {
+            optionalInterview = interviewDao.findById(interview.getId());
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
+        }
+        return optionalInterview;
     }
 
     @Override
-    public Map<Interview, Map.Entry<Vacancy, UserInfo>> findAllUserInterview(RequestContent requestContent) throws ServiceException {
-        return null;
+    public List<Interview> findAllUserInterview(RequestContent requestContent) throws ServiceException {
+        List<Interview> interviewList = new ArrayList<>();
+        InterviewDao interviewDao = InterviewDaoImpl.getInstance();
+        UserInfo userInfo = (UserInfo) requestContent.getSessionAttribute().get(AttributeName.USER);
+        try {
+            if (userInfo.getRole().equals(UserRoleStatus.COMPANY)) {
+                interviewList = interviewDao.findInterviewByCompanyId(userInfo.getId());
+            } else if (userInfo.getRole().equals(UserRoleStatus.WORKER)) {
+                interviewList = interviewDao.findInterviewByWorkerId(userInfo.getId());
+            }
+        } catch (DaoException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new ServiceException(exception);
+        }
+        return interviewList;
     }
 }

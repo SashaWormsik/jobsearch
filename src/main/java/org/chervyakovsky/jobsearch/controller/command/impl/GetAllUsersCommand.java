@@ -30,7 +30,7 @@ public class GetAllUsersCommand implements Command {
         UserService userService = UserServiceImpl.getInstance();
         try {
             List<UserInfo> userInfoList = userService.findAllUser(requestContent, pageable);
-            requestContent.setNewValueInRequestAttributes(AttributeName.LIST_USERS, userInfoList);
+            requestContent.setNewValueInRequestAttributes(AttributeName.USERS, userInfoList);
             requestContent.setNewValueInRequestAttributes(ParameterName.PAGE, pageable.getPage());
             requestContent.setNewValueInRequestAttributes(ParameterName.PAGE_COUNT, pageable.getPageCount());
         } catch (ServiceException exception) {

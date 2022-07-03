@@ -30,7 +30,7 @@ public class UpdateVacancyCommand implements Command {
             if (vacancyService.updateVacancy(requestContent)) {
                 Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
                 Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-                requestContent.setNewValueInSessionAttribute(AttributeName.VACANCY, entryVacancy);
+                requestContent.setNewValueInSessionAttribute(AttributeName.TEMP_VACANCY, entryVacancy);
                 router.setPage(PagePath.VACANCY_INFO_PAGE);
                 router.setType(Router.Type.REDIRECT);
             } else {

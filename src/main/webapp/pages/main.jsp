@@ -124,8 +124,7 @@
                         <c:forEach var="vacancy" items="${vacancies}">
                             <div class="w3-bar w3-bottombar w3-border-green w3-padding"
                                  style="height: 150px">
-                                <div class="w3-bar-item w3-border-right"
-                                     style="width: 20%; padding: 8px; height: 130px">
+                                <div class="w3-bar-item w3-border-right" style="width: 20%; padding: 8px; height: 130px">
                                     <a href="${pageContext.request.contextPath}/controller?command=get_vacancy_info&vacancy_id=${vacancy.key.getId()}"
                                        class="w3-hover-text-blue"
                                        target="_blank">

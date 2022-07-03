@@ -25,7 +25,7 @@ public class UpdateUserLocationCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public Router execute(RequestContent requestContent) throws CommandException {
+    public Router execute(RequestContent requestContent) throws CommandException { // TODO
         Router router = new Router();
         UserService userService = UserServiceImpl.getInstance();
         LocationService locationService = LocationServiceImpl.getInstance();
@@ -44,7 +44,7 @@ public class UpdateUserLocationCommand implements Command {
                     requestContent.setNewValueInSessionAttribute(AttributeName.USER_LOCATION, optionalLocation.get());
                     router.setType(Router.Type.REDIRECT);
                     router.setPage(PagePath.ACCOUNT_PAGE);
-                }else {
+                }else {  // TODO
                     requestContent.setParameterInAttribute();
                     router.setPage(PagePath.UPDATE_INFO_PAGE);
                 }

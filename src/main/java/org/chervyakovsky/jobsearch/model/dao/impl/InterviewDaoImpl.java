@@ -6,15 +6,14 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.InterviewDao;
 import org.chervyakovsky.jobsearch.model.entity.Interview;
-import org.chervyakovsky.jobsearch.model.entity.Location;
-import org.chervyakovsky.jobsearch.model.entity.Vacancy;
 import org.chervyakovsky.jobsearch.model.entity.status.InterviewStatus;
+import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
+import org.chervyakovsky.jobsearch.model.mapper.impl.InterviewMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class InterviewDaoImpl implements InterviewDao {
@@ -27,8 +26,12 @@ public class InterviewDaoImpl implements InterviewDao {
             "INSERT INTO interview (i_appointed_date, i_interview_status, i_vacancy_id, i_worker_id, i_communication_method) " +
                     "VALUES (?, ?::interview_status_enum, ?, ?, ?)";
 
+    private static final String SELECT_INTERVIEW_BY_ID =
+            "SELECT * FROM interview WHERE i_interview_id = ?";
+
     private static final String UPDATE_INTERVIEW =
-            "SET i_appointed_date = ?, i_interview_status = ?::interview_status_enum, i_communication_method = ? " +
+            "UPDATE interview " +
+                    "SET i_appointed_date = ?, i_interview_status = ?::interview_status_enum, i_communication_method = ? " +
                     "WHERE i_interview_id = ?";
 
     private static final String SET_NEW_INTERVIEW_STATUS =
@@ -38,17 +41,15 @@ public class InterviewDaoImpl implements InterviewDao {
 
     private static final String SELECT_ALL_WORKER_INTERVIEW =
             "SELECT * FROM interview " +
-                    "JOIN vacancy ON vacancy.v_vacancy_id = interview.i_vacancy_id " +
-                    "JOIN user_info ON user_info.u_user_info_id = vacancy.v_company_id " +
                     "WHERE i_worker_id = ? " +
-                    "ORDER BY i_appointed_date";
+                    "ORDER BY i_appointed_date DESC";
 
     private static final String SELECT_ALL_COMPANY_INTERVIEW =
             "SELECT * FROM interview " +
-                    "JOIN vacancy ON vacancy.v_vacancy_id = interview.i_vacancy_id " +
-                    "JOIN user_info ON user_info.u_user_info_id = vacancy.v_company_id " +
-                    "WHERE u_user_info_id = ? " +
-                    "ORDER BY i_appointed_date";
+                    "WHERE i_vacancy_id IN " +
+                    "(SELECT v_vacancy_id FROM vacancy " +
+                    "WHERE v_company_id = ?) " +
+                    "ORDER BY i_appointed_date DESC";
 
     private static final String SELECT_ALL_VACANCIES_INTERVIEW_IN_WAITING_OR_IS_REJECTED =
             "SELECT * FROM interview " +
@@ -72,6 +73,36 @@ public class InterviewDaoImpl implements InterviewDao {
             instance = new InterviewDaoImpl();
         }
         return instance;
+    }
+
+    @Override
+    public boolean update(Interview interview) throws DaoException {
+        boolean result = false;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_INTERVIEW)) {
+            statement.setTimestamp(1, new Timestamp(interview.getAppointedDateTime().getTime()));
+            statement.setObject(2, interview.getInterviewStatus(), Types.OTHER);
+            statement.setString(3, interview.getCommunicationMethod());
+            statement.setLong(4, interview.getId());
+            int row = statement.executeUpdate();
+            if (row != 0) {
+                result = true;
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Interview> findInterviewByWorkerId(long id) throws DaoException {
+        return findInterviewsByUserId(id, SELECT_ALL_WORKER_INTERVIEW);
+    }
+
+    @Override
+    public List<Interview> findInterviewByCompanyId(long id) throws DaoException {
+        return findInterviewsByUserId(id, SELECT_ALL_COMPANY_INTERVIEW);
     }
 
     @Override
@@ -116,7 +147,22 @@ public class InterviewDaoImpl implements InterviewDao {
 
     @Override
     public Optional<Interview> findById(long id) throws DaoException {
-        return Optional.empty();
+        Optional<Interview> optionalInterview = Optional.empty();
+        MapperFromDbToEntity<Interview> mapper = new InterviewMapperFromDbToEntity();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_INTERVIEW_BY_ID)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    optionalInterview = mapper.map(resultSet);
+                }
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
+        }
+
+        return optionalInterview;
     }
 
     @Override
@@ -126,26 +172,31 @@ public class InterviewDaoImpl implements InterviewDao {
 
     @Override
     public List<Interview> findAll() throws DaoException {
-        return null;
-    }
 
-    @Override
-    public boolean update(Interview interview) throws DaoException {
-        return false;
-    }
-
-    @Override
-    public HashMap<Interview, Map.Entry<Vacancy, Location>> findInterviewByWorkerId(long id) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public HashMap<Interview, Map.Entry<Vacancy, Location>> findInterviewByCompanyId(long id) throws DaoException {
         return null;
     }
 
     @Override
     public boolean setNewInterviewStatusById(long id, InterviewStatus status) throws DaoException {
         return false;
+    }
+
+    private List<Interview> findInterviewsByUserId(long id, String selectAllWorkerInterview) throws DaoException {
+        MapperFromDbToEntity<Interview> mapper = new InterviewMapperFromDbToEntity();
+        List<Interview> interviewList = new ArrayList<>();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(selectAllWorkerInterview)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Optional<Interview> interview = mapper.map(resultSet);
+                    interview.ifPresent(interviewList::add);
+                }
+            }
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
+        }
+        return interviewList;
     }
 }

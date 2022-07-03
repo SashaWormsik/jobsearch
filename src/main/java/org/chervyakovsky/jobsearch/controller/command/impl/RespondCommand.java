@@ -35,11 +35,11 @@ public class RespondCommand implements Command {
             Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
             if (interviewService.createNewInterview(requestContent)) {
                 requestContent.setNewValueInSessionAttribute(AttributeName.RESPONSE_TO_A_VACANCY, true);
-                requestContent.setNewValueInSessionAttribute(AttributeName.VACANCY, entryVacancy);
+                requestContent.setNewValueInSessionAttribute(AttributeName.TEMP_VACANCY, entryVacancy);
                 router.setType(Router.Type.REDIRECT);
             }else{
                 requestContent.setNewValueInRequestAttributes(AttributeName.RESPONSE_TO_A_VACANCY, false);
-                requestContent.setNewValueInRequestAttributes(AttributeName.VACANCY, entryVacancy);
+                requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_VACANCY, entryVacancy);
                 router.setType(Router.Type.FORWARD);
             }
         } catch (ServiceException exception) {

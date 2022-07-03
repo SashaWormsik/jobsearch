@@ -28,10 +28,11 @@ public class InterviewMapperFromDbToEntity implements MapperFromDbToEntity<Inter
             interview.setVacancyId(resultSet.getLong(ColumnName.INTERVIEW_VACANCY_ID));
             interview.setInterviewStatus(InterviewStatus.getStatus(resultSet.getString(ColumnName.INTERVIEW_STATUS)));
             interview.setAppointedDateTime(resultSet.getTimestamp(ColumnName.INTERVIEW_APPOINTED_DATE));
+            optionalInterview = Optional.of(interview);
         } catch (SQLException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new DaoException(exception);
         }
-        return Optional.empty();
+        return optionalInterview;
     }
 }

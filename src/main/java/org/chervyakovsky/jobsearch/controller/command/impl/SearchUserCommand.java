@@ -28,7 +28,7 @@ public class SearchUserCommand implements Command {
         UserService userService = UserServiceImpl.getInstance();
         try {
             List<UserInfo> userInfoList = userService.findAllUserByCriteria(requestContent);
-            requestContent.setNewValueInRequestAttributes(AttributeName.LIST_USERS, userInfoList);
+            requestContent.setNewValueInRequestAttributes(AttributeName.USERS, userInfoList);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

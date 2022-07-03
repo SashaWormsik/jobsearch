@@ -21,7 +21,8 @@
            class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.vacancy"/>
         </a>
-        <a href="#" class="w3-bar-item w3-button w3-mobile">
+        <a href="${pageContext.request.contextPath}/controller?command=get_all_interviews"
+           class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.interview"/>
         </a>
     </c:if>
@@ -32,10 +33,8 @@
            class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.profile"/>
         </a>
-        <a href="#" class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.vacancy"/>
-        </a>
-        <a href="#" class="w3-bar-item w3-button w3-mobile">
+        <a href="${pageContext.request.contextPath}/controller?command=get_all_interviews"
+           class="w3-bar-item w3-button w3-mobile">
             <fmt:message key="menu.button.interview"/>
         </a>
     </c:if>
@@ -100,15 +99,3 @@
     </c:if>
     <!--END LOGIN and LOGOUT BUTTON-->
 </div>
-
-
-<script>
-    // Get the modal
-    const modal = document.getElementById('id01');
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>

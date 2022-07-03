@@ -23,14 +23,10 @@ public class GetUserInfoCommand implements Command {
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
         router.setPage(PagePath.ADMIN_USER_INFO_PAGE);
-        router.setType(Router.Type.FORWARD);
         UserService userService = UserServiceImpl.getInstance();
         try {
             Optional<UserInfo> optionalUserInfo = userService.findUserById(requestContent);
-            if (optionalUserInfo.isPresent()) {
-                UserInfo userInfo = optionalUserInfo.get();
-                requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_USER, userInfo);
-            }
+            optionalUserInfo.ifPresent(user -> requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_USER, user));
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

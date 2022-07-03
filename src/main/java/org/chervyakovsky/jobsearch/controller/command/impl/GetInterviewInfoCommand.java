@@ -9,36 +9,39 @@ import org.chervyakovsky.jobsearch.controller.Router;
 import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.exception.CommandException;
 import org.chervyakovsky.jobsearch.exception.ServiceException;
+import org.chervyakovsky.jobsearch.model.entity.Interview;
 import org.chervyakovsky.jobsearch.model.entity.Location;
 import org.chervyakovsky.jobsearch.model.entity.UserInfo;
 import org.chervyakovsky.jobsearch.model.entity.Vacancy;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
+import org.chervyakovsky.jobsearch.model.service.InterviewService;
+import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.model.service.VacancyService;
+import org.chervyakovsky.jobsearch.model.service.impl.InterviewServiceImpl;
+import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 import org.chervyakovsky.jobsearch.model.service.impl.VacancyServiceImpl;
 
 import java.util.Map;
+import java.util.Optional;
 
-public class ChangeVacancyStatusCommand implements Command {
+public class GetInterviewInfoCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
+        router.setPage(PagePath.INTERVIEW_INFO_PAGE);
+        InterviewService interviewService = InterviewServiceImpl.getInstance();
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
+        UserService userService = UserServiceImpl.getInstance();
         try {
-            if (vacancyService.changeVacancyStatus(requestContent)) {
-                Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
-                Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-                requestContent.setNewValueInSessionAttribute(AttributeName.TEMP_VACANCY, entryVacancy);
-                router.setType(Router.Type.REDIRECT);
-            } else {
-                Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
-                Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-                requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_VACANCY, entryVacancy);
-                router.setType(Router.Type.FORWARD);
-            }
-            router.setPage(PagePath.VACANCY_INFO_PAGE);
+            Optional<Interview> optionalInterview = interviewService.findInterviewById(requestContent);
+            Optional<UserInfo> optionalUserInfo = userService.findUserById(requestContent);
+            Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
+            optionalUserInfo.ifPresent(s -> requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_USER, s));
+            optionalInterview.ifPresent(s -> requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_INTERVIEW, s));
+            requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_VACANCY, vacancy.entrySet().iterator().next());
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

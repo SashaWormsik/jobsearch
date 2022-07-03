@@ -9,29 +9,25 @@ import org.chervyakovsky.jobsearch.controller.Router;
 import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.exception.CommandException;
 import org.chervyakovsky.jobsearch.exception.ServiceException;
-import org.chervyakovsky.jobsearch.model.entity.Location;
-import org.chervyakovsky.jobsearch.model.entity.UserInfo;
-import org.chervyakovsky.jobsearch.model.entity.Vacancy;
+import org.chervyakovsky.jobsearch.model.entity.Interview;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
-import org.chervyakovsky.jobsearch.model.service.VacancyService;
-import org.chervyakovsky.jobsearch.model.service.impl.VacancyServiceImpl;
+import org.chervyakovsky.jobsearch.model.service.InterviewService;
+import org.chervyakovsky.jobsearch.model.service.impl.InterviewServiceImpl;
 
-import java.util.Map;
+import java.util.List;
 
-public class GoToUpdateTheVacancy implements Command {
+public class GetAllInterviewForUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
-        router.setPage(PagePath.COMPANY_UPDATE_VACANCY_INFO_PAGE);
-        router.setType(Router.Type.FORWARD);
-        VacancyService vacancyService = VacancyServiceImpl.getInstance();
+        router.setPage(PagePath.ALL_INTERVIEW_PAGE);
+        InterviewService interviewService = InterviewServiceImpl.getInstance();
         try {
-            Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
-            Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-            requestContent.setNewValueInSessionAttribute(AttributeName.VACANCY, entryVacancy);
+            List<Interview> interviewList = interviewService.findAllUserInterview(requestContent);
+            requestContent.setNewValueInRequestAttributes(AttributeName.LIST_INTERVIEWS, interviewList);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

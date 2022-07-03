@@ -16,3 +16,20 @@ function clickFormEvent(i) {
         buttonCompany.style.display = 'block'
     }
 }
+
+let modalOne = document.getElementById('id01');
+let modalTwo = document.getElementById('id02');
+
+window.onclick = function (event) {
+    if (event.target === modalOne) {
+        modalOne.style.display = "none";
+    }
+    if (event.target === modalTwo) {
+        modalTwo.style.display = "none";
+    }
+}
+
+document.getElementById('idD').min = new Date(Date.now() + (3600 * 1000 * 24)).toISOString().slice(0, 16);
+document.getElementById('idD').value = new Date(Date.now() + (3600 * 1000 * 24)).toISOString().slice(0, 16);
+
+

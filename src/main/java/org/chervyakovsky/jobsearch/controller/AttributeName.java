@@ -5,10 +5,13 @@ public final class AttributeName {
 
     public static final String USER = "user";
     public static final String USER_LOCATION = "user_location";
-    public static final String VACANCIES = "vacancies";
-    public static final String VACANCY = "temp_vacancy";
+    public static final String USERS = "list_users";
     public static final String TEMP_USER = "temp_user";
-    public static final String LIST_USERS = "list_users";
+    public static final String VACANCIES = "vacancies";
+    public static final String TEMP_VACANCY = "temp_vacancy";
+    public static final String LIST_INTERVIEWS = "list_interviews";
+    public static final String TEMP_INTERVIEW = "temp_interview";
+
 
     public static final String ACCOUNT_IS_BLOCKED = "account_is_blocked";
 

@@ -26,12 +26,11 @@ public class GetVacancyInfoCommand implements Command {
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
         router.setPage(PagePath.VACANCY_INFO_PAGE);
-        router.setType(Router.Type.FORWARD);
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         try {
             Map<Vacancy, Map.Entry<Location, UserInfo>> vacancy = vacancyService.findVacancyById(requestContent);
             Map.Entry<Vacancy, Map.Entry<Location, UserInfo>> entryVacancy = vacancy.entrySet().iterator().next();
-            requestContent.setNewValueInRequestAttributes(AttributeName.VACANCY, entryVacancy);
+            requestContent.setNewValueInRequestAttributes(AttributeName.TEMP_VACANCY, entryVacancy);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

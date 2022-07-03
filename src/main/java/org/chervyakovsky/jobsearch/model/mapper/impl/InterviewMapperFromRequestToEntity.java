@@ -21,6 +21,7 @@ public class InterviewMapperFromRequestToEntity implements MapperFromRequestToEn
     public Interview map(RequestContent requestContent) {
         Interview interview = new Interview();
         HashMap<String, String[]> requestParameters = requestContent.getRequestParameters();
+        String[] id = requestParameters.get(ParameterName.INTERVIEW_ID);
         String[] date = requestParameters.get(ParameterName.INTERVIEW_APPOINTED_DATE);
         String[] status = requestParameters.get(ParameterName.INTERVIEW_STATUS);
         String[] vacancyId = requestParameters.get(ParameterName.INTERVIEW_VACANCY_ID);
@@ -34,6 +35,7 @@ public class InterviewMapperFromRequestToEntity implements MapperFromRequestToEn
                 LOGGER.log(Level.ERROR, exception);
             }
         });
+        apply(id, s -> interview.setId(Long.parseLong(s)));
         apply(status, s -> interview.setInterviewStatus(InterviewStatus.getStatus(s)));
         apply(vacancyId, s -> interview.setVacancyId(Long.parseLong(s)));
         apply(workerId, s -> interview.setUserInfoId(Long.parseLong(s)));

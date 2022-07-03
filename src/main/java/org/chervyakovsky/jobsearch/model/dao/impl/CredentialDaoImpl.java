@@ -17,7 +17,8 @@ import java.util.Optional;
 public class CredentialDaoImpl implements CredentialDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final String SELECT_ACTIVE_CREDENTIAL_BY_USER_ID = "SELECT * FROM credential WHERE c_user_info_id = ? AND c_active = true";
+    private static final String SELECT_ACTIVE_CREDENTIAL_BY_USER_ID =
+            "SELECT * FROM credential WHERE c_user_info_id = ? AND c_active = true";
     private static final String SELECT_ACTIVE_CREDENTIAL_BY_LOGIN =
             "SELECT c_credential_id, c_password, c_active, c_create_date, c_user_info_id " +
                     "FROM credential " +

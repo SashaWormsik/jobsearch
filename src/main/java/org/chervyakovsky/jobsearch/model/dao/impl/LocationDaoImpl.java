@@ -22,8 +22,7 @@ public class LocationDaoImpl implements LocationDao {
     private static final String SELECT_ID_LOCATION =
             "SELECT l_location_id, l_country, l_city FROM location WHERE l_country = ? AND l_city = ?";
     private static final String INSERT_NEW_LOCATION =
-            "INSERT INTO location(l_country, l_city) " +
-                    "VALUES (?, ?)";
+            "INSERT INTO location(l_country, l_city) VALUES (?, ?)";
 
     private static LocationDaoImpl instance;
 

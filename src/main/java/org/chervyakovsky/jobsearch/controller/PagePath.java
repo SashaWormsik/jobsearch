@@ -19,6 +19,9 @@ public final class PagePath {
     public static final String COMPANY_CREATE_VACANCY_PAGE = "pages/company/create_vacancy.jsp";
     public static final String COMPANY_UPDATE_VACANCY_INFO_PAGE = "pages/company/update_vacancy.jsp";
 
+    public static final String ALL_INTERVIEW_PAGE = "pages/common/interviews.jsp";
+    public static final String INTERVIEW_INFO_PAGE = "pages/common/interview_info.jsp";
+
     public static final String VACANCY_INFO_PAGE = "pages/vacancy.jsp";
 
     private PagePath() {

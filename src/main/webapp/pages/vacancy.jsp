@@ -127,10 +127,12 @@
                                 </div>
 
                                 <div class="w3-half">
-                                    <form action="${pageContext.request.contextPath}/controller"
-                                          method="post" id="change_status">
-                                        <input type="hidden" name="${ParameterName.COMMAND}" value="change_vacancy_status"/>
-                                        <input type="hidden" name="${ParameterName.VACANCY_ID}" value="${temp_vacancy.key.id}"/>
+                                    <form action="${pageContext.request.contextPath}/controller" method="post"
+                                          id="change_status">
+                                        <input type="hidden" name="${ParameterName.COMMAND}"
+                                               value="change_vacancy_status"/>
+                                        <input type="hidden" name="${ParameterName.VACANCY_ID}"
+                                               value="${temp_vacancy.key.id}"/>
                                         <c:if test="${temp_vacancy.key.vacancyStatus == true}">
                                             <button class="w3-button w3-block w3-pink w3-section w3-padding"
                                                     type="submit"
@@ -147,85 +149,10 @@
                                         </c:if>
                                     </form>
                                 </div>
-
                             </div>
                         </c:if>
-
                     </div>
                 </div>
-
-                <c:if test="${user.role == 'COMPANY' and user.id == temp_vacancy.key.companyId}">
-                    <div class="w3-row w3-section">
-                        <div class="w3-half" style="padding-right: 8px;">
-                            <div class="w3-card-4 w3-white w3-padding">
-                                <table class="w3-table w3-bordered w3-hoverable w3-centered">
-                                    <caption><fmt:message key="label.vacancy.table.responses"/></caption>
-                                    <thead>
-                                    <tr class="w3-pink">
-                                        <th class="w3-border w3-border-black"><fmt:message
-                                                key="label.vacancy.table.column.user"/></th>
-                                        <th class="w3-border w3-border-black"><fmt:message
-                                                key="label.vacancy.table.column.date.response"/></th>
-                                        <th class="w3-border w3-border-black"><fmt:message
-                                                key="label.vacancy.table.column.action"/></th>
-                                    </tr>
-                                    </thead>
-                                    <c:forEach var="user_response" items="${users_responses}">
-                                        <tr>
-                                            <td class="w3-border w3-border-black">
-                                                <a href="#">
-                                                    <!--добавить ссылку на переход к юзеру -->
-                                                        ${user_response.key.userName} ${user_response.key.userSurName}
-                                                </a>
-                                            </td>
-                                            <td class="w3-border w3-border-black">${user_response.value.appointedDateTime}</td>
-                                            <td class="w3-border w3-border-black">
-                                                <button class="w3-button w3-green w3-hover-blue">
-                                                    <fmt:message key="table.vacancy.responses.action.appoint"/>
-                                                </button>
-                                                <button class="w3-button w3-pink w3-hover-black">
-                                                    <fmt:message key="table.vacancy.responses.action.reject"/>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="w3-half">
-                            <div class="w3-card-4 w3-white w3-padding">
-                                <table class="w3-table w3-bordered w3-hoverable w3-centered">
-                                    <caption><fmt:message key="label.vacancy.table.interview"/></caption>
-                                    <thead>
-                                    <tr class="w3-blue">
-                                        <th class="w3-border w3-border-black"><fmt:message
-                                                key="label.vacancy.table.column.user"/></th>
-                                        <th class="w3-border w3-border-black"><fmt:message
-                                                key="label.vacancy.table.column.date.interview"/></th>
-                                        <th class="w3-border w3-border-black"><fmt:message
-                                                key="label.vacancy.table.column.action"/></th>
-                                    </tr>
-                                    </thead>
-                                    <c:forEach var="user_interview" items="${users_interviews}">
-                                        <tr>
-                                            <td class="w3-border w3-border-black">
-                                                <a href="#">
-                                                    <!--добавить ссылку на переход к юзеру -->
-                                                        ${user_interview.key.userName} ${user_interview.key.userSurName}
-                                                </a>
-                                            </td>
-                                            <td class="w3-border w3-border-black">${user_interview.value.appointedDateTime}</td>
-                                            <td class="w3-border w3-border-black">
-                                                <button class="w3-button w3-green w3-hover-blue">+</button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
-
             </div>
         </div>
     </main>
