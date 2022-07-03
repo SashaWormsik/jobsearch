@@ -11,7 +11,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.mainpage"/></title>
+    <title><fmt:message key="title.update_vacancy.page"/></title>
 </head>
 
 <body>
@@ -35,7 +35,7 @@
             <div class="w3-threequarter w3-section">
                 <div class="w3-card-4 w3-white">
                     <div class="w3-container w3-center w3-green">
-                        <h2><fmt:message key="label.vacancy"/>: ${temp_vacancy.key.jobTitle}</h2>
+                        <h2><fmt:message key="text.vacancy.page"/>: ${temp_vacancy.key.jobTitle}</h2>
                     </div>
                     <form action="${pageContext.request.contextPath}/controller" method="post" class="w3-container">
                         <input type="hidden" name="${ParameterName.COMMAND}" value="update_vacancy"/>
@@ -54,7 +54,7 @@
                                        title="<fmt:message key="form.input.title.vacancy.jobtitle"/>"
                                        required/>
 
-                                <label><h4><b><fmt:message key="label.vacancy.workexperience"/>: </b></h4></label>
+                                <label><h4><b><fmt:message key="label.vacancy.experience"/>: </b></h4></label>
                                 <select class="w3-input w3-border"
                                         name="${ParameterName.VACANCY_WORK_EXPERIENCE}"
                                         required>
@@ -120,24 +120,24 @@
                             </div>
 
                             <div class="w3-half">
-                                <label><h4><b><fmt:message key="label.vacancy.country"/>: </b></h4></label>
+                                <label><h4><b><fmt:message key="label.location.country"/>: </b></h4></label>
                                 <input class="w3-input w3-border"
                                        type="text"
                                        name="${ParameterName.LOCATION_COUNTRY}"
                                        value="${temp_vacancy.value.key.country}"
-                                       placeholder="<fmt:message key="label.vacancy.country"/>"
+                                       placeholder="<fmt:message key="label.location.country"/>"
                                        pattern="[A-Za-zА-Яа-я]+"
-                                       title="<fmt:message key="form.input.title.country.pattern"/>"
+                                       title="<fmt:message key="message.incorrect.country.pattern"/>"
                                        required/>
 
-                                <label><h4><b><fmt:message key="label.vacancy.city"/>: </b></h4></label>
+                                <label><h4><b><fmt:message key="label.location.city"/>: </b></h4></label>
                                 <input class="w3-input w3-border"
                                        type="text"
                                        name="${ParameterName.LOCATION_CITY}"
                                        value="${temp_vacancy.value.key.city}"
-                                       placeholder="<fmt:message key="label.vacancy.city"/>"
+                                       placeholder="<fmt:message key="label.location.city"/>"
                                        pattern="[A-Za-zА-Яа-я]+"
-                                       title="<fmt:message key="form.input.title.city.pattern"/>"
+                                       title="<fmt:message key="message.incorrect.city.pattern"/>"
                                        required/>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                             </label>
                         </div>
                         <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">
-                            <fmt:message key="save.button"/>
+                            <fmt:message key="button.save"/>
                         </button>
                     </form>
                 </div>

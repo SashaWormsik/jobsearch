@@ -7,7 +7,7 @@
 <html>
 <head>
     <%@ include file="fragment/head.jsp" %>
-    <title><fmt:message key="title.mainpage"/></title>
+    <title><fmt:message key="title.main.page"/></title>
 </head>
 
 <body>
@@ -21,43 +21,43 @@
             <div class="w3-quarter w3-section" style=" word-break: break-all">
                 <div class="w3-card-4 w3-white">
                     <div class="w3-container w3-center w3-green">
-                        <h2><fmt:message key="label.search.parameters"/></h2>
+                        <h2><fmt:message key="text.main.page.parameters"/></h2>
                     </div>
                     <form class="w3-container" action="${pageContext.request.contextPath}/controller" method="get">
                         <div class="w3-section">
                             <input type="hidden" name="command" value="search_vacancy"/>
                             <label>
-                                <b class="w3-text-black"><fmt:message key="label.search.country"/></b>
+                                <b class="w3-text-black"><fmt:message key="label.location.country"/></b>
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.LOCATION_COUNTRY}"
-                                   placeholder="<fmt:message key="label.search.country"/>"
+                                   placeholder="<fmt:message key="label.location.country"/>"
                                    pattern="^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$"
-                                   title="<fmt:message key="form.input.title.country.pattern"/>"
+                                   title="<fmt:message key="message.incorrect.country.pattern"/>"
                                    value="${location_country}"/>
 
                             <label>
-                                <b class="w3-text-black"><fmt:message key="label.search.city"/></b>
+                                <b class="w3-text-black"><fmt:message key="label.location.city"/></b>
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.LOCATION_CITY}"
-                                   placeholder="<fmt:message key="label.search.city"/>"
+                                   placeholder="<fmt:message key="label.location.city"/>"
                                    pattern="^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$"
-                                   title="<fmt:message key="form.input.title.city.pattern"/>"
+                                   title="<fmt:message key="message.incorrect.city.pattern"/>"
                                    value="${location_city}"/>
 
                             <label>
-                                <b class="w3-text-black"><fmt:message key="label.search.profession"/></b>
+                                <b class="w3-text-black"><fmt:message key="label.user.profession"/></b>
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.VACANCY_JOB_TITLE}"
-                                   placeholder="<fmt:message key="label.search.profession"/>"
+                                   placeholder="<fmt:message key="label.user.profession"/>"
                                    pattern="^([А-Яа-яa-zA-Z]{1})([\hа-яa-z-]+)([а-яa-z]{1})$"
-                                   title="<fmt:message key="form.input.title.profession.pattern"/>"
+                                   title="<fmt:message key="message.incorrect.profession.pattern"/>"
                                    value="${vacancy_job_title}"/>
 
                             <label>
-                                <b class="w3-text-black"><fmt:message key="label.search.experience"/></b>
+                                <b class="w3-text-black"><fmt:message key="label.vacancy.experience"/></b>
                             </label><br/>
                             <input type="radio" id="WITHOUT"
                                    name="${ParameterName.VACANCY_WORK_EXPERIENCE}"
@@ -65,7 +65,7 @@
                                     <c:if test="${vacancy_work_experience=='WITHOUT'}">
                                         checked
                                     </c:if>/>
-                            <label for="WITHOUT"><fmt:message key="label.search.experience.without"/></label><br/>
+                            <label for="WITHOUT"><fmt:message key="label.vacancy.experience.without"/></label><br/>
 
                             <input type="radio" id="UP_TO_A_YEAR"
                                    name="${ParameterName.VACANCY_WORK_EXPERIENCE}"
@@ -74,7 +74,7 @@
                                         checked
                                     </c:if>/>
                             <label for="UP_TO_A_YEAR"><fmt:message
-                                    key="label.search.experience.uptoayear"/></label><br/>
+                                    key="label.vacancy.experience.uptoayear"/></label><br/>
 
                             <input type="radio" id="FROM_1_TO_3_YEARS"
                                    name="${ParameterName.VACANCY_WORK_EXPERIENCE}"
@@ -82,7 +82,7 @@
                                     <c:if test="${vacancy_work_experience=='FROM_1_TO_3_YEARS'}">
                                         checked
                                     </c:if>/>
-                            <label for="FROM_1_TO_3_YEARS"><fmt:message key="label.search.experience.from1to3"/></label><br/>
+                            <label for="FROM_1_TO_3_YEARS"><fmt:message key="label.vacancy.experience.from1to3"/></label><br/>
 
                             <input type="radio" id="FROM_3_TO_5_YEARS"
                                    name="${ParameterName.VACANCY_WORK_EXPERIENCE}"
@@ -90,7 +90,7 @@
                                     <c:if test="${vacancy_work_experience=='FROM_3_TO_5_YEARS'}">
                                         checked
                                     </c:if>/>
-                            <label for="FROM_3_TO_5_YEARS"><fmt:message key="label.search.experience.from3to5"/></label><br/>
+                            <label for="FROM_3_TO_5_YEARS"><fmt:message key="label.vacancy.experience.from3to5"/></label><br/>
 
                             <input type="radio" id="MORE_THAN_5_YEARS"
                                    name="${ParameterName.VACANCY_WORK_EXPERIENCE}"
@@ -99,10 +99,10 @@
                                         checked
                                     </c:if>/>
                             <label for="MORE_THAN_5_YEARS"><fmt:message
-                                    key="label.search.experience.morethan5"/></label><br/>
+                                    key="label.vacancy.experience.morethan5"/></label><br/>
 
                             <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">
-                                <fmt:message key="search.button"/>
+                                <fmt:message key="button.search"/>
                             </button>
                         </div>
                     </form>
@@ -114,7 +114,7 @@
                 <div class="w3-card-4 w3-white">
 
                     <div class="w3-container w3-center w3-green">
-                        <h2><fmt:message key="label.search.result"/></h2>
+                        <h2><fmt:message key="text.main.page.search_result"/></h2>
                     </div>
 
                     <div class="w3-container">
@@ -137,21 +137,21 @@
                                 <div class="w3-bar-item w3-border-right w3-center"
                                      style="width: 12%; padding: 8px; height: 130px">
                                     <span><h6><b>${vacancy.key.getSalary()} ${vacancy.key.getCurrency()}</b></h6></span><br>
-                                    <span><fmt:message key="label.vacancy.workexperience"/></span><br>
+                                    <span><fmt:message key="label.vacancy.experience"/></span><br>
                                     <c:if test="${vacancy_work_experience=='WITHOUT'}">
-                                        <span><fmt:message key="label.search.experience.without"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.without"/></span>
                                     </c:if>
                                     <c:if test="${vacancy_work_experience=='UP_TO_A_YEAR'}">
-                                        <span><fmt:message key="label.search.experience.uptoayear"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.uptoayear"/></span>
                                     </c:if>
                                     <c:if test="${vacancy_work_experience=='FROM_1_TO_3_YEARS'}">
-                                        <span><fmt:message key="label.search.experience.from1to3"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.from1to3"/></span>
                                     </c:if>
                                     <c:if test="${vacancy_work_experience=='FROM_3_TO_5_YEARS'}">
-                                        <span><fmt:message key="label.search.experience.from3to5"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.from3to5"/></span>
                                     </c:if>
                                     <c:if test="${vacancy_work_experience=='MORE_THAN_5_YEARS'}">
-                                        <span><fmt:message key="label.search.experience.morethan5"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.morethan5"/></span>
                                     </c:if>
                                 </div>
                                 <div class="w3-bar-item " style="width: 68%; padding: 0 0 0 8px; height: 130px">

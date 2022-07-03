@@ -13,9 +13,9 @@ public final class PagePath {
 
     public static final String ADMIN_ADD_NEW_ADMIN_PAGE = "pages/admin/add_new_admin.jsp";
     public static final String ADMIN_ALL_USERS_PAGE = "pages/admin/all_users.jsp";
-    public static final String ADMIN_USER_INFO_PAGE = "pages/admin/user_info.jsp";
+    public static final String ADMIN_USER_INFO_PAGE = "pages/common/user_info.jsp";
 
-    public static final String COMPANY_ALL_VACANCIES_PAGE = "pages/company/company_vacancies.jsp";
+    public static final String COMPANY_ALL_VACANCIES_PAGE = "pages/company/vacancies.jsp";
     public static final String COMPANY_CREATE_VACANCY_PAGE = "pages/company/create_vacancy.jsp";
     public static final String COMPANY_UPDATE_VACANCY_INFO_PAGE = "pages/company/update_vacancy.jsp";
 

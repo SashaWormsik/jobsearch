@@ -7,7 +7,7 @@
 <html>
 <head>
     <%@ include file="fragment/head.jsp" %>
-    <title><fmt:message key="title.login"/></title>
+    <title><fmt:message key="title.login.page"/></title>
 </head>
 
 <body>

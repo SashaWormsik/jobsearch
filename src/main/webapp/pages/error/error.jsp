@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.error_page"/></title>
+    <title><fmt:message key="title.error.page"/></title>
 </head>
 
 <body>

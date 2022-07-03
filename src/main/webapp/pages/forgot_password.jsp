@@ -7,7 +7,7 @@
 <html>
 <head>
     <%@ include file="fragment/head.jsp" %>
-    <title><fmt:message key="title.forgot_password"/></title>
+    <title><fmt:message key="title.forgot_password.page"/></title>
 </head>
 
 <body>
@@ -28,20 +28,21 @@
             <form class="w3-container" action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="forgot_password"/>
                 <div class="w3-section">
-
-                    <!-- СООБЩЕНИЕ ЧТО ТАКОЙ ПОЧТЫ НЕТ -->
                     <c:if test="${forgot_password == false}">
                         <div class="w3-center w3-red">
                             <fmt:message key="message.forgot_password.not.send"/>
                         </div>
                     </c:if>
-                    <!-- ЧТО ПИСЬМО УСПЕШНО ОТПРАВЛЕНО -->
                     <c:if test="${forgot_password == true}">
-                        <div class="w3-center w3-red">
+                        <div class="w3-center w3-blue">
                             <fmt:message key="message.forgot_password.send"/>
                         </div>
                     </c:if>
-
+                    <c:if test="${incorrect_email == true}">
+                        <div class="w3-left w3-red w3-block">
+                            <fmt:message key="message.incorrect.email.pattern"/>
+                        </div>
+                    </c:if>
                     <label>
                         <b><fmt:message key="label.user.email"/></b>
                     </label>
@@ -50,11 +51,11 @@
                            name="${ParameterName.USER_EMAIL}"
                            placeholder="<fmt:message key="label.user.email"/>" required
                            pattern="^[\p{Alpha}\p{Digit}_!#$%&'*+/=?`{|}~^.-]+@[\p{Alpha}\p{Digit}.-]+$"
-                           title="<fmt:message key="form.input.title.email.pattern"/>"/>
+                           title="<fmt:message key="message.incorrect.email.pattern"/>"/>
 
                     <button class="w3-button w3-block w3-green w3-section w3-padding"
                             type="submit">
-                        <fmt:message key="forgot_password.button.send.email"/>
+                        <fmt:message key="button.send.email"/>
                     </button>
                 </div>
             </form>

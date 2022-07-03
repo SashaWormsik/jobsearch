@@ -7,7 +7,7 @@
 <html>
 <head>
     <%@ include file="fragment/head.jsp" %>
-    <title><fmt:message key="title.reset_password"/></title>
+    <title><fmt:message key="title.reset_password.page"/></title>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
                     <!-- PASSWORD -->
                     <c:if test="${incorrect_password == true}">
                         <div class="w3-left w3-red w3-block">
-                            <fmt:message key="form.input.title.password.pattern"/>
+                            <fmt:message key="message.incorrect.password.pattern"/>
                         </div>
                         <br/>
                     </c:if>
@@ -44,12 +44,10 @@
                            type="password" name="${ParameterName.CREDENTIAL_PASSWORD}"
                            placeholder="<fmt:message key="label.user.password"/>" required
                            pattern="^(?=.*[\p{A-Za-z}])(?=.*\d)[\p{A-Za-z}\d]{8,20}$"
-                           title="<fmt:message key="form.input.title.password.pattern"/>"/>
-
-                    <!-- PASSWORD CONFIRM-->
+                           title="<fmt:message key="message.incorrect.password.pattern"/>"/>
                     <c:if test="${incorrect_confirm_password == true}">
                         <div class="w3-left w3-red w3-block">
-                            <fmt:message key="form.input.title.confirm.password.pattern"/>
+                            <fmt:message key="message.incorrect.confirm.password.pattern"/>
                         </div>
                         <br/>
                     </c:if>
@@ -60,11 +58,11 @@
                            type="password" name="${ParameterName.CREDENTIAL_CONFIRM_PASSWORD}"
                            placeholder="<fmt:message key="label.user.password.confirm"/>" required
                            pattern="^(?=.*[\p{A-Za-z}])(?=.*\d)[\p{A-Za-z}\d]{8,20}$"
-                           title="<fmt:message key="form.input.title.password.pattern"/>"/>
+                           title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
                     <button class="w3-button w3-block w3-green w3-section w3-padding"
                             type="submit">
-                        <fmt:message key="reset_password.button.update"/>
+                        <fmt:message key="button.update"/>
                     </button>
                 </div>
             </form>

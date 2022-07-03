@@ -11,7 +11,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.user_info.page"/></title>
+    <title><fmt:message key="title.interviews.page"/></title>
 </head>
 
 <body>

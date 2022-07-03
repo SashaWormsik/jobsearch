@@ -12,7 +12,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.user_info.page"/></title>
+    <title><fmt:message key="title.interview_info.page"/></title>
 </head>
 
 <body>
@@ -37,14 +37,14 @@
             <div class="w3-threequarter w3-section" style=" word-break: break-all">
                 <div class="w3-card-4 w3-white">
                     <div class="w3-container w3-green w3-center">
-                        <h4><fmt:message key="label.vacancy"/>: ${temp_vacancy.key.jobTitle}</b></h4>
+                        <h4><fmt:message key="text.vacancy.page"/>: ${temp_vacancy.key.jobTitle}</b></h4>
                     </div>
                     <div class="w3-container">
                         <div class="w3-row">
                             <div class="w3-half">
                                 <h4><b><fmt:message key="label.vacancy.salary"/>: </b>
                                     ${temp_vacancy.key.salary} ${temp_vacancy.key.currency}</h4>
-                                <h4><b><fmt:message key="label.vacancy.workexperience"/>: </b>
+                                <h4><b><fmt:message key="label.vacancy.experience"/>: </b>
                                     <c:if test="${temp_vacancy.key.workExperienceStatus == 'WITHOUT'}">
                                         <fmt:message key="label.vacancy.experience.without"/>
                                     </c:if>
@@ -63,9 +63,9 @@
                                 </h4>
                             </div>
                             <div class="w3-half">
-                                <h4><b><fmt:message key="label.vacancy.country"/>: </b>${temp_vacancy.value.key.country}
+                                <h4><b><fmt:message key="label.location.country"/>: </b>${temp_vacancy.value.key.country}
                                 </h4>
-                                <h4><b><fmt:message key="label.vacancy.city"/>: </b>${temp_vacancy.value.key.city}</h4>
+                                <h4><b><fmt:message key="label.location.city"/>: </b>${temp_vacancy.value.key.city}</h4>
                             </div>
                         </div>
                     </div>

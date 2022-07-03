@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@ include file="fragment/head.jsp" %>
-    <title><fmt:message key="title.registration"/></title>
+    <title><fmt:message key="title.registration.page"/></title>
 </head>
 
 <body>
@@ -32,21 +32,19 @@
                     <button id="buttonCompany"
                             onclick="clickFormEvent('company')"
                             class="w3-button w3-xlarge w3-block w3-light-green">
-                        <h1><fmt:message key="registration.button.enter.company"/></h1>
+                        <h1><fmt:message key="button.company"/></h1>
                     </button>
 
                     <button id="buttonWorker"
                             onclick="clickFormEvent('worker')"
                             class="w3-button w3-xlarge w3-block w3-green">
-                        <h1><fmt:message key="registration.button.enter.worker"/></h1>
+                        <h1><fmt:message key="button.worker"/></h1>
                     </button>
                 </div>
             </div>
-            <!--WORKER FORM -->
             <div id="worker" style="display: none">
                 <%@include file="fragment/WorkerRegistration.jsp" %>
             </div>
-            <!--COMPANY FORM -->
             <div id="company" style="display: none">
                 <%@include file="fragment/CompanyRegistration.jsp" %>
             </div>

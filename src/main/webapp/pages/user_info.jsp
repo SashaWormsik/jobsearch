@@ -5,18 +5,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@include file="../fragment/lang_and_user.jsp" %>
+<%@include file="fragment/lang_and_user.jsp" %>
 
 <html>
 <head>
-    <%@ include file="../fragment/head.jsp" %>
+    <%@ include file="fragment/head.jsp" %>
     <title><fmt:message key="title.user_info.page"/></title>
 </head>
 
 <body>
 <div class="wrapper">
     <header class="header">
-        <%@include file="../fragment/header.jsp" %>
+        <%@include file="fragment/header.jsp" %>
     </header>
 
     <main class="main">
@@ -50,13 +50,11 @@
                     <div class="w3-container">
                         <c:choose>
                             <c:when test="${temp_user.role == 'COMPANY'}">
-                                <h4><b><fmt:message key="label.user.companyname"/>: </b>${temp_user.userName}
-                                </h4>
+                                <h4><b><fmt:message key="label.user.companyname"/>: </b>${temp_user.userName}</h4>
                             </c:when>
                             <c:when test="${temp_user.role == 'ADMIN' || temp_user.role == 'WORKER'}">
                                 <h4><b><fmt:message key="label.user.name"/>: </b>${temp_user.userName}</h4>
-                                <h4><b><fmt:message key="label.user.surname"/>: </b>${temp_user.userSurName}
-                                </h4>
+                                <h4><b><fmt:message key="label.user.surname"/>: </b>${temp_user.userSurName}</h4>
                             </c:when>
                         </c:choose>
                         <c:if test="${temp_user.role == 'WORKER'}">
@@ -91,9 +89,7 @@
                             </h4>
                         </c:if>
                         <c:if test="${temp_user.role == 'COMPANY' || temp_user.role == 'WORKER'}">
-                            <h4><b><fmt:message key="label.user.description"/>: </b>
-                                    ${temp_user.description}
-                            </h4>
+                            <h4><b><fmt:message key="label.user.description"/>: </b>${temp_user.description}</h4>
                         </c:if>
                         <c:if test="${user.role == 'ADMIN'}">
                             <form action="${pageContext.request.contextPath}/controller" method="post">
@@ -101,15 +97,11 @@
                                 <input type="hidden" name="${ParameterName.USER_ID}" value="${temp_user.id}"/>
                                 <c:if test="${temp_user.userStatus == true}">
                                     <button class="w3-button w3-block w3-green w3-section w3-padding"
-                                            type="submit">
-                                        <fmt:message key="button.block"/>
-                                    </button>
+                                            type="submit"><fmt:message key="button.block"/></button>
                                 </c:if>
                                 <c:if test="${temp_user.userStatus == false}">
                                     <button class="w3-button w3-block w3-red w3-section w3-padding"
-                                            type="submit">
-                                        <fmt:message key="button.unblock"/>
-                                    </button>
+                                            type="submit"><fmt:message key="button.unblock"/></button>
                                 </c:if>
                             </form>
                         </c:if>
@@ -120,7 +112,7 @@
     </main>
 
     <footer class="footer">
-        <%@include file="../fragment/footer.jsp" %>
+        <%@include file="fragment/footer.jsp" %>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

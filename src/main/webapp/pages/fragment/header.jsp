@@ -8,22 +8,22 @@
      style="padding-left: 32px; padding-right: 32px;">
     <!-- GO to main page-->
     <a href="${pageContext.request.contextPath}/pages/main.jsp" class="w3-bar-item w3-button w3-mobile w3-green">
-        <fmt:message key="menu.button.main"/>
+        <fmt:message key="button.main"/>
     </a>
 
     <!-- MENU for company-->
     <c:if test="${user.role == UserRoleStatus.COMPANY}">
         <a href="${pageContext.request.contextPath}/pages/common/account.jsp"
            class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.profile"/>
+            <fmt:message key="button.profile"/>
         </a>
         <a href="${pageContext.request.contextPath}/controller?command=get_all_vacancies_for_company"
            class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.vacancy"/>
+            <fmt:message key="button.vacancy"/>
         </a>
         <a href="${pageContext.request.contextPath}/controller?command=get_all_interviews"
            class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.interview"/>
+            <fmt:message key="button.interview"/>
         </a>
     </c:if>
 
@@ -31,11 +31,11 @@
     <c:if test="${user.role == UserRoleStatus.WORKER}">
         <a href="${pageContext.request.contextPath}/pages/common/account.jsp"
            class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.profile"/>
+            <fmt:message key="button.profile"/>
         </a>
         <a href="${pageContext.request.contextPath}/controller?command=get_all_interviews"
            class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.interview"/>
+            <fmt:message key="button.interview"/>
         </a>
     </c:if>
 
@@ -43,28 +43,28 @@
     <c:if test="${user.role == UserRoleStatus.ADMIN}">
         <a href="${pageContext.request.contextPath}/pages/common/account.jsp"
            class="w3-bar-item w3-button w3-mobile">
-            <fmt:message key="menu.button.profile"/>
+            <fmt:message key="button.profile"/>
         </a>
         <div class="w3-dropdown-hover w3-mobile">
-            <button class="w3-button"><fmt:message key="menu.button.dropdown"/>
+            <button class="w3-button"><fmt:message key="button.dropdown"/>
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="w3-dropdown-content w3-bar-block w3-dark-grey">
                 <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=WORKER&page=1"
                    class="w3-bar-item w3-button w3-mobile">
-                    <fmt:message key="menu.button.dropdown.users"/>
+                    <fmt:message key="button.dropdown.users"/>
                 </a>
                 <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=COMPANY&page=1"
                    class="w3-bar-item w3-button w3-mobile">
-                    <fmt:message key="menu.button.dropdown.companies"/>
+                    <fmt:message key="button.dropdown.companies"/>
                 </a>
                 <a href="${pageContext.request.contextPath}/controller?command=get_all_users&user_role=ADMIN&page=1"
                    class="w3-bar-item w3-button w3-mobile">
-                    <fmt:message key="menu.button.dropdown.admins"/>
+                    <fmt:message key="button.dropdown.admins"/>
                 </a>
                 <a href="${pageContext.request.contextPath}/pages/admin/add_new_admin.jsp"
                    class="w3-bar-item w3-button w3-mobile">
-                    <fmt:message key="menu.button.dropdown.addadmin"/>
+                    <fmt:message key="button.dropdown.addadmin"/>
                 </a>
             </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="w3-right w3-mobile">
             <a href="${pageContext.request.contextPath}/controller?command=logout"
                class="w3-button w3-block w3-red">
-                <fmt:message key="menu.button.logout"/>
+                <fmt:message key="button.logout"/>
             </a>
         </div>
     </c:if>
@@ -86,7 +86,7 @@
         <div class="w3-right w3-mobile">
             <button onclick="document.getElementById('id01').style.display='block'"
                     class="w3-block w3-button w3-green">
-                <fmt:message key="menu.button.login"/>
+                <fmt:message key="button.login"/>
             </button>
             <!-- END LOGIN BUTTON-->
         </div>

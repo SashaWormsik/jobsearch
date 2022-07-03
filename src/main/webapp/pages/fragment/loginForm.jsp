@@ -7,12 +7,12 @@
 
 <div class="w3-modal-content w3-card-4" style="max-width:600px">
     <div class="w3-center">
-        <c:if test="${incorrect_login_or_password}">
+        <c:if test="${incorrect_login_or_password == true}">
             <div class="w3-center w3-red">
                 <fmt:message key="message.login.incorrect"/>
             </div>
         </c:if>
-        <c:if test="${account_is_blocked}">
+        <c:if test="${account_is_blocked == true}">
             <div class="w3-center w3-red">
                 <fmt:message key="message.login.account.blocked"/>
             </div>
@@ -29,7 +29,7 @@
             </div>
         </c:if>
 
-        <c:if test="${temp_successful_registration}">
+        <c:if test="${temp_successful_registration == true}">
             <div class="w3-center w3-blue">
                 <fmt:message key="message.successful.registration"/>
             </div>
@@ -51,7 +51,7 @@
                    type="text" name="${ParameterName.USER_LOGIN}"
                    placeholder="<fmt:message key="label.user.login"/>" required
                    pattern="^[@A-Za-z]\w{4,20}$"
-                   title="<fmt:message key="form.input.title.login.pattern"/>"/>
+                   title="<fmt:message key="message.incorrect.login.pattern"/>"/>
 
             <label>
                 <b class="w3-text-black"><fmt:message key="label.user.password"/></b>
@@ -60,11 +60,11 @@
                    type="password" name="${ParameterName.CREDENTIAL_PASSWORD}"
                    placeholder="<fmt:message key="label.user.password"/>" required
                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"
-                   title="<fmt:message key="form.input.title.password.pattern"/>"/>
+                   title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
             <button class="w3-button w3-block w3-green w3-section w3-padding"
                     type="submit">
-                <fmt:message key="login.button"/>
+                <fmt:message key="button.login"/>
             </button>
         </div>
     </form>
@@ -74,13 +74,13 @@
         <!-- TO REGISTRATION-->
         <span class="w3-left w3-hide-small">
                        <a href="${pageContext.request.contextPath}/pages/registration.jsp">
-                           <fmt:message key="label.registration"/>
+                           <fmt:message key="button.registration.login"/>
                        </a>
         </span>
         <!-- TO FORGOT PASSWORD-->
         <span class="w3-right w3-hide-small">
                        <a href="${pageContext.request.contextPath}/pages/forgot_password.jsp">
-                           <fmt:message key="label.forgotpassword"/>
+                           <fmt:message key="button.forgotpassword.login"/>
                        </a>
         </span>
     </div>

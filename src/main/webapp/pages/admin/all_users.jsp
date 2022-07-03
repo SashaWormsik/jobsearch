@@ -10,7 +10,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.all_users_page"/></title>
+    <title><fmt:message key="title.all_users.page"/></title>
 </head>
 
 <body>

@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.add_new_admin_page"/></title>
+    <title><fmt:message key="title.add_new_admin.page"/></title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
                     </c:if>
                     <div class="w3-container">
                         <form id="form2" class="w3-container" action="${pageContext.request.contextPath}/controller" method="post">
-                            <input type="hidden" name="command" value="add_new_admin"/>
+                            <input type="hidden" name="command" value="create_new_admin"/>
                             <input type="hidden" name="${ParameterName.USER_ROLE}" value="ADMIN"/>
                             <div class="w3-section">
 

@@ -9,7 +9,7 @@
 <html>
 <head>
     <%@ include file="../fragment/head.jsp" %>
-    <title><fmt:message key="title.account.page"/></title>
+    <title><fmt:message key="title.vacancies.page"/></title>
 </head>
 
 <body>
@@ -58,26 +58,26 @@
                                        target="_blank">
                                         <h6><b>${vacancy.key.getJobTitle()}</b></h6>
                                     </a><br>
-                                    <span>${vacancy.value.getCountry()}, ${vacancy.value.getCity()}</span>
+                                    <span>${vacancy.value.getCountry()} ${vacancy.value.getCity()}</span>
                                 </div>
                                 <div class="w3-bar-item w3-border-right w3-center"
                                      style="width: 12%; padding: 8px; height: 130px">
                                     <span><h6><b>${vacancy.key.getSalary()} ${vacancy.key.getCurrency()}</b></h6></span><br>
                                     <span>Опыт работы</span><br>
                                     <c:if test="${vacancy.key.getWorkExperienceStatus()=='WITHOUT'}">
-                                        <span><fmt:message key="label.search.experience.without"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.without"/></span>
                                     </c:if>
                                     <c:if test="${vacancy.key.getWorkExperienceStatus()=='UP_TO_A_YEAR'}">
-                                        <span><fmt:message key="label.search.experience.uptoayear"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.uptoayear"/></span>
                                     </c:if>
                                     <c:if test="${vacancy.key.getWorkExperienceStatus()=='FROM_1_TO_3_YEARS'}">
-                                        <span><fmt:message key="label.search.experience.from1to3"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.from1to3"/></span>
                                     </c:if>
                                     <c:if test="${vacancy.key.getWorkExperienceStatus()=='FROM_3_TO_5_YEARS'}">
-                                        <span><fmt:message key="label.search.experience.from3to5"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.from3to5"/></span>
                                     </c:if>
                                     <c:if test="${vacancy.key.getWorkExperienceStatus()=='MORE_THAN_5_YEARS'}">
-                                        <span><fmt:message key="label.search.experience.morethan5"/></span>
+                                        <span><fmt:message key="label.vacancy.experience.morethan5"/></span>
                                     </c:if>
                                 </div>
                                 <div class="w3-bar-item " style="width: 68%; padding: 0 0 0 8px; height: 130px">

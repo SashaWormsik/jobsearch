@@ -6,11 +6,11 @@ import java.util.Arrays;
 
 public enum CommandType {
     ACTIVATE_USER(new ActivateUserCommand()),
-    ADD_NEW_ADMIN(new CreateNewAdminCommand()),
-    CREATE_VACANCY(new CreateNewVacancyCommand()),
     CHANGE_INTERVIEW_STATUS(new ChangeInterviewStatusCommand()),
     CHANGE_USER_STATUS(new ChangeUserStatusCommand()),
     CHANGE_VACANCY_STATUS(new ChangeVacancyStatusCommand()),
+    CREATE_NEW_ADMIN(new CreateNewAdminCommand()),
+    CREATE_VACANCY(new CreateNewVacancyCommand()),
     FORGOT_PASSWORD(new ForgotPasswordCommand()),
     GET_ALL_INTERVIEWS(new GetAllInterviewForUserCommand()),
     GET_ALL_USERS(new GetAllUsersCommand()),
@@ -50,5 +50,16 @@ public enum CommandType {
                     orElse(DEFAULT);
         }
         return current.command;
+    }
+
+    public static CommandType getCommandType(String commandStr) {
+        CommandType current = DEFAULT;
+        if (commandStr != null) {
+            current = Arrays.stream(CommandType.values()).
+                    filter(commandType -> commandType.name().equals(commandStr.toUpperCase())).
+                    findFirst().
+                    orElse(DEFAULT);
+        }
+        return current;
     }
 }

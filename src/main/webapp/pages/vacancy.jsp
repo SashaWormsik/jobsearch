@@ -10,7 +10,7 @@
 <html>
 <head>
     <%@ include file="fragment/head.jsp" %>
-    <title><fmt:message key="title.mainpage"/></title>
+    <title><fmt:message key="title.vacancy.page"/></title>
 </head>
 
 <body>
@@ -36,14 +36,14 @@
             <div class="w3-threequarter w3-section" style=" word-break: break-all">
                 <div class="w3-card-4 w3-white" style="padding-bottom: 10px">
                     <div class="w3-container w3-center w3-green">
-                        <h2><fmt:message key="label.vacancy"/>: ${temp_vacancy.key.jobTitle}</h2>
+                        <h2><fmt:message key="text.vacancy.page"/>: ${temp_vacancy.key.jobTitle}</h2>
                     </div>
 
                     <div class="w3-container">
                         <h4><b><fmt:message key="label.vacancy.salary"/>: </b>
                             ${temp_vacancy.key.salary} ${temp_vacancy.key.currency}
                         </h4>
-                        <h4><b><fmt:message key="label.vacancy.workexperience"/>: </b>
+                        <h4><b><fmt:message key="label.vacancy.experience"/>: </b>
                             <c:if test="${temp_vacancy.key.workExperienceStatus == 'WITHOUT'}">
                                 <fmt:message key="label.vacancy.experience.without"/>
                             </c:if>
@@ -67,8 +67,8 @@
                         </h4>
 
 
-                        <h4><b><fmt:message key="label.vacancy.country"/>: </b>${temp_vacancy.value.key.country}</h4>
-                        <h4><b><fmt:message key="label.vacancy.city"/>: </b>${temp_vacancy.value.key.city}</h4>
+                        <h4><b><fmt:message key="label.location.country"/>: </b>${temp_vacancy.value.key.country}</h4>
+                        <h4><b><fmt:message key="label.location.city"/>: </b>${temp_vacancy.value.key.city}</h4>
                         <h4 style="margin-bottom: 0px"><b><fmt:message key="label.vacancy.responsibilities"/>: </b></h4>
                         <p style="margin-top: 0px">${temp_vacancy.key.responsibilities}</p>
 
@@ -121,7 +121,7 @@
                                         <button class="w3-button w3-block w3-green w3-section w3-padding"
                                                 type="submit"
                                                 form="update">
-                                            <fmt:message key="update.button"/>
+                                            <fmt:message key="button.update"/>
                                         </button>
                                     </form>
                                 </div>
@@ -137,14 +137,14 @@
                                             <button class="w3-button w3-block w3-pink w3-section w3-padding"
                                                     type="submit"
                                                     form="change_status">
-                                                <fmt:message key="change.vacancy.status.button.false"/>
+                                                <fmt:message key="button.change.vacancy.status.false"/>
                                             </button>
                                         </c:if>
                                         <c:if test="${temp_vacancy.key.vacancyStatus == false}">
                                             <button class="w3-button w3-block w3-blue w3-section w3-padding"
                                                     type="submit"
                                                     form="change_status">
-                                                <fmt:message key="change.vacancy.status.button.true"/>
+                                                <fmt:message key="button.change.vacancy.status.true"/>
                                             </button>
                                         </c:if>
                                     </form>

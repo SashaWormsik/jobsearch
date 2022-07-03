@@ -27,10 +27,12 @@
                              class="w3-circle w3-margin-top" style="width:100%"/>
                         <h4><b>${user.userName} ${user.userSurName}</b></h4>
                         <h4>${user_location.country} ${user_location.city}</h4>
-                        <a href="${pageContext.request.contextPath}/pages/common/update_info.jsp"
-                           class="w3-button w3-block w3-green w3-section w3-padding">
-                            <fmt:message key="button.edit.information"/>
-                        </a>
+                        <c:if test="${user.role == 'COMPANY' or user.role == 'WORKER'}">
+                            <a href="${pageContext.request.contextPath}/pages/common/update_info.jsp"
+                               class="w3-button w3-block w3-green w3-section w3-padding">
+                                <fmt:message key="button.edit.information"/>
+                            </a>
+                        </c:if>
                     </div>
                 </div>
             </div>

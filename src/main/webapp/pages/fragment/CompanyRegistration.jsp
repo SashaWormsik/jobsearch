@@ -14,7 +14,7 @@
             ×
         </span>
         </c:if>
-        <h1><fmt:message key="title.registration"/></h1>
+        <h1><fmt:message key="title.registration.page"/></h1>
         <c:if test="${not empty exist_login_or_email}">
             <div class="w3-red w3-block">
                 <fmt:message key="message.exist.login.email"/>
@@ -29,7 +29,7 @@
             <!-- LOGIN -->
             <c:if test="${incorrect_login == true}">
                 <div class="w3-left w3-red w3-block">
-                    <fmt:message key="form.input.title.login.pattern"/>
+                    <fmt:message key="message.incorrect.login.pattern"/>
                 </div>
                 <br/>
             </c:if>
@@ -40,13 +40,13 @@
                    type="text" name="${ParameterName.USER_LOGIN}"
                    placeholder="<fmt:message key="label.user.login"/>" required
                    pattern="^[@\p{Alpha}]\w{4,20}$"
-                   title="<fmt:message key="form.input.title.login.pattern"/>"
+                   title="<fmt:message key="message.incorrect.login.pattern"/>"
                    value="${user_login}"/>
 
             <!-- USER EMAIL-->
             <c:if test="${incorrect_email == true}">
                 <div class="w3-left w3-red w3-block">
-                    <fmt:message key="form.input.title.email.pattern"/>
+                    <fmt:message key="message.incorrect.email.pattern"/>
                 </div>
                 <br/>
             </c:if>
@@ -57,13 +57,13 @@
                    type="email" name="${ParameterName.USER_EMAIL}"
                    placeholder="<fmt:message key="label.user.email"/>" required
                    pattern="^[\p{Alpha}\p{Digit}_!#$%&'*+/=?`{|}~^.-]+@[\p{Alpha}\p{Digit}.-]+$"
-                   title="<fmt:message key="form.input.title.email.pattern"/>"
+                   title="<fmt:message key="message.incorrect.email.pattern"/>"
                    value="${user_email}"/>
 
             <!-- PASSWORD -->
             <c:if test="${incorrect_password == true}">
                 <div class="w3-left w3-red w3-block">
-                    <fmt:message key="form.input.title.password.pattern"/>
+                    <fmt:message key="message.incorrect.password.pattern"/>
                 </div>
                 <br/>
             </c:if>
@@ -74,12 +74,12 @@
                    type="password" name="${ParameterName.CREDENTIAL_PASSWORD}"
                    placeholder="<fmt:message key="label.user.password"/>" required
                    pattern="^(?=.*[\p{Alpha}])(?=.*\d)[\p{Alpha}\d]{8,20}$"
-                   title="<fmt:message key="form.input.title.password.pattern"/>"/>
+                   title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
             <!-- PASSWORD CONFIRM-->
             <c:if test="${incorrect_confirm_password == true}">
                 <div class="w3-left w3-red w3-block">
-                    <fmt:message key="form.input.title.confirm.password.pattern"/>
+                    <fmt:message key="message.incorrect.confirm.password.pattern"/>
                 </div>
                 <br/>
             </c:if>
@@ -90,12 +90,12 @@
                    type="password" name="${ParameterName.CREDENTIAL_CONFIRM_PASSWORD}"
                    placeholder="<fmt:message key="label.user.password.confirm"/>" required
                    pattern="^(?=.*[\p{Alpha}])(?=.*\d)[\p{Alpha}\d]{8,20}$"
-                   title="<fmt:message key="form.input.title.password.pattern"/>"/>
+                   title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
             <!-- COMPANY NAME-->
             <c:if test="${incorrect_user_name == true}">
                 <div class="w3-left w3-red w3-block">
-                    <fmt:message key="form.input.title.name.pattern"/>
+                    <fmt:message key="message.incorrect.name.pattern"/>
                 </div>
                 <br/>
             </c:if>
@@ -106,13 +106,13 @@
                    type="text" name="${ParameterName.USER_NAME}"
                    placeholder="<fmt:message key="label.user.companyname"/>" required
                    pattern="^[\p{L}][\p{L}`-]?[\p{L}`]{1,20}$"
-                   title="<fmt:message key="form.input.title.name.pattern"/>"
+                   title="<fmt:message key="message.incorrect.name.pattern"/>"
                    value="${user_name}"/>
 
             <!-- BUTTON -->
             <button class="w3-button w3-block w3-green w3-section w3-padding" form="form2"
                     type="submit" formmethod="post" formaction="${pageContext.request.contextPath}/controller">
-                <fmt:message key="registration.button"/>
+                <fmt:message key="button.registration"/>
             </button>
         </div>
     </form>
