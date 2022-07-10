@@ -15,11 +15,26 @@ import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 
 import java.util.Optional;
-
+/**
+ * The {@link Command} that updates user information.
+ *
+ * @see org.chervyakovsky.jobsearch.controller.command.Command
+ */
 public class UpdateUserInfoCommand implements Command {
-
+    /**
+     * A Logger object is used to log messages for a application error.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * Executes a command.
+     *
+     * @param requestContent A {@link RequestContent} object that contains request parameters, request and
+     *                       session attributes and the session itself
+     * @return The router with type {@link Router.Type#REDIRECT} to {@link PagePath#ACCOUNT_PAGE} if successful,
+     * otherwise with type {@link Router.Type#FORWARD} to {@link PagePath#UPDATE_INFO_PAGE}
+     * @throws CommandException the command exception
+     */
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();

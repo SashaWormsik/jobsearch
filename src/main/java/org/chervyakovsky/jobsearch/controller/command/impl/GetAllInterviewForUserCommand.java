@@ -16,10 +16,26 @@ import org.chervyakovsky.jobsearch.model.service.impl.InterviewServiceImpl;
 
 import java.util.List;
 
+/**
+ * The {@link Command} that finds all the interviews for the company.
+ *
+ * @see org.chervyakovsky.jobsearch.controller.command.Command
+ */
 public class GetAllInterviewForUserCommand implements Command {
 
+    /**
+     * A Logger object is used to log messages for a application error.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * Executes a command.
+     *
+     * @param requestContent A {@link RequestContent} object that contains request parameters, request and
+     *                       session attributes and the session itself
+     * @return The router with type {@link Router.Type#FORWARD} to {@link PagePath#ALL_INTERVIEW_PAGE}.
+     * @throws CommandException the command exception
+     */
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();

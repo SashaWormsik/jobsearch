@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration monitorInterval="1000">
+<Configuration level="all" monitorInterval="1000">
+
     <Appenders>
+
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout>
                 <pattern>
@@ -8,6 +10,7 @@
                 </pattern>>
             </PatternLayout>
         </Console>
+
         <RollingFile name="file" fileName="logs/logFile.log" append="true"
                      filePattern="logs/%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t]   %c{1} - %msg%n"/>
@@ -17,12 +20,13 @@
             </Policies>
             <DefaultRolloverStrategy max="15"/>
         </RollingFile>
-
     </Appenders>
+
     <Loggers>
         <Root level="all">
             <AppenderRef ref="console"/>
             <AppenderRef ref="file" level="all"/>
         </Root>
     </Loggers>
+
 </Configuration>

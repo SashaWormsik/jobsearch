@@ -14,6 +14,8 @@ public interface InterviewDao extends BaseDao<Interview> {
 
     boolean isPresent(long vacancyId, long workerId) throws DaoException;
 
+    void editOverdueInterviews() throws DaoException;
+
     List<Interview> findInterviewByWorkerId(long id) throws DaoException;
 
     List<Interview> findInterviewByCompanyId(long id) throws DaoException;

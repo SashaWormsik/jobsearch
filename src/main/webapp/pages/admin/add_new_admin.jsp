@@ -3,6 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 <%@include file="../fragment/lang_and_user.jsp" %>
 
@@ -67,7 +68,7 @@
                                 <input class="w3-input w3-border w3-margin-bottom"
                                        type="text" name="${ParameterName.USER_LOGIN}"
                                        placeholder="<fmt:message key="label.user.login"/>" required
-                                       pattern="^[@\p{Alpha}]\w{4,20}$"
+                                       pattern="^[@A-Za-z]\w{4,20}$"
                                        title="<fmt:message key="message.incorrect.login.pattern"/>"
                                        value="${user_login}"/>
 
@@ -84,7 +85,7 @@
                                 <input class="w3-input w3-border w3-margin-bottom"
                                        type="email" name="${ParameterName.USER_EMAIL}"
                                        placeholder="<fmt:message key="label.user.email"/>" required
-                                       pattern="^[\p{Alpha}\p{Digit}_!#$%&'*+/=?`|}{~^.-]+@[\p{Alpha}\p{Digit}.-]+$"
+                                       pattern="^[A-Za-z0-9_!#$%&'*+/=?`}{|~^.-]+@[A-Za-z0-9.-]+$"
                                        title="<fmt:message key="message.incorrect.email.pattern"/>"
                                        value="${user_email}"/>
 
@@ -101,7 +102,7 @@
                                 <input class="w3-input w3-border w3-margin-bottom"
                                        type="password" name="${ParameterName.CREDENTIAL_PASSWORD}"
                                        placeholder="<fmt:message key="label.user.password"/>" required
-                                       pattern="^(?=.*[\p{Alpha}])(?=.*\d)[\p{Alpha}\d]{8,20}$"
+                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"
                                        title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
                                 <!-- PASSWORD CONFIRM-->
@@ -117,7 +118,7 @@
                                 <input class="w3-input w3-border w3-margin-bottom"
                                        type="password" name="${ParameterName.CREDENTIAL_CONFIRM_PASSWORD}"
                                        placeholder="<fmt:message key="label.user.password.confirm"/>" required
-                                       pattern="^(?=.*[\p{Alpha}])(?=.*\d)[\p{Alpha}\d]{8,20}$"
+                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"
                                        title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
                                 <!-- ADMIN NAME-->
@@ -168,7 +169,7 @@
         </div>
     </main>
     <footer class="footer">
-        <%@include file="../fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

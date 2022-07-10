@@ -15,10 +15,27 @@ import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 
 import static org.chervyakovsky.jobsearch.controller.AttributeName.TEMP_USER;
 
+/**
+ * The {@link Command} that changes the user's status.
+ *
+ * @see org.chervyakovsky.jobsearch.controller.command.Command
+ */
 public class ChangeUserStatusCommand implements Command {
 
+    /**
+     * A Logger object is used to log messages for a application error.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * Executes a command.
+     *
+     * @param requestContent A {@link RequestContent} object that contains request parameters, request and
+     *                       session attributes and the session itself
+     * @return The router with type {@link Router.Type#REDIRECT} to {@link PagePath#USER_INFO_PAGE} if successful,
+     * otherwise with type {@link Router.Type#FORWARD} to {@link PagePath#USER_INFO_PAGE}
+     * @throws CommandException the command exception
+     */
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
@@ -33,7 +50,7 @@ public class ChangeUserStatusCommand implements Command {
                 requestContent.setNewValueInRequestAttributes(TEMP_USER, userInfo);
                 router.setType(Router.Type.FORWARD);
             }
-            router.setPage(PagePath.ADMIN_USER_INFO_PAGE);
+            router.setPage(PagePath.USER_INFO_PAGE);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);

@@ -18,6 +18,7 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.mapper.impl.InterviewMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.VacancyMapperFromRequestToEntity;
 import org.chervyakovsky.jobsearch.model.service.InterviewService;
+import org.chervyakovsky.jobsearch.validator.InterviewValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,10 @@ public class InterviewServiceImpl implements InterviewService {
     @Override
     public boolean updateInterview(RequestContent requestContent) throws ServiceException {
         boolean result = false;
+        InterviewValidator validator = InterviewValidator.getInstance();
+        if(validator.isValidInterviewData(requestContent)){
+            return false;
+        }
         Optional<Interview> optionalInterview;
         MapperFromRequestToEntity<Interview> mapper = new InterviewMapperFromRequestToEntity();
         Interview interview = mapper.map(requestContent);

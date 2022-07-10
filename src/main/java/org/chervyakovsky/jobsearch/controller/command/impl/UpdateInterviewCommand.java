@@ -24,10 +24,26 @@ import org.chervyakovsky.jobsearch.model.service.impl.VacancyServiceImpl;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The {@link Command} that updates the information for the interview.
+ *
+ * @see org.chervyakovsky.jobsearch.controller.command.Command
+ */
 public class UpdateInterviewCommand implements Command {
-
+    /**
+     * A Logger object is used to log messages for a application error.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * Executes a command.
+     *
+     * @param requestContent A {@link RequestContent} object that contains request parameters, request and
+     *                       session attributes and the session itself
+     * @return The router with type {@link Router.Type#REDIRECT} to {@link PagePath#INTERVIEW_INFO_PAGE} if successful,
+     * otherwise with type {@link Router.Type#FORWARD} to {@link PagePath#INTERVIEW_INFO_PAGE}
+     * @throws CommandException the command exception
+     */
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
@@ -36,7 +52,7 @@ public class UpdateInterviewCommand implements Command {
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         UserService userService = UserServiceImpl.getInstance();
         try {
-            if(interviewService.updateInterview(requestContent)){
+            if (interviewService.updateInterview(requestContent)) {
                 router.setType(Router.Type.REDIRECT);
             }
             Optional<Interview> optionalInterview = interviewService.findInterviewById(requestContent);

@@ -3,6 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 <%@include file="../fragment/lang_and_user.jsp" %>
 
@@ -106,7 +107,7 @@
                                 <c:if test="${user.role == 'COMPANY'}">
                                     placeholder="<fmt:message key="label.user.companyname"/>"
                                 </c:if>
-                               pattern="[A-Za-zА-Яа-я]+"
+                               pattern="^[\p{L}][\p{L}`-]?[\p{L}`]{1,20}$"
                                title="<fmt:message key="message.incorrect.name.pattern"/>"
                                value="${user.userName}"
                                required/>
@@ -124,7 +125,7 @@
                                    type="text"
                                    name="${ParameterName.USER_SURNAME}"
                                    placeholder="<fmt:message key="label.user.surname"/>"
-                                   pattern="[A-Za-zА-Яа-я]+"
+                                   pattern="^[\p{L}][\p{L}`-]?[\p{L}`]{1,20}$"
                                    title="<fmt:message key="message.incorrect.name.pattern"/>"
                                    value="${user.userSurName}"
                                    required/>
@@ -165,7 +166,7 @@
                                    type="text"
                                    name="${ParameterName.USER_PROFESSION}"
                                    placeholder="<fmt:message key="label.user.profession"/>"
-                                   pattern="^([a-zA-ZА-Яа-я]{1})([\ha-zа-я-]{1,20})([a-zа-я]{1})$"
+                                   pattern="^([a-zA-ZА-Яа-я]{1})([\sa-zа-я-]{1,20})([a-zа-я]{1})$"
                                    title="<fmt:message key="message.incorrect.profession.pattern"/>"
                                    value="${user.profession}"
                                    required/>
@@ -219,7 +220,7 @@
     </main>
 
     <footer class="footer">
-        <%@include file="../fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

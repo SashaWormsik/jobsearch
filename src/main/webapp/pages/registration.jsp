@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 
 <%@ page import="org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus" %>
@@ -63,7 +64,7 @@
 
     </main>
     <footer class="footer">
-        <%@include file="fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/js.js"></script>

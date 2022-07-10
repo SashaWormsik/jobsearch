@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum UserPermission {
+public enum UserPermissionCommand {
 
     ADMIN(Stream.of(
             CommandType.CHANGE_USER_STATUS,
@@ -18,6 +18,7 @@ public enum UserPermission {
             CommandType.LOGOUT,
             CommandType.SEARCH_USER,
             CommandType.SEARCH_VACANCY,
+            CommandType.SET_LOCALIZATION_TYPE,
             CommandType.DEFAULT,
             CommandType.INITIAL
     ).collect(Collectors.toSet())),
@@ -34,6 +35,7 @@ public enum UserPermission {
             CommandType.GO_TO_UPDATE_THE_VACANCY,
             CommandType.LOGOUT,
             CommandType.SEARCH_VACANCY,
+            CommandType.SET_LOCALIZATION_TYPE,
             CommandType.UPDATE_INTERVIEW,
             CommandType.UPDATE_USER_INFO,
             CommandType.UPDATE_USER_LOCATION,
@@ -50,6 +52,7 @@ public enum UserPermission {
             CommandType.LOGOUT,
             CommandType.RESPOND,
             CommandType.SEARCH_VACANCY,
+            CommandType.SET_LOCALIZATION_TYPE,
             CommandType.UPDATE_USER_INFO,
             CommandType.UPDATE_USER_LOCATION,
             CommandType.DEFAULT,
@@ -65,6 +68,7 @@ public enum UserPermission {
             CommandType.REGISTRATION,
             CommandType.RESET_PASSWORD,
             CommandType.SEARCH_VACANCY,
+            CommandType.SET_LOCALIZATION_TYPE,
             CommandType.UPDATE_PASSWORD,
             CommandType.DEFAULT,
             CommandType.INITIAL
@@ -72,12 +76,12 @@ public enum UserPermission {
 
     private final Set<CommandType> commands;
 
-    UserPermission(Set<CommandType> commands) {
+    UserPermissionCommand(Set<CommandType> commands) {
         this.commands = commands;
     }
 
     public static boolean isPermitted(UserRoleStatus roleStatus, CommandType commandType) {
-        return Arrays.stream(UserPermission.values()).
+        return Arrays.stream(UserPermissionCommand.values()).
                 filter(userPermission -> userPermission.name().equals(roleStatus.name())).
                 anyMatch(userPermission -> userPermission.commands.contains(commandType));
     }

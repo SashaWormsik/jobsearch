@@ -28,7 +28,7 @@ public class InterviewMapperFromRequestToEntity implements MapperFromRequestToEn
         String[] workerId = requestParameters.get(ParameterName.INTERVIEW_WORKER_ID);
         String[] communicationMethod = requestParameters.get(ParameterName.INTERVIEW_COMMUNICATION_METHOD);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        apply(date, s ->{
+        apply(date, s -> {
             try {
                 interview.setAppointedDateTime(simpleDateFormat.parse(s));
             } catch (ParseException exception) {

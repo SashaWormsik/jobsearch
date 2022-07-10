@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 <%@include file="fragment/lang_and_user.jsp" %>
 
@@ -32,7 +33,7 @@
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.LOCATION_COUNTRY}"
                                    placeholder="<fmt:message key="label.location.country"/>"
-                                   pattern="^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$"
+                                   pattern="^[A-ZА-Я][a-zа-я]+(\s?'?-?[A-ZА-Я]?[a-zа-я]+)*$"
                                    title="<fmt:message key="message.incorrect.country.pattern"/>"
                                    value="${location_country}"/>
 
@@ -42,7 +43,7 @@
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.LOCATION_CITY}"
                                    placeholder="<fmt:message key="label.location.city"/>"
-                                   pattern="^[A-ZА-Я][a-zа-я]+(\h?\'?\-?[A-ZА-Я]?[a-zа-я]+)*$"
+                                   pattern="^[A-ZА-Я][a-zа-я]+(\s?'?-?[A-ZА-Я]?[a-zа-я]+)*$"
                                    title="<fmt:message key="message.incorrect.city.pattern"/>"
                                    value="${location_city}"/>
 
@@ -52,7 +53,7 @@
                             <input class="w3-input w3-border w3-margin-bottom"
                                    type="text" name="${ParameterName.VACANCY_JOB_TITLE}"
                                    placeholder="<fmt:message key="label.user.profession"/>"
-                                   pattern="^([А-Яа-яa-zA-Z]{1})([\hа-яa-z-]+)([а-яa-z]{1})$"
+                                   pattern="^([a-zA-ZА-Яа-я]{1})([\sa-zа-я-]{1,20})([a-zа-я]{1})"
                                    title="<fmt:message key="message.incorrect.profession.pattern"/>"
                                    value="${vacancy_job_title}"/>
 
@@ -174,7 +175,7 @@
                                         <a class="w3-button w3-grey w3-disabled">${i}</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="${pageContext.request.contextPath}/controller?command=search_vacancy&location_country=${location_country}&location_city=${location_city}&vacancy_job_title=${vacancy_job_title}&vacancy_work_experience=${vacancy_work_experience}&page=${page}"
+                                        <a href="${pageContext.request.contextPath}/controller?command=search_vacancy&location_country=${location_country}&location_city=${location_city}&vacancy_job_title=${vacancy_job_title}&vacancy_work_experience=${vacancy_work_experience}&page=${i}"
                                            class="w3-button">${i}</a>
                                     </c:otherwise>
                                 </c:choose>
@@ -198,7 +199,7 @@
     </main>
 
     <footer class="footer">
-        <%@include file="fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

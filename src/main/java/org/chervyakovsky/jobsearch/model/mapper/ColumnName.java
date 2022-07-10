@@ -1,7 +1,9 @@
 package org.chervyakovsky.jobsearch.model.mapper;
 
+/**
+ * The type ColumnName class.
+ */
 public class ColumnName {
-
     // USER_INFO
     public static final String USER_ID = "u_user_info_id";
     public static final String USER_LOGIN = "u_login";
@@ -16,20 +18,17 @@ public class ColumnName {
     public static final String USER_PROFESSION = "u_profession";
     public static final String USER_DESCRIPTION = "u_description";
     public static final String USER_TOKEN = "u_user_token";
-	public static final String USER_IMAGE = "u_image";
-
-	// CREDENTIAL
+    public static final String USER_IMAGE = "u_image";
+    // CREDENTIAL
     public static final String CREDENTIAL_ID = "c_credential_id";
     public static final String CREDENTIAL_PASSWORD = "c_password";
     public static final String CREDENTIAL_ACTIVE = "c_active";
     public static final String CREDENTIAL_CREATE_DATE = "c_create_date";
     public static final String CREDENTIAL_USER_INFO_ID = "c_user_info_id";
-
     // LOCATION
     public static final String LOCATION_ID = "l_location_id";
     public static final String LOCATION_COUNTRY = "l_country";
     public static final String LOCATION_CITY = "l_city";
-
     // VACANCY
     public static final String VACANCY_ID = "v_vacancy_id";
     public static final String VACANCY_CREATE_DATE = "v_create_date";
@@ -44,7 +43,6 @@ public class ColumnName {
     public static final String VACANCY_WORKING_CONDITION = "v_working_conditions";
     public static final String VACANCY_STATUS = "v_vacancy_status";
     public static final String COUNT_ROWS = "total_count";
-
     //INTERVIEW
     public static final String INTERVIEW_ID = "i_interview_id";
     public static final String INTERVIEW_APPOINTED_DATE = "i_appointed_date";

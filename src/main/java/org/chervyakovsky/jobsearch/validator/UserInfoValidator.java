@@ -5,7 +5,6 @@ import org.chervyakovsky.jobsearch.controller.ParameterName;
 import org.chervyakovsky.jobsearch.model.entity.status.UserRoleStatus;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,11 +71,10 @@ public class UserInfoValidator {
     }
 
     public boolean isValidUserInfoData(RequestContent requestContent) {
-        HashMap<String, String[]> registrationUserDataMap = requestContent.getRequestParameters();
-        String role = getParameter(registrationUserDataMap, ParameterName.USER_ROLE);
-        String userName = getParameter(registrationUserDataMap, ParameterName.USER_NAME);
-        String profession = getParameter(registrationUserDataMap, ParameterName.USER_PROFESSION);
-        String description = getParameter(registrationUserDataMap, ParameterName.USER_DESCRIPTION);
+        String role = requestContent.getParameterFromRequest(ParameterName.USER_ROLE);
+        String userName = requestContent.getParameterFromRequest(ParameterName.USER_NAME);
+        String profession = requestContent.getParameterFromRequest(ParameterName.USER_PROFESSION);
+        String description = requestContent.getParameterFromRequest(ParameterName.USER_DESCRIPTION);
         boolean result = true;
         if (!validateName(userName)) {
             result = false;
@@ -86,8 +84,8 @@ public class UserInfoValidator {
             result = false;
             requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_TEXT, true);
         }
-        if (role != null && role.equals(UserRoleStatus.WORKER.name())){
-            if(!validateWorkerData(requestContent)){
+        if (role != null && role.equals(UserRoleStatus.WORKER.name())) {
+            if (!validateWorkerData(requestContent)) {
                 result = false;
             }
             if (!validateProfession(profession)) {
@@ -100,9 +98,8 @@ public class UserInfoValidator {
 
     public boolean isValidatePasswordAndConfirmPassword(RequestContent requestContent) {
         boolean result = true;
-        HashMap<String, String[]> dataMap = requestContent.getRequestParameters();
-        String password = getParameter(dataMap, ParameterName.CREDENTIAL_PASSWORD);
-        String confirmPassword = getParameter(dataMap, ParameterName.CREDENTIAL_CONFIRM_PASSWORD);
+        String password = requestContent.getParameterFromRequest(ParameterName.CREDENTIAL_PASSWORD);
+        String confirmPassword = requestContent.getParameterFromRequest(ParameterName.CREDENTIAL_CONFIRM_PASSWORD);
         if (!validatePassword(password)) {
             result = false;
             requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_PASSWORD, true);
@@ -115,16 +112,14 @@ public class UserInfoValidator {
     }
 
     public boolean isValidLoginUserData(RequestContent requestContent) {
-        HashMap<String, String[]> loginUserDataMap = requestContent.getRequestParameters();
-        String login = getParameter(loginUserDataMap, ParameterName.USER_LOGIN);
-        String password = getParameter(loginUserDataMap, ParameterName.CREDENTIAL_PASSWORD);
+        String login = requestContent.getParameterFromRequest(ParameterName.USER_LOGIN);
+        String password = requestContent.getParameterFromRequest(ParameterName.CREDENTIAL_PASSWORD);
         return validateLogin(login) && validatePassword(password);
     }
 
     public boolean isValidRegistrationUserData(RequestContent requestContent) {
         boolean result = true;
-        HashMap<String, String[]> registrationUserDataMap = requestContent.getRequestParameters();
-        String role = getParameter(registrationUserDataMap, ParameterName.USER_ROLE);
+        String role = requestContent.getParameterFromRequest(ParameterName.USER_ROLE);
         if (!validateRole(role)) {
             requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_ROLE, true);
             return false;
@@ -147,8 +142,7 @@ public class UserInfoValidator {
 
     private boolean validateAdminData(RequestContent requestContent) {
         boolean result = true;
-        HashMap<String, String[]> registrationUserDataMap = requestContent.getRequestParameters();
-        String userSurname = getParameter(registrationUserDataMap, ParameterName.USER_SURNAME);
+        String userSurname = requestContent.getParameterFromRequest(ParameterName.USER_SURNAME);
         if (!validateName(userSurname)) {
             result = false;
             requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_USER_SURNAME, true);
@@ -158,10 +152,9 @@ public class UserInfoValidator {
 
     private boolean validateWorkerData(RequestContent requestContent) {
         boolean result = true;
-        HashMap<String, String[]> registrationUserDataMap = requestContent.getRequestParameters();
-        String userSurname = getParameter(registrationUserDataMap, ParameterName.USER_SURNAME);
-        String education = getParameter(registrationUserDataMap, ParameterName.USER_EDUCATION_STATUS);
-        String workingStatus = getParameter(registrationUserDataMap, ParameterName.USER_WORKING_STATUS);
+        String userSurname = requestContent.getParameterFromRequest(ParameterName.USER_SURNAME);
+        String education = requestContent.getParameterFromRequest(ParameterName.USER_EDUCATION_STATUS);
+        String workingStatus = requestContent.getParameterFromRequest(ParameterName.USER_WORKING_STATUS);
         if (!validateName(userSurname)) {
             result = false;
             requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_USER_SURNAME, true);
@@ -178,12 +171,11 @@ public class UserInfoValidator {
     }
 
     private boolean basicUserDataValidation(RequestContent requestContent) {
-        HashMap<String, String[]> registrationUserDataMap = requestContent.getRequestParameters();
-        String login = getParameter(registrationUserDataMap, ParameterName.USER_LOGIN);
-        String email = getParameter(registrationUserDataMap, ParameterName.USER_EMAIL);
-        String password = getParameter(registrationUserDataMap, ParameterName.CREDENTIAL_PASSWORD);
-        String confirmPassword = getParameter(registrationUserDataMap, ParameterName.CREDENTIAL_CONFIRM_PASSWORD);
-        String userName = getParameter(registrationUserDataMap, ParameterName.USER_NAME);
+        String login = requestContent.getParameterFromRequest(ParameterName.USER_LOGIN);
+        String email = requestContent.getParameterFromRequest(ParameterName.USER_EMAIL);
+        String password = requestContent.getParameterFromRequest(ParameterName.CREDENTIAL_PASSWORD);
+        String confirmPassword = requestContent.getParameterFromRequest(ParameterName.CREDENTIAL_CONFIRM_PASSWORD);
+        String userName = requestContent.getParameterFromRequest(ParameterName.USER_NAME);
         boolean result = true;
         if (!validateLogin(login)) {
             result = false;
@@ -214,13 +206,5 @@ public class UserInfoValidator {
             return false;
         }
         return pattern.matcher(validationString).matches();
-    }
-
-    private String getParameter(HashMap<String, String[]> map, String parameterName) {
-        String[] parameterValues = map.get(parameterName);
-        if (parameterValues != null && parameterValues.length > 0 && parameterValues[0] != null) {
-            return parameterValues[0];
-        }
-        return null;
     }
 }

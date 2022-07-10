@@ -13,9 +13,27 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.service.UserService;
 import org.chervyakovsky.jobsearch.model.service.impl.UserServiceImpl;
 
+/**
+ * The {@link Command}  that  sends messages to the email address if he forgot the password.
+ * The user must enter their email address on the page when registering.
+ *
+ * @see org.chervyakovsky.jobsearch.controller.command.Command
+ */
 public class ForgotPasswordCommand implements Command {
+
+    /**
+     * A Logger object is used to log messages for a application error.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * Executes a command.
+     *
+     * @param requestContent A {@link RequestContent} object that contains request parameters, request and
+     *                       session attributes and the session itself
+     * @return The router with type {@link Router.Type#FORWARD} to {@link PagePath#FORGOT_PASSWORD_PAGE}.
+     * @throws CommandException the command exception
+     */
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
@@ -24,6 +42,7 @@ public class ForgotPasswordCommand implements Command {
             if (userService.sendEmailToRecoverPassword(requestContent)) {
                 requestContent.setNewValueInRequestAttributes(AttributeName.FORGOT_PASSWORD, true);
             } else {
+                requestContent.setParameterInAttribute();
                 requestContent.setNewValueInRequestAttributes(AttributeName.FORGOT_PASSWORD, false);
             }
             router.setType(Router.Type.FORWARD);

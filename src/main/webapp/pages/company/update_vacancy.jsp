@@ -5,6 +5,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 <%@include file="../fragment/lang_and_user.jsp" %>
 
@@ -44,6 +45,12 @@
                         <input type="hidden" name="${ParameterName.VACANCY_LOCATION_ID}" value="${temp_vacancy.key.locationId}"/>
                         <div class="w3-row">
                             <div class="w3-half" style="padding-right: 8px;">
+                                <c:if test="${incorrect_profession == true}">
+                                    <div class="w3-left w3-red w3-block">
+                                        <fmt:message key="message.incorrect.profession.pattern"/>
+                                    </div>
+                                    <br/>
+                                </c:if>
                                 <label><h4><b><fmt:message key="label.vacancy.jobtitle"/>: </b></h4></label>
                                 <input class="w3-input w3-border"
                                        type="text"
@@ -51,7 +58,7 @@
                                        value="${temp_vacancy.key.jobTitle}"
                                        placeholder="<fmt:message key="label.vacancy.jobtitle"/>"
                                        pattern="^([a-zA-ZА-Яа-я]{1})([\ha-zа-я-]{1,20})([a-zа-я]{1})$"
-                                       title="<fmt:message key="form.input.title.vacancy.jobtitle"/>"
+                                       title="<fmt:message key="message.incorrect.profession.pattern"/>"
                                        required/>
 
                                 <label><h4><b><fmt:message key="label.vacancy.experience"/>: </b></h4></label>
@@ -85,6 +92,12 @@
                                         <fmt:message key="label.vacancy.experience.morethan5"/></option>
                                 </select>
 
+                                <c:if test="${incorrect_salary == true}">
+                                    <div class="w3-left w3-red w3-block">
+                                        <fmt:message key="message.salary"/>
+                                    </div>
+                                    <br/>
+                                </c:if>
                                 <label><h4><b><fmt:message key="label.vacancy.salary"/>: </b></h4></label>
                                 <div class="w3-row">
                                     <div class="w3-right" style="width: 60px">
@@ -113,35 +126,52 @@
                                                value="${temp_vacancy.key.salary}"
                                                placeholder="<fmt:message key="label.vacancy.salary"/>"
                                                pattern="^[1-9][\d]{0,8}(\.\d{2}$)?"
-                                               title="<fmt:message key="form.input.title.vacancy.salary"/>"
+                                               title="<fmt:message key="message.salary"/>"
                                                required/>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="w3-half">
+                                <c:if test="${incorrect_location_country == true}">
+                                    <div class="w3-left w3-red w3-block">
+                                        <fmt:message key="message.incorrect.country.pattern"/>
+                                    </div>
+                                    <br/>
+                                </c:if>
                                 <label><h4><b><fmt:message key="label.location.country"/>: </b></h4></label>
                                 <input class="w3-input w3-border"
                                        type="text"
                                        name="${ParameterName.LOCATION_COUNTRY}"
                                        value="${temp_vacancy.value.key.country}"
                                        placeholder="<fmt:message key="label.location.country"/>"
-                                       pattern="[A-Za-zА-Яа-я]+"
+                                       pattern="^[A-ZА-Я][a-zа-я]+(\s?'?-?[A-ZА-Я]?[a-zа-я]+)*$"
                                        title="<fmt:message key="message.incorrect.country.pattern"/>"
                                        required/>
-
+                                <c:if test="${incorrect_location_city == true}">
+                                    <div class="w3-left w3-red w3-block">
+                                        <fmt:message key="message.incorrect.city.pattern"/>
+                                    </div>
+                                    <br/>
+                                </c:if>
                                 <label><h4><b><fmt:message key="label.location.city"/>: </b></h4></label>
                                 <input class="w3-input w3-border"
                                        type="text"
                                        name="${ParameterName.LOCATION_CITY}"
                                        value="${temp_vacancy.value.key.city}"
                                        placeholder="<fmt:message key="label.location.city"/>"
-                                       pattern="[A-Za-zА-Яа-я]+"
+                                       pattern="^[A-ZА-Я][a-zа-я]+(\s?'?-?[A-ZА-Я]?[a-zа-я]+)*$"
                                        title="<fmt:message key="message.incorrect.city.pattern"/>"
                                        required/>
                             </div>
                         </div>
                         <div>
+                            <c:if test="${incorrect_description == true}">
+                                <div class="w3-left w3-red w3-block">
+                                    <fmt:message key="message.incorrect.description.pattern"/>
+                                </div>
+                                <br/>
+                            </c:if>
                             <label><h4><b><fmt:message key="label.vacancy.responsibilities"/>: </b></h4>
                                 <textarea class="w3-input w3-border"
                                           style="height:100px;"
@@ -149,7 +179,12 @@
                                           placeholder="<fmt:message key="label.vacancy.responsibilities"/>"
                                           maxlength="300">${temp_vacancy.key.responsibilities}</textarea>
                             </label>
-
+                            <c:if test="${incorrect_description == true}">
+                                <div class="w3-left w3-red w3-block">
+                                    <fmt:message key="message.incorrect.description.pattern"/>
+                                </div>
+                                <br/>
+                            </c:if>
                             <label><h4><b><fmt:message key="label.vacancy.requirements"/>: </b></h4>
                                 <textarea class="w3-input w3-border"
                                           style="height:100px;"
@@ -157,6 +192,12 @@
                                           name="${ParameterName.VACANCY_REQUIREMENTS}"
                                           maxlength="300">${temp_vacancy.key.requirement}</textarea>
                             </label>
+                            <c:if test="${incorrect_description == true}">
+                                <div class="w3-left w3-red w3-block">
+                                    <fmt:message key="message.incorrect.description.pattern"/>
+                                </div>
+                                <br/>
+                            </c:if>
                             <label><h4><b><fmt:message key="label.vacancy.workingconditions"/>: </b></h4>
                                 <textarea class="w3-input w3-border"
                                           style="height:100px;"
@@ -174,7 +215,7 @@
         </div>
     </main>
     <footer class="footer">
-        <%@include file="../fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

@@ -11,6 +11,7 @@ import org.chervyakovsky.jobsearch.exception.CommandException;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 
 public class InitialCommand implements Command {
+
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override

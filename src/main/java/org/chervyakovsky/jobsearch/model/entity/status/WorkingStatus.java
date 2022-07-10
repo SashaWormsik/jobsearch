@@ -6,7 +6,7 @@ public enum WorkingStatus {
     WORK, IN_SEARCH, NO_STATUS;
 
 
-    public static WorkingStatus getStatus(String workingStatus){ // fixme
+    public static WorkingStatus getStatus(String workingStatus){
         if(workingStatus != null){
             return Arrays.stream(WorkingStatus.values()).
                     filter(workingS -> workingS.name().equals(workingStatus.toUpperCase())).

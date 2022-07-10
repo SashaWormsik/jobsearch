@@ -4,6 +4,9 @@ import org.chervyakovsky.jobsearch.controller.command.impl.*;
 
 import java.util.Arrays;
 
+/**
+ * The enum Command type.
+ */
 public enum CommandType {
     ACTIVATE_USER(new ActivateUserCommand()),
     CHANGE_INTERVIEW_STATUS(new ChangeInterviewStatusCommand()),
@@ -26,14 +29,14 @@ public enum CommandType {
     RESPOND(new RespondCommand()),
     SEARCH_USER(new SearchUserCommand()),
     SEARCH_VACANCY(new SearchVacancyCommand()),
+    SET_LOCALIZATION_TYPE(new SetLocalizationTypeCommand()),
     UPDATE_INTERVIEW(new UpdateInterviewCommand()),
     UPDATE_PASSWORD(new UpdatePasswordCommand()),
     UPDATE_USER_INFO(new UpdateUserInfoCommand()),
     UPDATE_USER_LOCATION(new UpdateUserLocationCommand()),
     UPDATE_VACANCY(new UpdateVacancyCommand()),
-
-    DEFAULT(new DefaultCommand()), // TODO
-    INITIAL(new InitialCommand()); // TODO
+    DEFAULT(new DefaultCommand()),
+    INITIAL(new InitialCommand());
 
     private final Command command;
 

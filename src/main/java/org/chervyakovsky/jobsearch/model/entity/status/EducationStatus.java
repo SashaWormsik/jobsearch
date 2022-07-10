@@ -7,7 +7,7 @@ public enum EducationStatus {
     HIGHER, SECONDARY, BASIC, NO_EDUCATION, NOT_SPECIFIED;
 
 
-    public static EducationStatus getStatus(String educationStatus){ // fixme
+    public static EducationStatus getStatus(String educationStatus){
         if(educationStatus != null){
             return Arrays.stream(EducationStatus.values()).
                     filter(education -> education.name().equals(educationStatus.toUpperCase())).

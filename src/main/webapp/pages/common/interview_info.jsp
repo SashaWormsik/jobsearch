@@ -6,6 +6,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 <%@include file="../fragment/lang_and_user.jsp" %>
 
@@ -40,6 +41,18 @@
                         <h4><fmt:message key="text.vacancy.page"/>: ${temp_vacancy.key.jobTitle}</b></h4>
                     </div>
                     <div class="w3-container">
+                        <c:if test="${incorrect_communication_method == true}">
+                            <div class="w3-left w3-red w3-block">
+                                <fmt:message key="message.incorrect.description.pattern"/>
+                            </div>
+                            <br/>
+                        </c:if>
+                        <c:if test="${incorrect_date == true}">
+                            <div class="w3-left w3-red w3-block">
+                                <fmt:message key="message.incorrect.date"/>
+                            </div>
+                            <br/>
+                        </c:if>
                         <div class="w3-row">
                             <div class="w3-half">
                                 <h4><b><fmt:message key="label.vacancy.salary"/>: </b>
@@ -209,7 +222,6 @@
                                                            name="${ParameterName.INTERVIEW_APPOINTED_DATE}" required/>
                                                     <label><b><fmt:message
                                                             key="text.interview_info.page.communication_method"/></b></label>
-                                                    <!--ДОБАВИТЬ ПАТТЕРН -->
                                                     <input class="w3-input w3-border" type="text"
                                                            placeholder="<fmt:message key="text.interview_info.page.communication_method"/>"
                                                            value="${temp_interview.communicationMethod}"
@@ -282,7 +294,7 @@
     </main>
 
     <footer class="footer">
-        <%@include file="../fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js">

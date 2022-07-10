@@ -7,7 +7,8 @@
 <div class="w3-container w3-bar w3-black"
      style="padding-left: 32px; padding-right: 32px;">
     <!-- GO to main page-->
-    <a href="${pageContext.request.contextPath}/pages/main.jsp" class="w3-bar-item w3-button w3-mobile w3-green">
+    <a href="${pageContext.request.contextPath}/controller?command=search_vacancy&location_country=&location_city=&vacancy_job_title=&vacancy_work_experience="
+       class="w3-bar-item w3-button w3-mobile w3-green">
         <fmt:message key="button.main"/>
     </a>
 
@@ -70,32 +71,55 @@
         </div>
     </c:if>
 
-    <!-- LOGIN and LOGOUT BUTTON-->
-    <!-- LOGOUT BUTTON-->
-    <c:if test="${user != null}">
-        <div class="w3-right w3-mobile">
-            <a href="${pageContext.request.contextPath}/controller?command=logout"
-               class="w3-button w3-block w3-red">
-                <fmt:message key="button.logout"/>
-            </a>
+    <div class="w3-right">
+        <div class="w3-show-inline-block">
+            <div class="w3-bar">
+                <form action="${pageContext.request.contextPath}/controller" method="get" id="ru"
+                class="w3-bar-item">
+                    <input type="hidden" name="command" value="set_localization_type">
+                    <input type="hidden" name="locale" value="ru_RU">
+                    <input type="hidden" name="page_path" value="${pageContext.request.requestURI}">
+                    <input type="hidden" name="query_string" value="${pageContext.request.queryString}">
+                    <button class="w3-black w3-hover-blue" type="submit" form="ru">
+                        RU
+                    </button>
+                </form>
+                <form action="${pageContext.request.contextPath}/controller" method="get" id="en"
+                class="w3-bar-item">
+                    <input type="hidden" name="command" value="set_localization_type">
+                    <input type="hidden" name="locale" value="en_US">
+                    <input type="hidden" name="page_path" value="${pageContext.request.requestURI}">
+                    <input type="hidden" name="query_string" value="${pageContext.request.queryString}">
+                    <button class="w3-black w3-hover-blue" type="submit" form="en">
+                        EN
+                    </button>
+                </form>
+            </div>
         </div>
-    </c:if>
-    <!--END LOGOUT BUTTON-->
-    <!-- LOGIN BUTTON-->
-    <c:if test="${user == null}">
-        <div class="w3-right w3-mobile">
-            <button onclick="document.getElementById('id01').style.display='block'"
-                    class="w3-block w3-button w3-green">
-                <fmt:message key="button.login"/>
-            </button>
-            <!-- END LOGIN BUTTON-->
-        </div>
+        <div class="w3-show-inline-block">
+            <div class="w3-bar">
+                <c:if test="${user != null}">
+                    <div class="w3-mobile">
+                        <a href="${pageContext.request.contextPath}/controller?command=logout"
+                           class="w3-button w3-block w3-red">
+                            <fmt:message key="button.logout"/>
+                        </a>
+                    </div>
+                </c:if>
 
-        <!-- LOGIN-->
-        <div id="id01" class="w3-modal w3-animate-zoom">
-            <%@include file="loginForm.jsp" %>
+                <c:if test="${user == null}">
+                    <div class="w3-mobile">
+                        <button onclick="document.getElementById('id01').style.display='block'"
+                                class="w3-block w3-button w3-green">
+                            <fmt:message key="button.login"/>
+                        </button>
+                    </div>
+                    <div id="id01" class="w3-modal w3-animate-zoom">
+                        <%@include file="loginForm.jsp" %>
+                    </div>
+                </c:if>
+            </div>
         </div>
-        <!--END -->
-    </c:if>
-    <!--END LOGIN and LOGOUT BUTTON-->
+    </div>
+
 </div>

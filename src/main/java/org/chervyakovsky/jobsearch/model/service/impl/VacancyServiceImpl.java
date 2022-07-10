@@ -122,6 +122,9 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public HashMap<Vacancy, Map.Entry<Location, UserInfo>> searchVacancyByCriteria(RequestContent requestContent, Pageable pageable) throws ServiceException {
+        String stringPage = requestContent.getParameterFromRequest(ParameterName.PAGE);
+        int page = stringPage == null ? pageable.getPage() : Integer.parseInt(stringPage);
+        pageable.setPage(page);
         VacancyDao vacancyDao = VacancyDaoImpl.getInstance();
         MapperFromRequestToEntity<Vacancy> mapperVacancy = new VacancyMapperFromRequestToEntity();
         MapperFromRequestToEntity<Location> mapperLocation = new LocationMapperFromRequestToEntity();
@@ -139,7 +142,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public Map<Vacancy, Location> searchVacanciesForCompany(RequestContent requestContent, Pageable pageable) throws ServiceException {
-        String stringPage = getParameter(requestContent, ParameterName.PAGE);
+        String stringPage = requestContent.getParameterFromRequest(ParameterName.PAGE);
         int page = stringPage == null ? pageable.getPage() : Integer.parseInt(stringPage);
         pageable.setPage(page);
         Map<String, Object> sessionAttribute = requestContent.getSessionAttribute();
@@ -175,13 +178,5 @@ public class VacancyServiceImpl implements VacancyService {
             throw new ServiceException(exception);
         }
         return result;
-    }
-
-    private String getParameter(RequestContent requestContent, String parameter) {
-        String[] parameters = requestContent.getRequestParameters().get(parameter);
-        if (parameters != null && parameters.length > 0 && parameters[0] != null) {
-            return parameters[0];
-        }
-        return null;
     }
 }

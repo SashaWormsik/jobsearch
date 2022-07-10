@@ -4,8 +4,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.mail.MessagingException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -15,7 +13,7 @@ public class Mail {
 
     private static final String EMAIL_PROPERTIES = "email.properties";
 
-    public static void sendMail(String sendMailTo, String text){
+    public static void sendMail(String sendMailTo, String text) {
         Properties properties = new Properties();
         try (InputStream inputStream = Mail.class.getClassLoader().getResourceAsStream(EMAIL_PROPERTIES)) {
             properties.load(inputStream);

@@ -38,7 +38,7 @@ public class VacancyMapperFromRequestToEntity implements MapperFromRequestToEnti
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         apply(createDate, s -> {
             try {
-                vacancy.setCreateDate(simpleDateFormat.parse(s)); // fixme
+                vacancy.setCreateDate(simpleDateFormat.parse(s));
             } catch (ParseException exception) {
                 LOGGER.log(Level.ERROR, exception);
             }

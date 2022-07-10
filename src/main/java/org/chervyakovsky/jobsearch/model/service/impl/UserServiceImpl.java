@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> findAllUserByCriteria(RequestContent requestContent) throws ServiceException {
-        String stringQuery = getParameter(requestContent, ParameterName.USER_SEARCH_QUERY);
+        String stringQuery =requestContent.getParameterFromRequest( ParameterName.USER_SEARCH_QUERY);
         MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
         UserRoleStatus userRoleStatus = userInfoMapper.map(requestContent).getRole();
         requestContent.setNewValueInRequestAttributes(ParameterName.USER_ROLE, userRoleStatus);
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> findAllUser(RequestContent requestContent, Pageable pageable) throws ServiceException {
-        String stringPage = getParameter(requestContent, ParameterName.PAGE);
+        String stringPage = requestContent.getParameterFromRequest(ParameterName.PAGE);
         int page = stringPage == null ? pageable.getPage() : Integer.parseInt(stringPage);
         pageable.setPage(page);
         MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService {
         UserInfo userInfo = userInfoMapper.map(requestContent);
         String email = userInfo.getEmail();
         UserInfoValidator validator = UserInfoValidator.getInstance();
-        if (validator.validateEmail(email)) {
+        if (!validator.validateEmail(email)) {
             return false;
         }
         String token = RandomStringUtils.randomAlphabetic(20);
@@ -289,13 +289,5 @@ public class UserServiceImpl implements UserService {
         }
         return result;
 
-    }
-
-    private String getParameter(RequestContent requestContent, String parameter) {
-        String[] parameters = requestContent.getRequestParameters().get(parameter);
-        if (parameters != null && parameters.length > 0 && parameters[0] != null) {
-            return parameters[0];
-        }
-        return null;
     }
 }

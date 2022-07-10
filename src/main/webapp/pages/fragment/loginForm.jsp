@@ -34,6 +34,12 @@
                 <fmt:message key="message.successful.registration"/>
             </div>
         </c:if>
+
+        <c:if test="${temp_password_changed == true}">
+            <div class="w3-center w3-blue">
+                <fmt:message key="message.password_changed"/>
+            </div>
+        </c:if>
         <!-- IMAGE -->
         <img src="${pageContext.request.contextPath}/image/img.png" alt="Avatar"
              style="width:30%" class="w3-circle w3-margin-top"/>

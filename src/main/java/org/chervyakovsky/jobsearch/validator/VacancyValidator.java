@@ -4,13 +4,12 @@ import org.chervyakovsky.jobsearch.controller.AttributeName;
 import org.chervyakovsky.jobsearch.controller.ParameterName;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VacancyValidator {
 
-    private static final String JOB_TITLE_REGEX = "^([А-Яа-яa-zA-Z]{1})([\\hа-яa-z-]+)([а-яa-z]{1})$";
+    private static final String JOB_TITLE_REGEX = "^([a-zA-ZА-Яа-я]{1})([\\ha-zа-я-]{1,20})([a-zа-я]{1})$";
     private static final String SALARY_REGEX = "^[1-9][\\d]{0,8}(\\.\\d{2}$)?";
     private static final String CURRENCY_REGEX = "(BYN|USD|EUR)";
     private static final String TEXT_REGEX = "[}{><]";
@@ -46,36 +45,36 @@ public class VacancyValidator {
     }
 
     public boolean validateText(String text) {
+        if (text == null) {
+            return false;
+        }
         Pattern pattern = Pattern.compile(TEXT_REGEX);
         Matcher matcher = pattern.matcher(text);
         return !matcher.find();
     }
 
     public boolean isValidVacancyData(RequestContent requestContent) {
-        HashMap<String, String[]> registrationUserDataMap = requestContent.getRequestParameters();
-        String jobTitle = getParameter(registrationUserDataMap, ParameterName.VACANCY_JOB_TITLE);
-        String salary = getParameter(registrationUserDataMap, ParameterName.VACANCY_SALARY);
-        String currency = getParameter(registrationUserDataMap, ParameterName.VACANCY_CURRENCY);
-        String workExperience = getParameter(registrationUserDataMap, ParameterName.VACANCY_WORK_EXPERIENCE);
-        String responsibility = getParameter(registrationUserDataMap, ParameterName.VACANCY_RESPONSIBILITIES);
-        String requirement = getParameter(registrationUserDataMap, ParameterName.VACANCY_REQUIREMENTS);
-        String workingConditions = getParameter(registrationUserDataMap, ParameterName.VACANCY_WORKING_CONDITIONS);
+        String jobTitle = requestContent.getParameterFromRequest(ParameterName.VACANCY_JOB_TITLE);
+        String salary = requestContent.getParameterFromRequest(ParameterName.VACANCY_SALARY);
+        String currency = requestContent.getParameterFromRequest(ParameterName.VACANCY_CURRENCY);
+        String workExperience = requestContent.getParameterFromRequest(ParameterName.VACANCY_WORK_EXPERIENCE);
+        String responsibility = requestContent.getParameterFromRequest(ParameterName.VACANCY_RESPONSIBILITIES);
+        String requirement = requestContent.getParameterFromRequest(ParameterName.VACANCY_REQUIREMENTS);
+        String workingConditions = requestContent.getParameterFromRequest(ParameterName.VACANCY_WORKING_CONDITIONS);
         boolean result = true;
         if (!validateJobTitle(jobTitle)) {
             result = false;
-            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN, true);
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_PROFESSION, true);
         }
         if (!validateSalary(salary)) {
             result = false;
-            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN, true);
+            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_SALARY, true);
         }
         if (!validateCurrency(currency)) {
             result = false;
-            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN, true);
         }
         if (!validateWorkExperience(workExperience)) {
             result = false;
-            requestContent.setNewValueInRequestAttributes(AttributeName.INCORRECT_LOGIN, true);
         }
         if (!validateText(responsibility)) {
             result = false;
@@ -98,13 +97,5 @@ public class VacancyValidator {
             return false;
         }
         return pattern.matcher(validationString).matches();
-    }
-
-    private String getParameter(HashMap<String, String[]> map, String parameterName) {
-        String[] parameterValues = map.get(parameterName);
-        if (parameterValues != null && parameterValues.length > 0 && parameterValues[0] != null) {
-            return parameterValues[0];
-        }
-        return null;
     }
 }

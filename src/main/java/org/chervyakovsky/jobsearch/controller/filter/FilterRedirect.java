@@ -8,8 +8,12 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Enumeration;
 
+/**
+ * The filter moves temporary session attributes to the request.
+ */
 @WebFilter(filterName = "FilterRedirect", urlPatterns = "/*", dispatcherTypes = {DispatcherType.FORWARD, DispatcherType.REQUEST})
 public class FilterRedirect implements Filter {
+    private static final String TEMP_ATTR_PREFIX = "temp_";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -19,7 +23,7 @@ public class FilterRedirect implements Filter {
             Enumeration<String> nameSessionAttribute = session.getAttributeNames();
             while (nameSessionAttribute.hasMoreElements()) {
                 String name = nameSessionAttribute.nextElement();
-                if (name.startsWith("temp")) {
+                if (name.startsWith(TEMP_ATTR_PREFIX)) {
                     httpRequest.setAttribute(name, session.getAttribute(name));
                     session.removeAttribute(name);
                 }

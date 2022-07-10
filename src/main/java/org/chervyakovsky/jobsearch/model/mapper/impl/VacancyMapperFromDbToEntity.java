@@ -9,12 +9,8 @@ import org.chervyakovsky.jobsearch.model.entity.status.WorkExperienceStatus;
 import org.chervyakovsky.jobsearch.model.mapper.ColumnName;
 import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 
 public class VacancyMapperFromDbToEntity implements MapperFromDbToEntity<Vacancy> {

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
 <%@include file="fragment/lang_and_user.jsp" %>
 
@@ -29,28 +30,32 @@
                 <input type="hidden" name="command" value="forgot_password"/>
                 <div class="w3-section">
                     <c:if test="${forgot_password == false}">
-                        <div class="w3-center w3-red">
+                        <div class="w3-left w3-red w3-block">
                             <fmt:message key="message.forgot_password.not.send"/>
                         </div>
+                        <br/>
                     </c:if>
                     <c:if test="${forgot_password == true}">
-                        <div class="w3-center w3-blue">
+                        <div class="w3-left w3-blue w3-block">
                             <fmt:message key="message.forgot_password.send"/>
                         </div>
+                        <br/>
                     </c:if>
                     <c:if test="${incorrect_email == true}">
                         <div class="w3-left w3-red w3-block">
                             <fmt:message key="message.incorrect.email.pattern"/>
                         </div>
+                        <br/>
                     </c:if>
                     <label>
                         <b><fmt:message key="label.user.email"/></b>
                     </label>
                     <input class="w3-input w3-border w3-margin-bottom"
-                           type="email"
+                           type="text"
+                           value="${user_email}"
                            name="${ParameterName.USER_EMAIL}"
                            placeholder="<fmt:message key="label.user.email"/>" required
-                           pattern="^[\p{Alpha}\p{Digit}_!#$%&'*+/=?`{|}~^.-]+@[\p{Alpha}\p{Digit}.-]+$"
+                           pattern="^[A-Za-z0-9_!#$%&'*+/=?`}{|~^.-]+@[A-Za-z0-9.-]+$"
                            title="<fmt:message key="message.incorrect.email.pattern"/>"/>
 
                     <button class="w3-button w3-block w3-green w3-section w3-padding"
@@ -64,7 +69,7 @@
     </main>
 
     <footer class="footer">
-        <%@include file="fragment/footer.jsp" %>
+        <ctg:footer/>
     </footer>
 </div>
 <script src="${pageContext.request.contextPath}/js/js.js"></script>

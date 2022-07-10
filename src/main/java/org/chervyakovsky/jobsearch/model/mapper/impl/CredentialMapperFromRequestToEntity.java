@@ -30,7 +30,7 @@ public class CredentialMapperFromRequestToEntity implements MapperFromRequestToE
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         apply(createDate, s -> {
             try {
-                credential.setCreateDate(simpleDateFormat.parse(s)); // fixme
+                credential.setCreateDate(simpleDateFormat.parse(s));
             } catch (ParseException exception) {
                 LOGGER.log(Level.ERROR, exception);
             }

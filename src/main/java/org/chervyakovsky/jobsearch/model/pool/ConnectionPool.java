@@ -17,6 +17,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The type ConnectionPool class. Announces two limited thread - safe queues
+ * for free and taken connections. It is a singleton class with private
+ * constructor and static method to initialize this class.
+ */
 public class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -65,7 +70,11 @@ public class ConnectionPool {
         LOGGER.log(Level.INFO, "{} connections have been created", freeConnection.size());
     }
 
-
+    /**
+     * Get instance connection pool.
+     *
+     * @return the connection pool
+     */
     public static ConnectionPool getInstance() {
         if (!isCreated.get()) {
             try {
@@ -81,6 +90,11 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * Get connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         ProxyConnection proxyConnection = null;
         try {
@@ -93,6 +107,12 @@ public class ConnectionPool {
         return proxyConnection;
     }
 
+    /**
+     * Release connection. The connection returns
+     * to the pool.
+     *
+     * @param connection the connection
+     */
     public boolean releaseConnection(Connection connection) {
         if (connection instanceof ProxyConnection) {
             try {
@@ -107,7 +127,9 @@ public class ConnectionPool {
         return false;
     }
 
-
+    /**
+     * Destroy pool and deregister drivers.
+     */
     public void destroyPool() {
         for (int i = 0; i < POOL_SIZE; i++) {
             try {

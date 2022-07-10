@@ -1,6 +1,6 @@
 package org.chervyakovsky.jobsearch.exception;
 
-public class DaoException extends Exception{
+public class DaoException extends Exception {
     public DaoException() {
     }
 

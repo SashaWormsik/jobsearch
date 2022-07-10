@@ -12,34 +12,80 @@ import org.chervyakovsky.jobsearch.controller.command.Command;
 import org.chervyakovsky.jobsearch.controller.command.CommandType;
 import org.chervyakovsky.jobsearch.exception.CommandException;
 import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
-import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.io.IOException;
 
+/**
+ * The type Controller class. Manage requests and forms responses for clients.
+ * Override GET and POST methods.
+ *
+ * @see jakarta.servlet.http.HttpServlet
+ */
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
 public class Controller extends HttpServlet {
+
+    /**
+     * A Logger object is used to log messages for a application info.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
 
-
+    /**
+     * Called by the servlet container to indicate to a servlet that the
+     * servlet is being placed into service.
+     *
+     * @throws ServletException if an exception occurs that interrupts the servlet's normal operation
+     */
     public void init() {
         LOGGER.log(Level.INFO, "'{}' initialization.", this.getServletName());
-        ConnectionPool.getInstance();
     }
 
+    /**
+     * Called by the server to allow a servlet to handle a GET request.
+     *
+     * @param request  an {@link HttpServletRequest} object that contains the request
+     *                 the client has made of the servlet
+     * @param response an {@link HttpServletResponse} object that contains the response
+     *                 the servlet sends to the client
+     * @throws ServletException if the request for the GET could not be handled
+     * @throws IOException      if an input or output error is  detected when the servlet handles the GET request
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
 
+    /**
+     * Called by the server to allow a servlet to handle a GET request.
+     *
+     * @param request  an {@link HttpServletRequest} object that contains the request
+     *                 the client has made of the servlet
+     * @param response an {@link HttpServletResponse} object that contains the response
+     *                 the servlet sends to the client
+     * @throws ServletException if the request for the POST could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the request
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Called by the servlet container to indicate to a servlet that the
+     * servlet is being taken out of service.
+     */
     public void destroy() {
         LOGGER.log(Level.INFO, "'{}' destroying", this.getServletName());
-        ConnectionPool.getInstance().destroyPool();
     }
 
+    /**
+     * The method of processing the request according to the received {@link CommandType}
+     *
+     * @param request  an {@link HttpServletRequest} object that contains the request
+     *                 the client has made of the servlet
+     * @param response an {@link HttpServletResponse} object that contains the response
+     *                 the servlet sends to the client
+     * @throws ServletException if the request cannot be processed
+     * @throws IOException      if an input or output error is detected when the servlet handles the request
+     */
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestContent requestContent = new RequestContent();
         String commandStr = request.getParameter(ParameterName.COMMAND);
@@ -48,14 +94,12 @@ public class Controller extends HttpServlet {
             requestContent.extractValues(request);
             Router router = command.execute(requestContent);
             requestContent.insertAttribute(request);
-            String page = router.getPage();
-            Router.Type routerType= router.getType();
-            switch (routerType) {
+            switch (router.getType()) {
                 case FORWARD:
-                    request.getRequestDispatcher(page).forward(request, response);
+                    request.getRequestDispatcher(router.getPage()).forward(request, response);
                     break;
                 case REDIRECT:
-                    response.sendRedirect(page);
+                    response.sendRedirect(router.getPage());
                     break;
                 default:
                     throw new ServletException();

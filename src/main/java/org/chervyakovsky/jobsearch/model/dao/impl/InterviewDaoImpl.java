@@ -13,6 +13,7 @@ import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,11 +35,6 @@ public class InterviewDaoImpl implements InterviewDao {
                     "SET i_appointed_date = ?, i_interview_status = ?::interview_status_enum, i_communication_method = ? " +
                     "WHERE i_interview_id = ?";
 
-    private static final String SET_NEW_INTERVIEW_STATUS =
-            "UPDATE interview " +
-                    "SET i_interview_status = ?::interview_status_enum" +
-                    "WHERE i_interview_id = ?";
-
     private static final String SELECT_ALL_WORKER_INTERVIEW =
             "SELECT * FROM interview " +
                     "WHERE i_worker_id = ? " +
@@ -51,17 +47,11 @@ public class InterviewDaoImpl implements InterviewDao {
                     "WHERE v_company_id = ?) " +
                     "ORDER BY i_appointed_date DESC";
 
-    private static final String SELECT_ALL_VACANCIES_INTERVIEW_IN_WAITING_OR_IS_REJECTED =
-            "SELECT * FROM interview " +
-                    "JOIN user_info ON user_info.u_user_info_id = interview.i_worker_id " +
-                    "WHERE i_vacancy_id = ? AND i_interview_status IN ('IN_WAITING', 'IS_REJECTED') " +
-                    "ORDER BY i_appointed_date";
-
-    private static final String SELECT_ALL_VACANCIES_INTERVIEW_IS_SCHEDULED_OR_IS_COMPLETED =
-            "SELECT * FROM interview " +
-                    "JOIN user_info ON user_info.u_user_info_id = interview.i_worker_id " +
-                    "WHERE i_vacancy_id = ? AND i_interview_status IN ('IS_SCHEDULED', 'IS_COMPLETED') " +
-                    "ORDER BY i_appointed_date";
+    private static final String UPDATE_ALL_WHERE_APPOINTED_TIME_OUT =
+            "UPDATE interview " +
+                    "SET i_interview_status = 'IS_REJECTED'::interview_status_enum " +
+                    "WHERE i_interview_status LIKE 'IS_SCHEDULED'::interview_status_enum " +
+                    "AND i_appointed_date < ?";
 
     private static InterviewDaoImpl instance;
 
@@ -73,6 +63,18 @@ public class InterviewDaoImpl implements InterviewDao {
             instance = new InterviewDaoImpl();
         }
         return instance;
+    }
+
+    @Override
+    public void editOverdueInterviews() throws DaoException {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_ALL_WHERE_APPOINTED_TIME_OUT)) {
+            statement.setTimestamp(1, new Timestamp(new Date().getTime()));
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            LOGGER.log(Level.ERROR, exception);
+            throw new DaoException(exception);
+        }
     }
 
     @Override

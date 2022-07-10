@@ -7,6 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+/**
+ * The filter sets the encodings and the type of content.
+ */
 @WebFilter(filterName = "FilterEncoding", urlPatterns = "/*")
 public class FilterEncoding implements Filter {
     private static final String ENCODING_UTF_8 = "UTF-8";

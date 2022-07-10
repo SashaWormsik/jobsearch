@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * The type connection factory.
+ */
 public class ConnectionFactory {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String DATABASE_PROPERTIES_FILE = "database";
@@ -58,6 +61,12 @@ public class ConnectionFactory {
     private ConnectionFactory() {
     }
 
+    /**
+     * Create connection.
+     *
+     * @return the proxy connection
+     * @throws SQLException the sql exception
+     */
     static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }

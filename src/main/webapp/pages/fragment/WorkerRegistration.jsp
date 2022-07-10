@@ -40,7 +40,8 @@
             <input class="w3-input w3-border w3-margin-bottom"
                    type="text"
                    name="${ParameterName.USER_LOGIN}"
-                   placeholder="<fmt:message key="label.user.login"/>" required
+                   placeholder="<fmt:message key="label.user.login"/>"
+                   required
                    pattern="^[@\p{Alpha}]\w{4,20}$"
                    title="<fmt:message key="message.incorrect.login.pattern"/>"
                    value="${user_login}"/>
@@ -59,8 +60,9 @@
             <input class="w3-input w3-border w3-margin-bottom"
                    type="email"
                    name="${ParameterName.USER_EMAIL}"
-                   placeholder="<fmt:message key="label.user.email"/>" required
-                   pattern="^[\p{Alpha}\p{Digit}_!#$%&'*+/=?`{|}~^.-]+@[\p{Alpha}\p{Digit}.-]+$"
+                   placeholder="<fmt:message key="label.user.email"/>"
+                   required
+                   pattern="^[A-Za-z0-9_!#$%&'*+/=?`}{|~^.-]+@[A-Za-z0-9.-]+$"
                    title="<fmt:message key="message.incorrect.email.pattern"/>"
                    value="${user_email}"/>
 
@@ -78,7 +80,7 @@
                    type="password"
                    name="${ParameterName.CREDENTIAL_PASSWORD}"
                    placeholder="<fmt:message key="label.user.password"/>" required
-                   pattern="^(?=.*[\p{Alpha}])(?=.*\d)[\p{Alpha}\d]{8,20}$"
+                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"
                    title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
 
@@ -96,7 +98,7 @@
                    type="password"
                    name="${ParameterName.CREDENTIAL_CONFIRM_PASSWORD}"
                    placeholder="<fmt:message key="label.user.password.confirm"/>" required
-                   pattern="^(?=.*[\p{Alpha}])(?=.*\d)[\p{Alpha}\d]{8,20}$"
+                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"
                    title="<fmt:message key="message.incorrect.password.pattern"/>"/>
 
             <!-- USER NAME-->

@@ -66,7 +66,7 @@ public class VacancyDaoImpl implements VacancyDao {
                     "v_work_experience::text ILIKE ? AND " +
                     "v_vacancy_status = true " +
                     "ORDER BY v_create_date " +
-                    "LIMIT 10 OFFSET ?;";
+                    "LIMIT ? OFFSET ?;";
 
     private static VacancyDaoImpl instance;
 
@@ -199,7 +199,8 @@ public class VacancyDaoImpl implements VacancyDao {
             statement.setString(2, city);
             statement.setString(3, profession);
             statement.setString(4, workExperienceStatus);
-            statement.setInt(5, pageable.getOffset());
+            statement.setInt(5, pageable.getSize());
+            statement.setInt(6, pageable.getOffset());
             try (ResultSet resultSet = statement.executeQuery()) {
                 boolean flag = true;
                 while (resultSet.next()) {
