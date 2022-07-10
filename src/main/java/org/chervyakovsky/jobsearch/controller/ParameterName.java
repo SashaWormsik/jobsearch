@@ -30,6 +30,7 @@ public final class ParameterName {
     public static final String LOCATION_ID = "location_id";
     public static final String LOCATION_COUNTRY = "location_country";
     public static final String LOCATION_CITY = "location_city";
+
     public static final String VACANCY_ID = "vacancy_id";
     public static final String VACANCY_CREATE_DATE = "vacancy_create_date";
     public static final String VACANCY_JOB_TITLE = "vacancy_job_title";

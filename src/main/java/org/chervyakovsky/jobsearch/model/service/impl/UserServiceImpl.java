@@ -100,12 +100,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> findAllUserByCriteria(RequestContent requestContent) throws ServiceException {
-        String stringQuery =requestContent.getParameterFromRequest( ParameterName.USER_SEARCH_QUERY);
+        String stringQuery = requestContent.getParameterFromRequest(ParameterName.USER_SEARCH_QUERY);
         MapperFromRequestToEntity<UserInfo> userInfoMapper = new UserInfoMapperFromRequestToEntity();
         UserRoleStatus userRoleStatus = userInfoMapper.map(requestContent).getRole();
         requestContent.setNewValueInRequestAttributes(ParameterName.USER_ROLE, userRoleStatus);
         UserDao userDao = UserDaoImpl.getInstance();
-        List<UserInfo> userInfoList = new ArrayList<>(); try {
+        List<UserInfo> userInfoList = new ArrayList<>();
+        try {
             userInfoList = userDao.findAllByCriteria(stringQuery, userRoleStatus);
         } catch (DaoException exception) {
             LOGGER.log(Level.ERROR, exception);
