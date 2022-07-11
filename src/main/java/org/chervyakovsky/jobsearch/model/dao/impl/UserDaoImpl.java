@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type UserDaoImpl class executes requests to the DB. Singleton.
+ */
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -28,7 +31,7 @@ public class UserDaoImpl implements UserDao {
                     "WHERE u_role = ?::user_role_enum " +
                     "ORDER BY u_user_info_id DESC " +
                     "LIMIT ? OFFSET ?";
-    private static final String SELECT_USER_BY_CRITERIA=
+    private static final String SELECT_USER_BY_CRITERIA =
             "SELECT * FROM user_info " +
                     "WHERE u_role = ?::user_role_enum " +
                     "AND (u_login ILIKE ? " +
@@ -259,17 +262,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean insert(UserInfo userInfo) throws DaoException {
         return false;
-    }
-
-    @Override
-    public boolean delete(UserInfo userInfo) {
-        return false;
-    }
-
-
-    @Override
-    public List<UserInfo> findAll() {
-        return null;
     }
 
     private Optional<UserInfo> getUserInfo(String columnName, String queryString) throws DaoException {

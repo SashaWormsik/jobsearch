@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type VacancyMapperFromDbToEntity class. Maps result set to the Vacancy class object.
+ */
 public class VacancyMapperFromDbToEntity implements MapperFromDbToEntity<Vacancy> {
     private static final Logger LOGGER = LogManager.getLogger();
 

@@ -14,6 +14,9 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type LocationDaoImpl class executes requests to the DB. Singleton.
+ */
 public class LocationDaoImpl implements LocationDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -101,18 +104,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public boolean delete(Location location) {
-        return false;
-    }
-
-    @Override
     public boolean update(Location location) {
         return false;
     }
-
-    @Override
-    public List<Location> findAll() {
-        return null;
-    }
-
 }

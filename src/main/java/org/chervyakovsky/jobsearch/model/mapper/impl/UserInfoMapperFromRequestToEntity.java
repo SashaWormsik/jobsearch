@@ -14,6 +14,10 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * The type UserInfoMapperFromRequestToEntity class.
+ * Maps a set of parameters from the RequestContent object to the UserInfo class object.
+ */
 public class UserInfoMapperFromRequestToEntity implements MapperFromRequestToEntity<UserInfo> {
     private static final Logger LOGGER = LogManager.getLogger();
 

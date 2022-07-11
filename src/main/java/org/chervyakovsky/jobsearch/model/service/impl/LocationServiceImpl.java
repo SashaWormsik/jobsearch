@@ -69,21 +69,6 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<Location> findLocationById(Long id) throws ServiceException {
-        LocationDao locationDao = LocationDaoImpl.getInstance();
-        Optional<Location> optionalLocation = Optional.empty();
-        try {
-            if (id != null) {
-                optionalLocation = locationDao.findById(id);
-            }
-        } catch (DaoException exception) {
-            LOGGER.log(Level.ERROR, exception);
-            throw new ServiceException(exception);
-        }
-        return optionalLocation;
-    }
-
-    @Override
     public Optional<Location> locationIsPresent(RequestContent requestContent) throws ServiceException {
         LocationValidator validator = LocationValidator.getInstance();
         if (!validator.isValidLocationData(requestContent)) {

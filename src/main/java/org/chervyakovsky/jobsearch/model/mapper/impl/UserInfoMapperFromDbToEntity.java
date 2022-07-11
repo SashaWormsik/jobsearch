@@ -16,6 +16,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type UserInfoMapperFromDbToEntity class. Maps result set to the UserInfo class object.
+ */
 public class UserInfoMapperFromDbToEntity implements MapperFromDbToEntity<UserInfo> {
     private static final Logger LOGGER = LogManager.getLogger();
 

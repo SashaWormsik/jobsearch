@@ -13,6 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * The type CredentialMapperFromRequestToEntity class.
+ * Maps a set of parameters from the RequestContent object to the Credential class object.
+ */
 public class CredentialMapperFromRequestToEntity implements MapperFromRequestToEntity<Credential> {
     private static final Logger LOGGER = LogManager.getLogger();
 

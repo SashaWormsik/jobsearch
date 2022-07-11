@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type LocationMapperFromDbToEntity class. Maps result set to the Location class object.
+ */
 public class LocationMapperFromDbToEntity implements MapperFromDbToEntity<Location> {
     private static final Logger LOGGER = LogManager.getLogger();
 

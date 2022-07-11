@@ -15,6 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * The type VacancyMapperFromRequestToEntity class.
+ * Maps a set of parameters from the RequestContent object to the Vacancy class object.
+ */
 public class VacancyMapperFromRequestToEntity implements MapperFromRequestToEntity<Vacancy> {
     private static final Logger LOGGER = LogManager.getLogger();
 

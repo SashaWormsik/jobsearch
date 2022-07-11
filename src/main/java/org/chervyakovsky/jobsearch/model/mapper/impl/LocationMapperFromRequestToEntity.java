@@ -10,6 +10,10 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * The type LocationMapperFromRequestToEntity class.
+ * Maps a set of parameters from the RequestContent object to the Location class object.
+ */
 public class LocationMapperFromRequestToEntity implements MapperFromRequestToEntity<Location> {
     private static final Logger LOGGER = LogManager.getLogger();
 

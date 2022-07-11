@@ -14,6 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * The type InterviewMapperFromRequestToEntity class.
+ * Maps a set of parameters from the RequestContent object to the Interview class object.
+ */
 public class InterviewMapperFromRequestToEntity implements MapperFromRequestToEntity<Interview> {
     private static final Logger LOGGER = LogManager.getLogger();
 

@@ -20,6 +20,9 @@ import java.sql.Date;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * The type VacancyDaoImpl class executes requests to the DB. Singleton.
+ */
 public class VacancyDaoImpl implements VacancyDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -97,16 +100,6 @@ public class VacancyDaoImpl implements VacancyDao {
             throw new DaoException(exception);
         }
         return optionalVacancy;
-    }
-
-    @Override
-    public boolean delete(Vacancy vacancy) throws DaoException {
-        return false;
-    }
-
-    @Override
-    public List<Vacancy> findAll() throws DaoException {
-        return null;
     }
 
     @Override

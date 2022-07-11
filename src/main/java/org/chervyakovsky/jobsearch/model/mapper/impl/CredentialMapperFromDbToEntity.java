@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type CredentialMapperFromDbToEntity class. Maps result set to the Credential class object.
+ */
 public class CredentialMapperFromDbToEntity implements MapperFromDbToEntity<Credential> {
     private static final Logger LOGGER = LogManager.getLogger();
 

@@ -11,9 +11,11 @@ import org.chervyakovsky.jobsearch.model.mapper.impl.CredentialMapperFromDbToEnt
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type CredentialDaoImpl class executes requests to the DB. Singleton.
+ */
 public class CredentialDaoImpl implements CredentialDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -125,15 +127,5 @@ public class CredentialDaoImpl implements CredentialDao {
         return false;
     }
 
-    @Override
-    public boolean delete(Credential credential) {
-        return false;
-    }
-
-
-    @Override
-    public List<Credential> findAll() {
-        return null;
-    }
 
 }

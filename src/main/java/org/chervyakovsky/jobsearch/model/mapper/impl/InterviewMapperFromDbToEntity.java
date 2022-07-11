@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+/**
+ * The type InterviewMapperFromDbToEntity class. Maps result set to the Interview class object.
+ */
 public class InterviewMapperFromDbToEntity implements MapperFromDbToEntity<Interview> {
 
     private static final Logger LOGGER = LogManager.getLogger();

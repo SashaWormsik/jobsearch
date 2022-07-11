@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import org.chervyakovsky.jobsearch.exception.DaoException;
 import org.chervyakovsky.jobsearch.model.dao.InterviewDao;
 import org.chervyakovsky.jobsearch.model.entity.Interview;
-import org.chervyakovsky.jobsearch.model.entity.status.InterviewStatus;
 import org.chervyakovsky.jobsearch.model.mapper.MapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.mapper.impl.InterviewMapperFromDbToEntity;
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
@@ -17,6 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type InterviewDaoImpl class executes requests to the DB. Singleton.
+ */
 public class InterviewDaoImpl implements InterviewDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -165,22 +167,6 @@ public class InterviewDaoImpl implements InterviewDao {
         }
 
         return optionalInterview;
-    }
-
-    @Override
-    public boolean delete(Interview interview) throws DaoException {
-        return false;
-    }
-
-    @Override
-    public List<Interview> findAll() throws DaoException {
-
-        return null;
-    }
-
-    @Override
-    public boolean setNewInterviewStatusById(long id, InterviewStatus status) throws DaoException {
-        return false;
     }
 
     private List<Interview> findInterviewsByUserId(long id, String selectAllWorkerInterview) throws DaoException {
