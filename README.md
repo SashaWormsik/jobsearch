@@ -61,3 +61,7 @@ company's employees and workers.
 ###DATABASE schema
 
 ![](schemaDB.png)
+
+###Shortcomings of the project
+
+[Shortcomings of the project](ShortcomingsProject.pdf)

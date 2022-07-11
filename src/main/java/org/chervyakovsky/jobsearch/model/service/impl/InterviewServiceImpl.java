@@ -68,7 +68,7 @@ public class InterviewServiceImpl implements InterviewService {
     public boolean updateInterview(RequestContent requestContent) throws ServiceException {
         boolean result = false;
         InterviewValidator validator = InterviewValidator.getInstance();
-        if(validator.isValidInterviewData(requestContent)){
+        if(!validator.isValidInterviewData(requestContent)){
             return false;
         }
         Optional<Interview> optionalInterview;
