@@ -261,7 +261,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean insert(UserInfo userInfo) throws DaoException {
-        return false;
+        throw new UnsupportedOperationException("method is not supported");
     }
 
     private Optional<UserInfo> getUserInfo(String columnName, String queryString) throws DaoException {

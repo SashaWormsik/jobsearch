@@ -46,7 +46,7 @@ public class SearchVacancyCommand implements Command {
         Pageable pageable = new Pageable();
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         try {
-            HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = vacancyService.searchVacancyByCriteria(requestContent, pageable);
+            Map<Vacancy, Map.Entry<Location, UserInfo>> result = vacancyService.searchVacancyByCriteria(requestContent, pageable);
             requestContent.setNewValueInRequestAttributes(AttributeName.VACANCIES, result);
             requestContent.setNewValueInRequestAttributes(ParameterName.PAGE, pageable.getPage());
             requestContent.setNewValueInRequestAttributes(ParameterName.PAGE_COUNT, pageable.getPageCount());

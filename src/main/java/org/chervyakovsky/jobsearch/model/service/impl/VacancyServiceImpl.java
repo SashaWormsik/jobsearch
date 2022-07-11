@@ -121,7 +121,7 @@ public class VacancyServiceImpl implements VacancyService {
 
 
     @Override
-    public HashMap<Vacancy, Map.Entry<Location, UserInfo>> searchVacancyByCriteria(RequestContent requestContent, Pageable pageable) throws ServiceException {
+    public Map<Vacancy, Map.Entry<Location, UserInfo>> searchVacancyByCriteria(RequestContent requestContent, Pageable pageable) throws ServiceException {
         String stringPage = requestContent.getParameterFromRequest(ParameterName.PAGE);
         int page = stringPage == null ? pageable.getPage() : Integer.parseInt(stringPage);
         pageable.setPage(page);
@@ -130,7 +130,7 @@ public class VacancyServiceImpl implements VacancyService {
         MapperFromRequestToEntity<Location> mapperLocation = new LocationMapperFromRequestToEntity();
         Vacancy vacancy = mapperVacancy.map(requestContent);
         Location location = mapperLocation.map(requestContent);
-        HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
+        Map<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
         try {
             result = vacancyDao.findByCriteria(vacancy, location, pageable);
         } catch (DaoException exception) {

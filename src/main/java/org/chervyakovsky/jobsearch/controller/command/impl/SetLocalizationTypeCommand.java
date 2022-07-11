@@ -25,9 +25,9 @@ public class SetLocalizationTypeCommand implements Command {
     @Override
     public Router execute(RequestContent requestContent) throws CommandException {
         Router router = new Router();
+        String localeRequest = requestContent.getParameterFromRequest(ParameterName.LOCALE);
         String page = requestContent.getParameterFromRequest(ParameterName.PAGE_PATH);
         String queryString = requestContent.getParameterFromRequest(ParameterName.QUERY_STRING);
-        String localeRequest = requestContent.getParameterFromRequest(ParameterName.LOCALE);
         if (queryString != null && !queryString.isEmpty()) {
             page = CONTROLLER.concat(queryString);
         } else if (page == null) {

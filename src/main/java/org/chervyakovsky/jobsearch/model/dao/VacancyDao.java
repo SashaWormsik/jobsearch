@@ -32,7 +32,7 @@ public interface VacancyDao extends BaseDao<Vacancy> {
      * @return a map where the key is the vacancy and the value is the vacancy location.
      * @throws DaoException if the was any SQLException during database operations.
      */
-    HashMap<Vacancy, Location> findVacancyForCompany(long companyId, Pageable pageable) throws DaoException;
+    Map<Vacancy, Location> findVacancyForCompany(long companyId, Pageable pageable) throws DaoException;
 
     /**
      * Searches for vacancies by criterion.
@@ -43,7 +43,7 @@ public interface VacancyDao extends BaseDao<Vacancy> {
      * @return Returns a map where the key is a vacancy, and the value is Map.Entry with the location is a key and the company is a value for this vacancy.
      * @throws DaoException if the was any SQLException during database operations.
      */
-    HashMap<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, Pageable pageable) throws DaoException;
+    Map<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, Pageable pageable) throws DaoException;
 
     /**
      * Searches for vacancies by Id.

@@ -11,7 +11,6 @@ import org.chervyakovsky.jobsearch.model.mapper.impl.LocationMapperFromDbToEntit
 import org.chervyakovsky.jobsearch.model.pool.ConnectionPool;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -100,11 +99,11 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public boolean insert(Location location) {
-        return false;
+        throw new UnsupportedOperationException("method is not supported");
     }
 
     @Override
     public boolean update(Location location) {
-        return false;
+        throw new UnsupportedOperationException("method is not supported");
     }
 }

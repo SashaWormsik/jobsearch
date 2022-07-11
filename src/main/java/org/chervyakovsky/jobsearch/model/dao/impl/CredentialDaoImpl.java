@@ -124,7 +124,7 @@ public class CredentialDaoImpl implements CredentialDao {
 
     @Override
     public boolean insert(Credential credential) {
-        return false;
+        throw new UnsupportedOperationException("method is not supported");
     }
 
 

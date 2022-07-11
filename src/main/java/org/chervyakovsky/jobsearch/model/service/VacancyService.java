@@ -50,7 +50,7 @@ public interface VacancyService {
      * @return Returns a map where the key is a vacancy, and the value is Map.Entry with the location is a key and the company is a value for this vacancy.
      * @throws ServiceException the service exception.
      */
-    HashMap<Vacancy, Map.Entry<Location, UserInfo>> searchVacancyByCriteria(RequestContent requestContent, Pageable pageable) throws ServiceException;
+    Map<Vacancy, Map.Entry<Location, UserInfo>> searchVacancyByCriteria(RequestContent requestContent, Pageable pageable) throws ServiceException;
 
     /**
      * Searches for all vacancies for this company.

@@ -68,7 +68,7 @@ public class VacancyDaoImpl implements VacancyDao {
                     "v_job_title ILIKE ? AND " +
                     "v_work_experience::text ILIKE ? AND " +
                     "v_vacancy_status = true " +
-                    "ORDER BY v_create_date " +
+                    "ORDER BY v_create_date DESC " +
                     "LIMIT ? OFFSET ?;";
 
     private static VacancyDaoImpl instance;
@@ -103,8 +103,8 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
     @Override
-    public HashMap<Vacancy, Location> findVacancyForCompany(long companyId, Pageable pageable) throws DaoException {
-        HashMap<Vacancy, Location> result = new HashMap<>();
+    public Map<Vacancy, Location> findVacancyForCompany(long companyId, Pageable pageable) throws DaoException {
+        Map<Vacancy, Location> result = new LinkedHashMap<>();
         MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
         MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
         try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -133,7 +133,7 @@ public class VacancyDaoImpl implements VacancyDao {
 
     @Override
     public Map<Vacancy, Map.Entry<Location, UserInfo>> findVacancyById(long vacancyId) throws DaoException {
-        HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
+        HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new LinkedHashMap<>();
         MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
         MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
         MapperFromDbToEntity<UserInfo> userMapper = new UserInfoMapperFromDbToEntity();
@@ -177,8 +177,8 @@ public class VacancyDaoImpl implements VacancyDao {
     }
 
     @Override
-    public HashMap<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, Pageable pageable) throws DaoException {
-        HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new HashMap<>();
+    public Map<Vacancy, Map.Entry<Location, UserInfo>> findByCriteria(Vacancy vacancy, Location location, Pageable pageable) throws DaoException {
+        HashMap<Vacancy, Map.Entry<Location, UserInfo>> result = new LinkedHashMap<>();
         MapperFromDbToEntity<Vacancy> vacancyMapper = new VacancyMapperFromDbToEntity();
         MapperFromDbToEntity<Location> locationMapper = new LocationMapperFromDbToEntity();
         MapperFromDbToEntity<UserInfo> userMapper = new UserInfoMapperFromDbToEntity();
