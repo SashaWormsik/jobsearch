@@ -34,6 +34,12 @@
                     <div class="w3-container w3-center w3-green">
                         <h2><fmt:message key="text.vacancy.page"/></h2>
                     </div>
+                    <c:if test="${temp_successful_registration}">
+                        <div class="w3-center w3-blue w3-block">
+                            <fmt:message key="message.vacancy.create"/>
+                        </div>
+                        <br/>
+                    </c:if>
                     <form action="${pageContext.request.contextPath}/controller" method="post" class="w3-container">
                         <input type="hidden" name="${ParameterName.COMMAND}" value="CREATE_VACANCY"/>
                         <input type="hidden" name="${ParameterName.VACANCY_COMPANY_ID}" value="${user.id}"/>

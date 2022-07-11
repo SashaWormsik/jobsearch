@@ -1,9 +1,10 @@
 # JOB SEARCH
 
-Job search. The worker registers in the system. He is looking for interesting vacancies for him and responds to them. 
-An employee of the company records the fact of the response, reviews the information about the candidate and, if necessary,
-assigns an interview, based on the results of which he decides on the employment of the worker or the rejection of his response.
-An employee of the company posts messages about vacancies and manages them. The administrator manages the company's employees and workers.
+Job search. The worker registers in the system. He is looking for interesting vacancies for him and responds to them. An
+employee of the company records the fact of the response, reviews the information about the candidate and, if necessary,
+assigns an interview, based on the results of which he decides on the employment of the worker or the rejection of his
+response. An employee of the company posts messages about vacancies and manages them. The administrator manages the
+company's employees and workers.
 
 ### ADMIN
 
@@ -56,3 +57,7 @@ An employee of the company posts messages about vacancies and manages them. The 
 - Register
 - If the user has registered, then activate the account
 - Recover Password
+
+###DATABASE schema
+
+![](schemaDB.png)

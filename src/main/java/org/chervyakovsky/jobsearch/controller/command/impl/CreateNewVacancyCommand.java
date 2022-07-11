@@ -12,6 +12,8 @@ import org.chervyakovsky.jobsearch.model.mapper.RequestContent;
 import org.chervyakovsky.jobsearch.model.service.VacancyService;
 import org.chervyakovsky.jobsearch.model.service.impl.VacancyServiceImpl;
 
+import static org.chervyakovsky.jobsearch.controller.AttributeName.SUCCESSFUL_REGISTRATION;
+
 /**
  * The {@link Command}  that creates a new vacancy.
  *
@@ -39,13 +41,13 @@ public class CreateNewVacancyCommand implements Command {
         VacancyService vacancyService = VacancyServiceImpl.getInstance();
         try {
             if (vacancyService.createNewVacancy(requestContent)) {
+                requestContent.setNewValueInSessionAttribute(SUCCESSFUL_REGISTRATION, true);
                 router.setType(Router.Type.REDIRECT);
-                router.setPage(PagePath.COMPANY_ALL_VACANCIES_PAGE);
             } else {
                 requestContent.setParameterInAttribute();
                 router.setType(Router.Type.FORWARD);
-                router.setPage(PagePath.COMPANY_CREATE_VACANCY_PAGE);
             }
+            router.setPage(PagePath.COMPANY_CREATE_VACANCY_PAGE);
         } catch (ServiceException exception) {
             LOGGER.log(Level.ERROR, exception);
             throw new CommandException(exception);
