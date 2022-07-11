@@ -58,10 +58,10 @@ company's employees and workers.
 - If the user has registered, then activate the account
 - Recover Password
 
-###DATABASE schema
+### DATABASE schema
 
 ![](schemaDB.png)
 
-###Shortcomings of the project
+### Shortcomings of the project
 
 [Shortcomings of the project](ShortcomingsProject.pdf)
